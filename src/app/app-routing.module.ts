@@ -3,7 +3,10 @@ import { Routes, RouterModule } from '@angular/router';
 
 
 const routes: Routes = [
-  { path: '', loadChildren: () => import('./components/landing/landing.module').then(m => m.LandingModule) },
+  {
+    path: '', 
+    loadChildren: () => import('./components/landing/landing.module').then(m => m.LandingModule)
+  },
 ];
 
 @NgModule({

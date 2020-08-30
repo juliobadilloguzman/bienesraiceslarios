@@ -1,0 +1,315 @@
+/********** Navbar **********/
+
+nav {
+    border: none;
+    width: 100%;
+    min-height: 7vh;
+    border-radius: 0;
+    position: absolute;
+    top: 0;
+    z-index: 10;
+    border-bottom: 1px solid rgba(255, 255, 255, .15);
+    .container {
+        width: 80%;
+        margin: auto;
+        padding: 0.4rem;
+        display: flex;
+        justify-content: space-between;
+        .container-logo {
+            img {
+                width: 150px;
+            }
+        }
+        .container-menu {
+            display: flex;
+            ul {
+                align-self: center;
+                li {
+                    display: inline-block;
+                    margin-right: 1.3rem;
+                    a {
+                        font-size: 1rem;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+/********** Header **********/
+
+header {
+    width: 100%;
+    min-height: 100vh;
+    background-image: url('/assets/img/backgrounds/header1.jpg');
+    background-size: cover;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .container {
+        width: 55%;
+        .title {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #d4d4d4 !important;
+        }
+        .separator-line {
+            height: 6px;
+            width: 10%;
+            background: #4bc22b;
+        }
+        .subtitle {
+            text-transform: uppercase;
+            font-size: 4rem;
+            line-height: 70px;
+            letter-spacing: 2px;
+            text-shadow: 0px 0px 15px rgba(0, 0, 0, 0.15);
+        }
+    }
+}
+
+
+/*********** About ***********/
+
+section.about {
+    min-height: 70vh;
+    width: 100%;
+    .container {
+        width: 70%;
+        margin: auto;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        margin-top: 5rem;
+        gap: 3rem;
+        .text-about {
+            .container-title {
+                padding: 1rem;
+                display: flex;
+                flex-direction: column;
+                .title {
+                    font-size: 1.4rem;
+                    margin-bottom: 1rem !important;
+                }
+                .subtitle {
+                    font-size: 3.2rem;
+                    line-height: 50px;
+                    margin-bottom: 3rem !important;
+                }
+                .paragraph {
+                    font-size: 1.2rem;
+                    font-weight: 300;
+                    line-height: 25px;
+                    margin-bottom: 2rem;
+                }
+                button {
+                    justify-self: flex-start
+                }
+            }
+        }
+        .team-images {
+            display: flex;
+            .container1,
+            .container2 {
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                margin-right: 2rem;
+            }
+            .container2 {
+                margin-top: 3rem !important;
+            }
+        }
+    }
+}
+
+.images {
+    margin-bottom: 30px;
+    border-radius: 45px;
+    width: 180px!important
+}
+
+
+/*********** Features ***********/
+
+section.features {
+    width: 100%;
+    min-height: 25vh;
+    background: #383838;
+    display: flex;
+    .container {
+        width: 55%;
+        margin: auto;
+        display: flex;
+        justify-content: space-between;
+        .counter {
+            display: flex;
+            .container-icon {
+                margin-right: 2rem;
+                .icon {
+                    font-size: 2.5rem;
+                }
+            }
+            .container-text {
+                .number {
+                    font-size: 3rem;
+                    letter-spacing: 2px;
+                    margin-bottom: 1.5rem !important;
+                }
+                .type {
+                    font-size: 1.3rem;
+                }
+            }
+        }
+    }
+}
+
+
+/*********** Services ***********/
+
+section.services {
+    width: 100%;
+    min-height: 80vh;
+    .container {
+        width: 60%;
+        margin: auto;
+        .title {
+            font-size: 2.8rem;
+            margin-bottom: 4rem;
+            line-height: 40px;
+        }
+        .container-services {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+}
+
+.service-one__single {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #efefef;
+    border-radius: 5px;
+    padding: 2px;
+    position: relative;
+    margin-bottom: 30px;
+    width: 33%;
+    margin-right: 2rem;
+    min-height: 50vh;
+}
+
+.service-one__inner {
+    background-color: #fff;
+    border-radius: 5px;
+    position: relative;
+    padding-top: 50px;
+    padding-bottom: 35px;
+    h3 {
+        font-size: 20px;
+        line-height: 34px;
+        color: #2a2833;
+    }
+    p {
+        margin: 0;
+        color: #74727a;
+        font-size: 16px;
+        line-height: 34px;
+        margin-top: 35px;
+        margin-bottom: 25px;
+    }
+    .icon-arrow-a {
+        text-decoration: none;
+        .icon-arrow {
+            font-size: 2.1rem;
+        }
+    }
+    .icon-service {
+        font-size: 2.5rem;
+    }
+}
+
+.service-one__icon {
+    width: 108px;
+    height: 108px;
+    webkit-box-shadow: 0px 20px 40px 0px rgba(58, 212, 173, 0.8);
+    box-shadow: 0px 20px 40px 0px rgba(58, 212, 173, 0.8);
+    border-radius: 5px;
+    background-image: linear-gradient(40deg, #39aeff 0%, #3cff53 100%);
+    margin-left: auto;
+    margin-right: auto;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 70px;
+    margin-bottom: 30px;
+}
+
+
+/*********** Video ***********/
+
+section.video {
+    width: 100%;
+    min-height: 50vh;
+    background: #383838;
+}
+
+
+/*********** Terrenos ***********/
+
+section.terrenos {
+    width: 100%;
+    min-height: 80vh;
+    .container {
+        width: 70%;
+        margin: auto;
+        .title {
+            font-size: 2.8rem;
+            margin-bottom: 4rem;
+            line-height: 40px;
+        }
+        .container-terrenos {
+            display: flex;
+            flex-direction: column;
+            .fraccionamiento {
+                display: grid;
+                min-height: 40vh;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 3rem;
+                margin-bottom: 2rem;
+                .container-description {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    .title {
+                        font-size: 2.5rem;
+                        margin-bottom: 0.9rem !important;
+                    }
+                    .location {
+                        font-size: 1.4rem;
+                        margin-bottom: 2rem !important;
+                        color: #74727a;
+                    }
+                    .description-fraccionamiento {
+                        font-size: 1rem;
+                        color: #383838;
+                        margin-bottom: 2rem !important;
+                    }
+                }
+                .bg-fraccionamiento {
+                    background-image: url('src/assets/img/fraccionamientos/realdelvalle/1.jpg');
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                }
+            }
+        }
+    }
+}
