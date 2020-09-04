@@ -1,0 +1,22 @@
+.container {
+    width: 100%;
+    .modal-title {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        .title {
+            font-size: 1.5rem;
+        }
+        .icon-close {
+            color: rgb(233, 0, 0);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .icon-close:hover {
+            color: rgb(212, 0, 0);
+        }
+    }
+    .modal-content {
+        padding: 0.5rem;
+    }
+}
