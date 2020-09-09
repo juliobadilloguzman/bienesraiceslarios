@@ -1,5 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
 
+@import "../node_modules/animate.css/animate.min.css";
+@import '~ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
+@import '~ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
 html,
 body {
     height: 100%;
@@ -237,6 +240,10 @@ body {
     display: block !important;
 }
 
+.m-auto {
+    margin: auto !important;
+}
+
 .deleteListStyle {
     list-style: none;
     margin: 0 !important;
@@ -400,4 +407,12 @@ mat-sidenav,
 .container-panel .mat-drawer-inner-container {
     background: #00A482 !important;
     border-radius: 20px !important;
+}
+
+.mat-tab-header-pagination-chevron {
+    border-color: #000 !important
+}
+
+.mat-card {
+    background: #fff !important;
 }

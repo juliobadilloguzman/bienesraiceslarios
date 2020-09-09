@@ -17,7 +17,6 @@ export class ServiceModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.servicio = this.data['servicio'];
-    console.log(this.servicio);
   }
 
   onCloseModal(): void {

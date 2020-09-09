@@ -1,349 +1,385 @@
 <!-- Navbar -->
-<app-menu (navOpenEvent)='sidenav.toggle()'></app-menu>
-
-<mat-sidenav-container fxFlexFill>
-    <mat-sidenav #sidenav fxLayout="column" class="nav-responsive">
-        <div fxLayout="column" class="container">
-            <ul class="deleteListStyle listNavResponsive text-secondary">
-                <li><span (click)="sidenav.toggle()" class="material-icons">close</span></li>
-                <li><a class="text-secondary text-raleway">Blog</a></li>
-                <li><a class="text-secondary text-raleway">Conócenos</a></li>
-                <li><a class="text-secondary text-raleway">Contácto</a></li>
-                <li><button class="no-margin btn-primary" routerLink="/login">Iniciar Sesión</button></li>
-                <li><button class="no-margin btn-secondary" routerLink="/signup">Crear mi cuenta</button></li>
+<nav class="menu-desktop">
+    <div class="container">
+        <div class="container-logo">
+            <img src="/assets/img/logos/logoblanco.png" alt="">
+        </div>
+        <div class="container-menu">
+            <ul class="deleteListStyle">
+                <li class="cursorPointer"><a (click)="scrollTo(top)" class="text-white text-raleway no-underline cursorPointer">Inicio</a></li>
+                <li class="cursorPointer"><a (click)="scrollTo(about)" class="text-white text-raleway no-underline cursorPointer">Acerca</a></li>
+                <li class="cursorPointer"><a (click)="scrollTo(services)" class="text-white text-raleway no-underline cursorPointer">Servicios</a></li>
+                <li class="cursorPointer"><a (click)="scrollTo(terrenos)" class="text-white text-raleway no-underline cursorPointer">Terrenos</a></li>
+                <li class="cursorPointer"><a (click)="scrollTo(contact)" class="text-white text-raleway no-underline cursorPointer">Contacto</a></li>
+                <li class="cursorPointer"><a routerLink="/login" class="btn-white no-underline">Iniciar Sesión</a></li>
             </ul>
         </div>
-    </mat-sidenav>
-    <mat-sidenav-content fxFlexFill>
+    </div>
+</nav>
 
-        <!-- Header -->
+<nav role="navigation" class="menu-mobile">
+    <div id="menuToggle">
 
-        <header #top>
-            <div class="container">
-                <h1 class="title text-light-gray text-raleway">Bienes Raíces Larios</h1>
-                <div class="separator-line mb-1"></div>
-                <h2 class="subtitle text-raleway text-semibold text-white no-margin">La mejor manera <br class="br-header-1"> de predecir el futuro <br> es creándolo
+        <input type="checkbox" />
 
-                </h2>
-            </div>
-        </header>
+        <span></span>
+        <span></span>
+        <span></span>
 
-        <!-- About -->
+        <ul id="menu">
+            <a (click)="scrollTo(top)">
+                <li class="text-raleway">Inicio</li>
+            </a>
+            <a (click)="scrollTo(about)">
+                <li class="text-raleway">About</li>
+            </a>
+            <a (click)="scrollTo(services)">
+                <li class="text-raleway">Servicios</li>
+            </a>
+            <a (click)="scrollTo(terrenos)">
+                <li class="text-raleway">Terrenos</li>
+            </a>
+            <a (click)="scrollTo(contact)">
+                <li class="text-raleway">Contacto</li>
+            </a>
+        </ul>
+    </div>
+</nav>
 
-        <section class="about" #about>
-            <div class="container">
-                <div class="text-about">
-                    <div class="container-title">
-                        <h3 class="text-primary text-semibold text-raleway no-margin title">¿Quiénes Sómos?</h3>
-                        <h4 class="text-gray text-raleway text-semibold no-margin subtitle">Tenemos más de 30 años de experiencia.</h4>
-                        <p class="text-gray text-raleway text-justify paragraph">Bienes Raíces Larios es el nombre de nuestra empresa que desde 1980 ha creado un gran impacto en el ramo de Bienes Raíces, recogiendo la experiencia de varias generaciones.</p>
-                        <p class="text-gray text-raleway text-justify paragraph">Actualmente somos la empresa líder en su ramo dedicada a la venta de terrenos, construcción en general y diseño de planos arquitectónicos.</p>
-                        <p class="text-gray text-raleway text-justify paragraph">Contamos con más de 30 años de experiencia y tenemos un equipo multidisciplinario que hará que tu experiencia con nosotros sea de lo más agradable.</p>
-                        <div class="container-button">
-                            <button class="btn-primary">Contáctanos</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="team-images">
-                    <div class="container1">
-                        <img class="images" src="/assets/img/juntas/cocoyoc/1.png" alt="">
-                        <img class="images" src="/assets/img/juntas/cocoyoc/2.png" alt="">
-                    </div>
-                    <div class="container2">
-                        <img class="images" src="/assets/img/others/1.png" alt="">
-                        <img class="images" src="/assets/img/others/2.png" alt="">
-                    </div>
-                </div>
-            </div>
-        </section>
+<!-- Header -->
 
-        <!-- Features -->
+<header #top>
+    <div class="container">
+        <h1 class="title text-light-gray text-raleway animate__animated animate__fadeIn">Bienes Raíces Larios</h1>
+        <div class="separator-line mb-1"></div>
+        <h2 class="subtitle text-raleway text-semibold text-white no-margin animate__animated animate__fadeIn">La mejor manera <br class="br-header-1"> de predecir el futuro <br> es creándolo
+        </h2>
+    </div>
+</header>
 
-        <section class="features">
-            <div class="container">
-                <div class="counter">
-                    <div class="container-icon">
-                        <mat-icon class="icon text-arel">home_work</mat-icon>
-                    </div>
-                    <div class="container-text">
-                        <p class="number no-margin text-semibold text-white text-raleway">250+</p>
-                        <p class="type no-margin text-white text-raleway">Fracionamientos</p>
-                    </div>
-                </div>
-                <div class="counter">
-                    <div class="container-icon">
-                        <mat-icon class="icon text-arel">home</mat-icon>
-                    </div>
-                    <div class="container-text">
-                        <p class="number no-margin text-semibold text-white text-raleway">35,000+</p>
-                        <p class="type no-margin text-white text-raleway">Terrenos vendidos</p>
-                    </div>
-                </div>
-                <div class="counter">
-                    <div class="container-icon">
-                        <mat-icon class="icon text-arel">people</mat-icon>
-                    </div>
-                    <div class="container-text">
-                        <p class="number no-margin text-semibold text-white text-raleway">30,000+</p>
-                        <p class="type no-margin text-white text-raleway">Clientes satisfechos</p>
-                    </div>
+<!-- About -->
+
+<section class="about" #about>
+    <div class="container">
+        <div class="text-about">
+            <div class="container-title">
+                <h3 class="text-primary text-semibold text-raleway no-margin title">¿Quiénes Sómos?</h3>
+                <h4 class="text-gray text-raleway text-semibold no-margin subtitle">Tenemos más de 30 años de experiencia.</h4>
+                <p class="text-gray text-raleway text-justify paragraph">Bienes Raíces Larios es el nombre de nuestra empresa que desde 1980 ha creado un gran impacto en el ramo de Bienes Raíces, recogiendo la experiencia de varias generaciones.</p>
+                <p class="text-gray text-raleway text-justify paragraph">Actualmente somos la empresa líder en su ramo dedicada a la venta de terrenos, construcción en general y diseño de planos arquitectónicos.</p>
+                <p class="text-gray text-raleway text-justify paragraph">Contamos con más de 30 años de experiencia y tenemos un equipo multidisciplinario que hará que tu experiencia con nosotros sea de lo más agradable.</p>
+                <div class="container-button">
+                    <button class="btn-primary" (click)="scrollTo(contact)">Contáctanos</button>
                 </div>
             </div>
-        </section>
-
-        <!-- Services -->
-
-        <section class="services" #services>
-            <div class="container">
-                <h3 class="title text-center text-gray text-raleway text-semibold mt-5">Conoce los <span class="text-bold">servicios</span> <br> que ofrecemos para tí</h3>
-
-                <div class="container-services">
-                    <div class="service-one__single text-center" (click)="openServiceModal('terrenos')">
-                        <div class="service-one__inner">
-                            <i class="service-one__icon dimon-icon-laptop"><span class="material-icons icon-service">home</span></i>
-                            <h3 class="text-raleway text-semibold">Venta de terrenos</h3>
-                            <p>Lorem ipsum is are <br> many variations of <br> pass of majority.</p>
-                            <a class="icon-arrow-a"><span class="material-icons icon-arrow ">east</span></a>
-                        </div>
-                    </div>
-                    <div class="service-one__single text-center" (click)="openServiceModal('construccion')">
-                        <div class="service-one__inner">
-                            <i class="service-one__icon dimon-icon-laptop"><span class="material-icons icon-service">home_work</span></i>
-                            <h3 class="text-raleway text-semibold">Construcción</h3>
-                            <p>Lorem ipsum is are <br> many variations of <br> pass of majority.</p>
-                            <a class="icon-arrow-a"><span class="material-icons icon-arrow ">east</span></a>
-                        </div>
-                    </div>
-                    <div class="service-one__single text-center" (click)="openServiceModal('planos')">
-                        <div class="service-one__inner">
-                            <i class="service-one__icon dimon-icon-laptop"><span class="material-icons icon-service">architecture</span></i>
-                            <h3 class="text-raleway text-semibold">Planos arquitectónicos</h3>
-                            <p>Lorem ipsum is are <br> many variations of <br> pass of majority.</p>
-                            <a class="icon-arrow-a"><span class="material-icons icon-arrow ">east</span></a>
-                        </div>
-                    </div>
-                </div>
-
+        </div>
+        <div class="team-images">
+            <div class="container1">
+                <img class="images" src="/assets/img/juntas/cocoyoc/1.png" alt="">
+                <img class="images" src="/assets/img/juntas/cocoyoc/2.png" alt="">
             </div>
-        </section>
+            <div class="container2">
+                <img class="images" src="/assets/img/others/1.png" alt="">
+                <img class="images" src="/assets/img/others/2.png" alt="">
+            </div>
+        </div>
+    </div>
+</section>
 
+<!-- Features -->
 
-        <!-- Video -->
+<section class="features">
+    <div class="container">
+        <div class="counter">
+            <div class="container-icon">
+                <mat-icon class="icon text-arel">home_work</mat-icon>
+            </div>
+            <div class="container-text">
+                <p class="number no-margin text-semibold text-white text-raleway">250+</p>
+                <p class="type no-margin text-white text-raleway">Fracionamientos</p>
+            </div>
+        </div>
+        <div class="counter">
+            <div class="container-icon">
+                <mat-icon class="icon text-arel">home</mat-icon>
+            </div>
+            <div class="container-text">
+                <p class="number no-margin text-semibold text-white text-raleway">35,000+</p>
+                <p class="type no-margin text-white text-raleway">Terrenos vendidos</p>
+            </div>
+        </div>
+        <div class="counter">
+            <div class="container-icon">
+                <mat-icon class="icon text-arel">people</mat-icon>
+            </div>
+            <div class="container-text">
+                <p class="number no-margin text-semibold text-white text-raleway">30,000+</p>
+                <p class="type no-margin text-white text-raleway">Clientes satisfechos</p>
+            </div>
+        </div>
+    </div>
+</section>
 
-        <section class="video">
+<!-- Services -->
 
-        </section>
+<section class="services" #services>
+    <div class="container">
+        <h3 class="title text-center text-gray text-raleway text-semibold mt-5">Conoce los <span class="text-bold">servicios</span> <br> que ofrecemos para tí</h3>
 
-        <!-- Services -->
-
-        <section class="terrenos" #terrenos>
-            <div class="container">
-                <h3 class="title text-center text-gray text-raleway text-semibold mt-5">Conoce tu próximo <span class="text-bold">patrimonio</span></h3>
-                <div class="container-terrenos">
-                    <div class="fraccionamiento invert-order">
-                        <div class="container-description">
-                            <h4 class="title no-margin text-raleway text-semibold">Real del Valle</h4>
-                            <h6 class="text-raleway location">Yecapixtla, Morelos</h6>
-                            <p class="text-justify text-montserrat description-fraccionamiento">Real del Valle es un desarrollo inmobiliario en Yecapixtla "La Capital de la Cecina" a solo 5 minutos del centro de Yecapixtla, ubicado en un punto estratégico en medio de Cuautla y Yecapixtla, a 15 minutos de Oaxtepec. Con
-                                una impresionane vista e ideal para construir patrimonio en este Pueblo con encanto.</p>
-                            <div class="container-button">
-                                <button class="btn-secondary" (click)="openFraccionamientoModal('realValle')">Conoce más</button>
-                            </div>
-                        </div>
-                        <div class="bg-fraccionamiento"></div>
-                    </div>
-                    <div class="fraccionamiento">
-                        <div class="bg-fraccionamiento"></div>
-                        <div class="container-description">
-                            <h4 class="title no-margin text-raleway text-semibold">Lomas de Yecapixtla</h4>
-                            <h6 class="text-raleway location">Yecapixtla, Morelos</h6>
-                            <p class="text-justify text-montserrat description-fraccionamiento">Lomas de Yecapixtla es un desarrollo inmobiliario en Yecapixtla "La Capital de la Cecina" Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore sequi repellat facilis veritatis quisquam exercitationem. Voluptas ipsam
-                                quasi optio quam, saepe accusantium esse suscipit. Cumque id omnis natus sint laudantium.</p>
-                            <div class="container-button">
-                                <button class="btn-secondary" (click)="openFraccionamientoModal('lomasYeca')">Conoce más</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="fraccionamiento invert-order">
-                        <div class="container-description">
-                            <h4 class="title no-margin text-raleway text-semibold">Pedregal de Cocoyoc</h4>
-                            <h6 class="text-raleway location">Cocoyoc, Morelos</h6>
-                            <p class="text-justify text-montserrat description-fraccionamiento">Pedregal de Cocoyoc es desarrollo inmobiliario exclusivo en Oaxtepec, Morelos. Colinda con Lomas de Cocoyoc.</p>
-                            <div class="container-button">
-                                <button class="btn-secondary" (click)="openFraccionamientoModal('pedregalCocoyoc')">Conoce más</button>
-                            </div>
-                        </div>
-                        <div class="bg-fraccionamiento"></div>
-                    </div>
+        <div class="container-services">
+            <div class="service-one__single text-center" (click)="openServiceModal('terrenos')">
+                <div class="service-one__inner">
+                    <i class="service-one__icon dimon-icon-laptop"><span class="material-icons icon-service">home</span></i>
+                    <h3 class="text-raleway text-semibold">Venta de terrenos</h3>
+                    <p>Descubre <br> tu próximo <br> patrimonio.</p>
+                    <a class="icon-arrow-a"><span class="material-icons icon-arrow ">east</span></a>
                 </div>
             </div>
-        </section>
 
-        <!-- Preguntas Frecuentes -->
-
-        <section class="preguntasFrecuentes">
-            <div class="container">
-                <h3 class="title text-center text-gray text-raleway text-semibold mt-5">Preguntas Frecuentes</h3>
-                <mat-accordion>
-                    <mat-expansion-panel class="mb-2">
-                        <mat-expansion-panel-header>
-                            <mat-panel-title class="text-raleway text-semibold text-gray title-mat-header">
-                                ¿Cuál es el proceso para ver los terrenos?
-                            </mat-panel-title>
-                        </mat-expansion-panel-header>
-                        <p>El proceso para ver los terrenos es muy sencillo, basta con hacer una cita por el medio que gustes:</p>
-                        <ul>
-                            <li><span class="text-semibold">A WhatsApp: </span><a target="_blank" href="https://wa.me/message/7JLBCCJEHOUIG1">https://wa.me/message/7JLBCCJEHOUIG1</a></li>
-                            <li><span class="text-semibold">A los números:</span> (55) 49-81-45-52 o (55) 63-53-0494</li>
-                            <li><span class="text-semibold">Al correo:</span> raiceslarios@gmail.com</li>
-                            <li><span class="text-semibold">Inbox en nuestra página:</span> <a href="https://www.facebook.com/bienesraiceslarios" target="_blank">https://www.facebook.com/bienesraiceslarios</a></li>
-                        </ul>
-                        <p>Después de hacer tu cita, te esperamos en nuestras oficinas, ubicadas a 300 metros pasando los arcos de Bienvenida a Yecapixtla, justo a lado de un local de cementos Cruz Azul. <a href="https://goo.gl/maps/ZZFCmMxbjGh5GbMD8" target="_blank">Click aquí para abrir el mapa con la ubicación exacta.</a>
-                        </p>
-                        <p>Finalmente, en nuestras oficinas resolveremos todas las dudas que tengas y te llevaremos a ver los terrenos sin compromiso.</p>
-                    </mat-expansion-panel>
-
-                    <mat-expansion-panel class="mb-2">
-                        <mat-expansion-panel-header>
-                            <mat-panel-title class="text-raleway text-semibold text-gray title-mat-header">
-                                ¿En donde se encuentran nuestras oficinas?
-                            </mat-panel-title>
-                        </mat-expansion-panel-header>
-                        <p>Nuestras oficinas estan ubicadas a 300 metros pasando los arcos de Bienvenida a Yecapixtla, justo a lado de un local de cementos Cruz Azul. <a href="https://goo.gl/maps/ZZFCmMxbjGh5GbMD8" target="_blank">Click aquí para abrir el mapa con la ubicación exacta.</a></p>
-                    </mat-expansion-panel>
-
-                    <mat-expansion-panel class="mb-2">
-                        <mat-expansion-panel-header>
-                            <mat-panel-title class="text-raleway text-semibold text-gray title-mat-header">
-                                ¿Que documentos me dan cuando compró un terreno?
-                            </mat-panel-title>
-                        </mat-expansion-panel-header>
-                        <p>Al pagar el enganche te daremos el contrato de compra-venta firmado ti (el comprador) y el dueño del terreno.</p>
-                        <p>Al liquidar terreno, te darémos, si el terreno es:</p>
-                        <ul>
-                            <li><span class="text-secondary text-semibold">Propiedad Privada:</span> Registro catastral en el municipio correspondiente.</li>
-                            <li><span class="text-secondary text-semibold">Ejido:</span> Cesión de derechos sellada y firmada por el comisariado ejidal</li>
-                        </ul>
-                    </mat-expansion-panel>
-
-                    <mat-expansion-panel class="mb-2">
-                        <mat-expansion-panel-header>
-                            <mat-panel-title class="text-raleway text-semibold text-gray title-mat-header">
-                                ¿Puedo apartar un terreno?
-                            </mat-panel-title>
-                        </mat-expansion-panel-header>
-                        <p>Claro que sí, con solo $500, podrás apartar el terreno que desees. Te darémos 15 días naturales para liquidar tu enganche.</p>
-                    </mat-expansion-panel>
-
-                    <mat-expansion-panel>
-                        <mat-expansion-panel-header>
-                            <mat-panel-title class="text-raleway text-semibold text-gray title-mat-header">
-                                ¿Cuales son las facilidades de pago?
-                            </mat-panel-title>
-                        </mat-expansion-panel-header>
-                        <p>En todos nuestros desarrollos, contamos con planes y facilidades de pago con mensualidades fijas sin intereses y un corto enganche.</p>
-                    </mat-expansion-panel>
-                </mat-accordion>
+            <div class="service-one__single text-center" (click)="openServiceModal('planos')">
+                <div class="service-one__inner">
+                    <i class="service-one__icon dimon-icon-laptop"><span class="material-icons icon-service">architecture</span></i>
+                    <h3 class="text-raleway text-semibold">Planos arquitectónicos</h3>
+                    <p>Déjanos plasmar <br> el inicio <br> tu sueño.</p>
+                    <a class="icon-arrow-a"><span class="material-icons icon-arrow ">east</span></a>
+                </div>
             </div>
-        </section>
 
-        <!-- Colabora -->
+            <div class="service-one__single text-center" (click)="openServiceModal('construccion')">
+                <div class="service-one__inner">
+                    <i class="service-one__icon dimon-icon-laptop"><span class="material-icons icon-service">home_work</span></i>
+                    <h3 class="text-raleway text-semibold">Construcción</h3>
+                    <p>Haz realidad <br> tu proyecto <br> que siempre soñaste.</p>
+                    <a class="icon-arrow-a"><span class="material-icons icon-arrow ">east</span></a>
+                </div>
+            </div>
+        </div>
 
-        <section class="colabora">
-            <div class="container">
+    </div>
+</section>
+
+
+<!-- Video -->
+
+<section class="video">
+    <span class="material-icons text-white icon" (click)="openPromotionalVideo()">play_circle_filled</span>
+</section>
+
+<!-- Terrenos -->
+
+<section class="terrenos" #terrenos>
+    <div class="container">
+        <h3 class="title text-center text-gray text-raleway text-semibold mt-5">Conoce tu próximo <span class="text-bold">patrimonio</span></h3>
+        <div class="container-terrenos">
+            <div class="fraccionamiento invert-order">
                 <div class="container-description">
-                    <h4 class="title text-raleway text-semibold text-white">Únete a nuestro equipo</h4>
-                    <p class="description text-white text-montserrat">
-                        Interesado en vender terrenos? comúnicate con nosotros y únete a la familia.
-                    </p>
+                    <h4 class="title no-margin text-raleway text-semibold">Real del Valle</h4>
+                    <h6 class="text-raleway location">Yecapixtla, Morelos</h6>
+                    <p class="text-justify text-montserrat description-fraccionamiento">Real del Valle es un desarrollo inmobiliario en Yecapixtla "La Capital de la Cecina" a solo 5 minutos del centro de Yecapixtla, ubicado en un punto estratégico en medio de Cuautla y Yecapixtla, a 15 minutos de Oaxtepec. Con una impresionane
+                        vista e ideal para construir patrimonio en este Pueblo con encanto.</p>
+                    <div class="container-button">
+                        <button class="btn-secondary" (click)="openFraccionamientoModal('realdelvalle')">Conoce más</button>
+                    </div>
+                </div>
+                <div class="bg-fraccionamientoreal bg-fraccionamiento"></div>
+            </div>
+            <div class="fraccionamiento">
+                <div class="bg-fraccionamientlomasyeca bg-fraccionamiento"></div>
+                <div class="container-description">
+                    <h4 class="title no-margin text-raleway text-semibold">Lomas de Yecapixtla</h4>
+                    <h6 class="text-raleway location">Yecapixtla, Morelos</h6>
+                    <p class="text-justify text-montserrat description-fraccionamiento">Lomas de Yecapixtla es un desarrollo inmobiliario en Yecapixtla "La Capital de la Cecina" Lorem, ipsum dolor sit amet consectetur adipisicing elit. Dolore sequi repellat facilis veritatis quisquam exercitationem. Voluptas ipsam quasi
+                        optio quam, saepe accusantium esse suscipit. Cumque id omnis natus sint laudantium.</p>
+                    <div class="container-button">
+                        <button class="btn-secondary" (click)="openFraccionamientoModal('lomasyeca')">Conoce más</button>
+                    </div>
+                </div>
+            </div>
+            <div class="fraccionamiento invert-order">
+                <div class="container-description">
+                    <h4 class="title no-margin text-raleway text-semibold">Pedregal de Cocoyoc</h4>
+                    <h6 class="text-raleway location">Cocoyoc, Morelos</h6>
+                    <p class="text-justify text-montserrat description-fraccionamiento">Pedregal de Cocoyoc es desarrollo inmobiliario exclusivo en Oaxtepec, Morelos. Colinda con Lomas de Cocoyoc.</p>
+                    <div class="container-button">
+                        <button class="btn-secondary" (click)="openFraccionamientoModal('pedregalcocoyoc')">Conoce más</button>
+                    </div>
+                </div>
+                <div class="bg-pedregal bg-fraccionamiento"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Preguntas Frecuentes -->
+
+<section class="preguntasFrecuentes">
+    <div class="container">
+        <h3 class="title text-center text-gray text-raleway text-semibold mt-5">Preguntas Frecuentes</h3>
+        <mat-accordion>
+            <mat-expansion-panel class="mb-2">
+                <mat-expansion-panel-header>
+                    <mat-panel-title class="text-raleway text-semibold text-gray title-mat-header">
+                        ¿Cuál es el proceso para ver los terrenos?
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>El proceso para ver los terrenos es muy sencillo, basta con hacer una cita por el medio que gustes:</p>
+                <ul>
+                    <li><span class="text-semibold">A WhatsApp: </span><a target="_blank" href="https://wa.me/message/7JLBCCJEHOUIG1">https://wa.me/message/7JLBCCJEHOUIG1</a></li>
+                    <li><span class="text-semibold">A los números:</span> (55) 49-81-45-52 o (55) 63-53-0494</li>
+                    <li><span class="text-semibold">Al correo:</span> raiceslarios@gmail.com</li>
+                    <li><span class="text-semibold">Inbox en nuestra página:</span> <a href="https://www.facebook.com/bienesraiceslarios" target="_blank">https://www.facebook.com/bienesraiceslarios</a></li>
+                </ul>
+                <p>Después de hacer tu cita, te esperamos en nuestras oficinas, ubicadas a 300 metros pasando los arcos de Bienvenida a Yecapixtla, justo a lado de un local de cementos Cruz Azul. <a href="https://goo.gl/maps/ZZFCmMxbjGh5GbMD8" target="_blank">Click aquí para abrir el mapa con la ubicación exacta.</a>
+                </p>
+                <p>Finalmente, en nuestras oficinas resolveremos todas las dudas que tengas y te llevaremos a ver los terrenos sin compromiso.</p>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel class="mb-2">
+                <mat-expansion-panel-header>
+                    <mat-panel-title class="text-raleway text-semibold text-gray title-mat-header">
+                        ¿En donde se encuentran nuestras oficinas?
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>Nuestras oficinas estan ubicadas a 300 metros pasando los arcos de Bienvenida a Yecapixtla, justo a lado de un local de cementos Cruz Azul. <a href="https://goo.gl/maps/ZZFCmMxbjGh5GbMD8" target="_blank">Click aquí para abrir el mapa con la ubicación exacta.</a></p>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel class="mb-2">
+                <mat-expansion-panel-header>
+                    <mat-panel-title class="text-raleway text-semibold text-gray title-mat-header">
+                        ¿Que documentos me dan cuando compró un terreno?
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>Al pagar el enganche te daremos el contrato de compra-venta firmado ti (el comprador) y el dueño del terreno.</p>
+                <p>Al liquidar terreno, te darémos, si el terreno es:</p>
+                <ul>
+                    <li><span class="text-secondary text-semibold">Propiedad Privada:</span> Registro catastral en el municipio correspondiente.</li>
+                    <li><span class="text-secondary text-semibold">Ejido:</span> Cesión de derechos sellada y firmada por el comisariado ejidal</li>
+                </ul>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel class="mb-2">
+                <mat-expansion-panel-header>
+                    <mat-panel-title class="text-raleway text-semibold text-gray title-mat-header">
+                        ¿Puedo apartar un terreno?
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>Claro que sí, con solo $500, podrás apartar el terreno que desees. Te darémos 15 días naturales para liquidar tu enganche.</p>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title class="text-raleway text-semibold text-gray title-mat-header">
+                        ¿Cuales son las facilidades de pago?
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <p>En todos nuestros desarrollos, contamos con planes y facilidades de pago con mensualidades fijas sin intereses y un corto enganche.</p>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+</section>
+
+<!-- Colabora -->
+
+<section class="colabora">
+    <div class="container">
+        <div class="container-description">
+            <h4 class="title text-raleway text-semibold text-white">Únete a nuestro equipo</h4>
+            <p class="description text-white text-montserrat">
+                Interesado en vender terrenos? comúnicate con nosotros y únete a la familia.
+            </p>
+        </div>
+        <div class="container-button">
+            <button class="btn-white" (click)="scrollTo(contact)">Quiero trabajar con ustedes</button>
+        </div>
+    </div>
+</section>
+
+<!-- Contacto -->
+
+<section class="contact" #contact>
+    <div class="container">
+        <h3 class="title text-center text-gray text-raleway text-semibold mt-5">Contáctanos</h3>
+        <div class="container-contact">
+            <form>
+                <div class="nombre-correo">
+                    <mat-form-field appearance="fill" class="full-width">
+                        <mat-label class="text-raleway">Nombre</mat-label>
+                        <input matInput>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" class="full-width">
+                        <mat-label class="text-raleway">Correo electrónico</mat-label>
+                        <input matInput>
+                    </mat-form-field>
+                </div>
+
+                <div class="asunto">
+                    <mat-form-field appearance="fill" class="full-width">
+                        <mat-label class="text-raleway">Asunto</mat-label>
+                        <input matInput>
+                    </mat-form-field>
+                </div>
+
+                <div class="mensaje">
+                    <mat-form-field appearance="fill" class="full-width">
+                        <mat-label class="text-raleway">Mensaje</mat-label>
+                        <textarea style="min-height: 200px !important;" matInput></textarea>
+                    </mat-form-field>
                 </div>
                 <div class="container-button">
-                    <button class="btn-white">Quiero trabajar con ustedes</button>
+                    <button class="btn-primary">Enviar</button>
                 </div>
-            </div>
-        </section>
-
-        <!-- Contacto -->
-
-        <section class="contact" #contact>
-            <div class="container">
-                <h3 class="title text-center text-gray text-raleway text-semibold mt-5">Contáctanos</h3>
-                <div class="container-contact">
-                    <form>
-                        <div class="nombre-correo">
-                            <mat-form-field appearance="fill" class="full-width">
-                                <mat-label class="text-raleway">Nombre</mat-label>
-                                <input matInput>
-                            </mat-form-field>
-                            <mat-form-field appearance="fill" class="full-width">
-                                <mat-label class="text-raleway">Correo electrónico</mat-label>
-                                <input matInput>
-                            </mat-form-field>
-                        </div>
-
-                        <div class="asunto">
-                            <mat-form-field appearance="fill" class="full-width">
-                                <mat-label class="text-raleway">Asunto</mat-label>
-                                <input matInput>
-                            </mat-form-field>
-                        </div>
-
-                        <div class="mensaje">
-                            <mat-form-field appearance="fill" class="full-width">
-                                <mat-label class="text-raleway">Mensaje</mat-label>
-                                <textarea style="min-height: 200px !important;" matInput></textarea>
-                            </mat-form-field>
-                        </div>
-                        <div class="container-button">
-                            <button class="btn-primary">Enviar</button>
-                        </div>
-                    </form>
-                    <div class="container-location-information">
-                        <div class="container-individual">
-                            <div class="icon-container">
-                                <span class="material-icons icon text-gray">location_on</span>
-                            </div>
-                            <div class="info-container">
-                                <h6 class="no-margin title-text text-raleway text-semibold">Ubicación</h6>
-                                <p class="information-text text-raleway">Carretera Cuautla Yecapixtla S/N, 62820 Yecapixtla, Mor.</p>
-                            </div>
-                        </div>
-                        <div class="container-individual">
-                            <div class="icon-container">
-                                <span class="material-icons icon text-gray">phone</span>
-                            </div>
-                            <div class="info-container">
-                                <h6 class="no-margin title-text text-raleway text-semibold">Teléfonos</h6>
-                                <p class="information-text text-raleway">(55) 49-81-45-52</p>
-                                <p class="information-text text-raleway">(55) 65-53-04-94</p>
-                            </div>
-                        </div>
-                        <div class="container-individual">
-                            <div class="icon-container">
-                                <span class="material-icons icon text-gray">mail</span>
-                            </div>
-                            <div class="info-container">
-                                <h6 class="no-margin title-text text-raleway text-semibold">Correo</h6>
-                                <p class="information-text text-raleway">raiceslarios@gmail.com</p>
-                            </div>
-                        </div>
+            </form>
+            <div class="container-location-information">
+                <div class="container-individual">
+                    <div class="icon-container">
+                        <span class="material-icons icon text-gray">location_on</span>
+                    </div>
+                    <div class="info-container">
+                        <h6 class="no-margin title-text text-raleway text-semibold">Ubicación</h6>
+                        <p class="information-text text-raleway">Carretera Cuautla Yecapixtla S/N, 62820 Yecapixtla, Mor.</p>
+                    </div>
+                </div>
+                <div class="container-individual">
+                    <div class="icon-container">
+                        <span class="material-icons icon text-gray">phone</span>
+                    </div>
+                    <div class="info-container">
+                        <h6 class="no-margin title-text text-raleway text-semibold">Teléfonos</h6>
+                        <p class="information-text text-raleway">(55) 49-81-45-52</p>
+                        <p class="information-text text-raleway">(55) 65-53-04-94</p>
+                    </div>
+                </div>
+                <div class="container-individual">
+                    <div class="icon-container">
+                        <span class="material-icons icon text-gray">mail</span>
+                    </div>
+                    <div class="info-container">
+                        <h6 class="no-margin title-text text-raleway text-semibold">Correo</h6>
+                        <p class="information-text text-raleway">raiceslarios@gmail.com</p>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </div>
+</section>
 
-        <google-map width="100%" width="100%" [zoom]="zoom" [center]="center" [options]="options" (mapClick)="click($event)">
-            <map-marker #markerElem [position]="marker.position" [label]="marker.label" [title]="marker.title" [options]="marker.options" (mapClick)="openInfo(markerElem, marker.info)">
-            </map-marker>
+<google-map width="100%" width="100%" [zoom]="zoom" [center]="center" [options]="options" (mapClick)="click($event)">
+    <map-marker #markerElem [position]="marker.position" [label]="marker.label" [title]="marker.title" [options]="marker.options" (mapClick)="openInfo(markerElem, marker.info)">
+    </map-marker>
 
-            <map-info-window>{{ infoContent }}</map-info-window>
-        </google-map>
+    <map-info-window>{{ infoContent }}</map-info-window>
+</google-map>
 
-        <footer>
+<footer>
+    <div class="container">
+        <div class="container-license">
+            <a class="text-white text-raleway" rel="license" href="http://creativecommons.org/licenses/by-nd/4.0/">
+                <img alt="Licencia Creative Commons" style="border-width:0" class="logo-license" src="https://i.creativecommons.org/l/by-nd/4.0/88x31.png" />
+            </a>
+            <p class="text-white text-raleway text-center">Esta obra está bajo una <br><a target="_blank" rel="license" class="text-white text-raleway text-semibold" href="http://creativecommons.org/licenses/by-nd/4.0/">Licencia Creative Commons Atribución-SinDerivadas 4.0 Internacional</a>.</p>
+        </div>
 
-        </footer>
-
-
-
-    </mat-sidenav-content>
-</mat-sidenav-container>
+        <p class="text-raleway text-white footer-text">Bienes Raíces Larios | 2020</p>
+        <a href="https://www.facebook.com/bienesraiceslarios" target="_blank"><span class="material-icons icon-facebook text-white">facebook</span></a>
+    </div>
+</footer>

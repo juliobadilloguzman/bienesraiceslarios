@@ -1,5 +1,30 @@
 .container {
-    .title {
-        font-size: 1.5rem;
+    .modal-title {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        .title {
+            font-size: 1.5rem;
+        }
+        .icon-close {
+            color: rgb(233, 0, 0);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .icon-close:hover {
+            color: rgb(212, 0, 0);
+        }
+    }
+    .container-ubicacion {
+        min-height: 30vh;
+        display: flex;
+        align-content: center;
+        justify-content: center;
+        button {
+            margin: auto;
+        }
+    }
+    .plano-img {
+        width: 800px;
     }
 }

@@ -8,15 +8,18 @@ import { ServiceModalComponent } from './modals/service-modal/service-modal.comp
 import { FraccionamientoModalComponent } from './modals/fraccionamiento-modal/fraccionamiento-modal.component';
 import { GoogleMapsModule } from '@angular/google-maps'
 import { SharedModule } from '../shared/shared.module';
+import { CarouselModule } from 'ngx-owl-carousel-o';
+import { VideoModalComponent } from './modals/video-modal/video-modal.component';
 
 @NgModule({
-  declarations: [LandingViewComponent, ServiceModalComponent, FraccionamientoModalComponent],
+  declarations: [LandingViewComponent, ServiceModalComponent, FraccionamientoModalComponent, VideoModalComponent],
   imports: [
     CommonModule,
     LandingRoutingModule,
     MaterialModule,
     GoogleMapsModule,
-    SharedModule
+    SharedModule,
+    CarouselModule
   ]
 })
 export class LandingModule { }

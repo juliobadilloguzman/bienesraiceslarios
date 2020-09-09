@@ -1,8 +1,20 @@
 <div class="container">
-    <h4 class="title text-semibold text-raleway text-gray mb-2">Fraccionamiento "Real del Valle"</h4>
+    <div class="modal-title">
+        <h4 class="title text-semibold text-raleway text-gray mb-2">Fraccionamiento "{{fraccionamiento.name}}"</h4>
+        <span class="material-icons icon-close" (click)="onCloseModal()">cancel</span>
+    </div>
+
     <mat-tab-group>
-        <mat-tab label="Plano"> Content 1 </mat-tab>
-        <mat-tab label="Planes de pago"> Content 2 </mat-tab>
-        <mat-tab label="Ubicación"> Content 3 </mat-tab>
+        <mat-tab label="Plano">
+            <img class="plano-img" [src]="fraccionamiento.map" alt="">
+        </mat-tab>
+        <mat-tab label="Planes de pago">
+            <img class="plano-img" [src]="fraccionamiento.priceList" alt="">
+        </mat-tab>
+        <mat-tab label="Ubicación">
+            <div class="container-ubicacion">
+                <button (click)="goToExternalUrl(fraccionamiento.location)" class="btn-primary">Ver ubicación en Google Maps</button>
+            </div>
+        </mat-tab>
     </mat-tab-group>
 </div>

@@ -1,3 +1,148 @@
+/********** Nav **********/
+
+nav.menu-mobile {
+    display: none;
+}
+
+nav.menu-desktop {
+    border: none;
+    background: none !important;
+    min-height: 7vh;
+    border-radius: 0;
+    margin: auto !important;
+    position: absolute !important;
+    top: 0;
+    z-index: 10;
+    border-bottom: 1px solid rgba(255, 255, 255, .15);
+    width: 100%;
+    .container {
+        width: 80%;
+        display: flex;
+        justify-content: space-between;
+        margin: auto;
+        padding: 1rem !important;
+        .container-logo {
+            img {
+                width: 140px;
+            }
+        }
+        .container-menu {
+            display: flex;
+            ul {
+                align-self: center;
+                li {
+                    display: inline-block;
+                    margin-right: 1.3rem;
+                    a {
+                        font-size: 1rem;
+                    }
+                }
+            }
+        }
+    }
+}
+
+nav.menu-mobile {
+    position: absolute;
+    #menuToggle {
+        display: block;
+        position: relative;
+        top: 50px;
+        left: 50px;
+        z-index: 1;
+        -webkit-user-select: none;
+        user-select: none;
+        a {
+            text-decoration: none;
+            color: #232323;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: tomato;
+        }
+        input {
+            display: block;
+            width: 40px;
+            height: 32px;
+            position: absolute;
+            top: -7px;
+            left: -5px;
+            cursor: pointer;
+            opacity: 0;
+            /* hide this */
+            z-index: 2;
+            /* and place it over the hamburger */
+            -webkit-touch-callout: none;
+        }
+        span {
+            display: block;
+            width: 33px;
+            height: 4px;
+            margin-bottom: 5px;
+            position: relative;
+            background: #cdcdcd;
+            border-radius: 3px;
+            z-index: 1;
+            transform-origin: 4px 0px;
+            transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0), background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0), opacity 0.55s ease;
+        }
+        span:first-child {
+            transform-origin: 0% 0%;
+        }
+        span:nth-last-child(2) {
+            transform-origin: 0% 100%;
+        }
+        input:checked~span {
+            opacity: 1;
+            transform: rotate(45deg) translate(-2px, -1px);
+            background: #232323;
+        }
+        input:checked~span:nth-last-child(3) {
+            opacity: 0;
+            transform: rotate(0deg) scale(0.2, 0.2);
+        }
+        input:checked~span:nth-last-child(2) {
+            transform: rotate(-45deg) translate(0, -1px);
+        }
+    }
+}
+
+
+/*
+  * Make this absolute positioned
+  * at the top left of the screen
+  */
+
+#menu {
+    position: absolute;
+    width: 300px;
+    margin: -100px 0 0 -50px;
+    padding: 50px;
+    padding-top: 125px;
+    background: #ededed;
+    list-style-type: none;
+    -webkit-font-smoothing: antialiased;
+    /* to stop flickering of text in safari */
+    transform-origin: 0% 0%;
+    transform: translate(-100%, 0);
+    transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0);
+}
+
+#menu li {
+    padding: 10px 0;
+    font-size: 22px;
+}
+
+
+/*
+  * And let's slide it in from the left
+  */
+
+#menuToggle input:checked~ul {
+    transform: none;
+}
+
+
 /********** Header **********/
 
 header {
@@ -237,7 +382,22 @@ section.services {
 section.video {
     width: 100%;
     min-height: 50vh;
-    background: #383838;
+    background: url('/assets/img/backgrounds/video-preview.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .icon {
+        font-size: 7rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+    .icon:hover {
+        -webkit-transform: scale(1.3);
+        -ms-transform: scale(1.3);
+        transform: scale(1.3);
+    }
 }
 
 
@@ -282,8 +442,20 @@ section.terrenos {
                         margin-bottom: 2rem !important;
                     }
                 }
-                .bg-fraccionamiento {
-                    background-image: url('src/assets/img/fraccionamientos/realdelvalle/1.jpg');
+                .bg-fraccionamientoreal {
+                    background-image: url('src/assets/img/fraccionamientos/realdelvalle/4.jpg') !important;
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    background-position: top;
+                }
+                .bg-fraccionamientlomasyeca {
+                    background-image: url('src/assets/img/fraccionamientos/lomasyeca/2.jpeg') !important;
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    background-position: bottom;
+                }
+                .bg-pedregal {
+                    background-image: url('src/assets/img/fraccionamientos/pedregalcocoyoc/1.jpeg') !important;
                     background-size: cover;
                     background-repeat: no-repeat;
                 }
@@ -405,6 +577,55 @@ section.contact {
 }
 
 
+/********** Footer **********/
+
+footer {
+    width: 100%;
+    min-height: 30vh;
+    background-color: #383838;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .container {
+        text-align: center;
+        .container-license {
+            width: 100%;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            justify-items: center;
+            .logo-license {
+                width: 100px;
+                display: block;
+                margin: auto;
+                margin-bottom: 0.5rem;
+            }
+        }
+        .footer-text {
+            font-size: 1rem;
+            margin-top: 2rem;
+        }
+        .icon-facebook {
+            transition: color 0.3s ease;
+        }
+        .icon-facebook:hover {
+            color: #3b5998 !important;
+        }
+        .listFooter {
+            display: flex;
+        }
+        .separator-line {
+            margin-top: 1rem !important;
+            height: 6px;
+            margin: auto;
+            width: 50%;
+            background: #4bc22b;
+        }
+    }
+}
+
+
 /*********** Media Quieries ***********/
 
 @media screen and (max-width: 1500px) {
@@ -506,6 +727,20 @@ section.contact {
             }
         }
     }
+    /* Video */
+    section.video {
+        background-position-x: center;
+    }
+}
+
+@media screen and (max-width: 950px) {
+    /* Nav */
+    nav.menu-desktop {
+        display: none;
+    }
+    nav.menu-mobile {
+        display: block;
+    }
 }
 
 @media screen and (max-width: 900px) {
@@ -525,8 +760,12 @@ section.contact {
                     .container-description {
                         order: 2;
                     }
-                    .bg-fraccionamiento {
+                    .bg-fraccionamientoreal,
+                    .bg-pedregal {
                         order: 1;
+                    }
+                    .bg-fraccionamientlomasyeca {
+                        background-position-y: bottom;
                     }
                 }
             }

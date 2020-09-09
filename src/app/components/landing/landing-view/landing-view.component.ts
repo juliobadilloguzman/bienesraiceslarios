@@ -1,9 +1,11 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ServiceModalComponent } from '../modals/service-modal/service-modal.component';
 import { MapMarker, MapInfoWindow } from '@angular/google-maps';
 import { ServiceLanding } from '../../../models/LandingPage/service-landing';
 import { FraccionamientoModalComponent } from '../modals/fraccionamiento-modal/fraccionamiento-modal.component';
+import { FraccionamientoLanding } from 'src/app/models/LandingPage/fraccionamiento-landing';
+import { VideoModalComponent } from '../modals/video-modal/video-modal.component';
 
 @Component({
   selector: 'app-landing-view',
@@ -13,7 +15,6 @@ import { FraccionamientoModalComponent } from '../modals/fraccionamiento-modal/f
 export class LandingViewComponent implements OnInit {
 
   @ViewChild(MapInfoWindow, { static: false }) info: MapInfoWindow;
-  @ViewChild('sidenav', { static: true }) input: ElementRef;
   
   zoom: number = 12;
 
@@ -97,11 +98,54 @@ export class LandingViewComponent implements OnInit {
     
   }
 
-  openFraccionamientoModal(fraccionamiento: string){
+  openFraccionamientoModal(name: string){
+
+    let fraccionamiento: FraccionamientoLanding;
+
+    switch (name) {
+      case 'realdelvalle':
+        fraccionamiento = {
+          name: 'Real del Valle',
+          map: '/assets/img/fraccionamientos/realdelvalle/plano.jpg',
+          priceList: '/assets/img/fraccionamientos/realdelvalle/priceList.jpeg',
+          location: 'https://maps.google.com?q=18.8292730,-98.8943100&hl=es-MX&gl=mx'
+        }
+        break;
+
+      case 'lomasyeca':
+        fraccionamiento = {
+          name: 'Lomas de Yecapixtla',
+          map: '/assets/img/fraccionamientos/lomasyeca/plano.png',
+          priceList: '/assets/img/fraccionamientos/lomasyeca/priceList.jpg',
+          location: 'https://goo.gl/maps/CfVCzL5hvUtQ7egj8'
+        }
+      break;
+
+      case 'pedregalcocoyoc':
+        fraccionamiento = {
+          name: 'Pedregal de Cocoyoc',
+          map: '/assets/img/fraccionamientos/pedregalcocoyoc/plano.jpg',
+          priceList: '/assets/img/fraccionamientos/pedregalcocoyoc/priceList.jpg',
+          location: 'https://www.google.com/maps?q=18.928638,-98.947364&hl=es&gl=us&shorturl=1'
+        }
+      break;
+      default:
+        break;
+    }
+
     this.dialog.open(FraccionamientoModalComponent, {
+      width: '800px',
+      data: {fraccionamiento}
+    });
+  }
+
+  openPromotionalVideo(){
+
+    this.dialog.open(VideoModalComponent, {
       width: '800px',
       data: {}
     });
+
   }
 
 
