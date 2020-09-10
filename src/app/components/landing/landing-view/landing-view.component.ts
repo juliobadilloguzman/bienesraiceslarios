@@ -74,19 +74,19 @@ export class LandingViewComponent implements OnInit {
       case 'terrenos':
           this.serviceTerrenos =  {
             name: 'Venta de Terrenos',
-            description: 'si'
+            description: 'Confía en nosotros para adquirir tu próximo terreno en el estado de Morelos. Tenemos más de 35 años que nos respaldan. La tierra es el inicio de lo que puede ser la casa o el negocio de tus sueños.'
           };
           break;
       case 'construccion':
         this.serviceTerrenos =  {
           name: 'Construcción',
-          description: 'si'
+          description: 'Haz realidad la casa o negocio de tus sueños con nosotros.'
         };
           break;
       case 'planos':
         this.serviceTerrenos =  {
           name: 'Planos Arquitectónicos',
-          description: 'si'
+          description: 'Permítenos plasmar tu sueño en una hoja de papel, para que sea el inicio de llevar a la realidad la casa de tus sueños.'
         };
           break;
   }
