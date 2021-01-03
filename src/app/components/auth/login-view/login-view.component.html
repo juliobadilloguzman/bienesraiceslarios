@@ -7,25 +7,24 @@
             <h4 class="text-secondary">Iniciar Sesión</h4>
         </div>
 
-        <form>
+        <form [formGroup]="loginForm" (ngSubmit)="logIn()">
+
             <mat-card-content class="container-form">
                 <mat-form-field appearance="fill">
-                    <mat-label class="text-raleway">Nombre de usuario</mat-label>
-                    <input type="text" matInput placeholder="Escriba su nombre de usuario">
+                    <mat-label class="text-raleway">Correo</mat-label>
+                    <input type="text" formControlName="email" matInput placeholder="Introduzca su correo">
                 </mat-form-field>
                 <mat-form-field appearance="fill">
                     <mat-label class="text-raleway">Contraseña</mat-label>
-                    <input type="password" matInput placeholder="Escriba su contraseña">
+                    <input type="password" formControlName="password" matInput placeholder="Introduzca su contraseña">
                 </mat-form-field>
 
                 <span class="text-primary text-center m-auto text-semibold text-raleway cursorPointer" matTooltip="Solicítala en las oficinas o comunícate con nosotros por cualquier medio">No tienes una cuenta?</span>
-
             </mat-card-content>
 
             <div class="container-buttons mt-1">
-                <button class="btn-primary btn-login">Iniciar Sesión</button>
+                <button type="submit" class="btn-login" [ngClass]="loginForm.valid ? 'btn-primary' : 'btn-gray'" [disabled]="!loginForm.valid">Iniciar Sesión</button>
             </div>
-
 
         </form>
 

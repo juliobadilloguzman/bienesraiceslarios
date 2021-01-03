@@ -68,7 +68,7 @@ export class LandingViewComponent implements OnInit {
     console.log(event)
   }
 
-  openServiceModal(service: string){
+  openServiceModal(service: string): void{
 
     switch (service) {
       case 'terrenos':
@@ -98,7 +98,7 @@ export class LandingViewComponent implements OnInit {
     
   }
 
-  openFraccionamientoModal(name: string){
+  openFraccionamientoModal(name: string): void{
 
     let fraccionamiento: FraccionamientoLanding;
 
@@ -139,7 +139,7 @@ export class LandingViewComponent implements OnInit {
     });
   }
 
-  openPromotionalVideo(){
+  openPromotionalVideo(): void{
 
     this.dialog.open(VideoModalComponent, {
       width: '800px',

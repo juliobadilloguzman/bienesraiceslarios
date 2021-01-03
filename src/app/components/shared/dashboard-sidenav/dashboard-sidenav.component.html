@@ -1,0 +1,62 @@
+<mat-nav-list class="paddingless sidenav-container">
+    <div>
+        <mat-list-item (click)="toggle()" routerLink="/dashboard/home" [ngClass]="{'active': isReportPage()}" class="responsive">
+            <div class="sidenav-item">
+                <mat-icon class="icon">description</mat-icon>
+                <span class="title">Inicio</span>
+            </div>
+        </mat-list-item>
+
+        <mat-accordion>
+            <mat-expansion-panel style="margin-top: 0 !important; margin-bottom: 0 !important; box-shadow: none !important; border-radius: 0 !important;">
+                <mat-expansion-panel-header class="expansion-panel-header" style="padding: 0 1rem !important;">
+                    <mat-panel-title style="display: flex; align-items: center;">
+                        <mat-icon class="icon">supervisor_account</mat-icon>
+                        <span class="title">Usuarios</span>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-list-item (click)="toggle()" [ngClass]="{'bg-selected-nav': isSubMenu('dashboard/expense-format')}" routerLink="/dashboard/expense-format" class="responsive">
+                    <div class="sidenav-item">
+                        <span class="title ml-1">Administradores</span>
+                    </div>
+                </mat-list-item>
+                <mat-list-item (click)="toggle()" [ngClass]="{'bg-selected-nav': isSubMenu('dashboard/categories')}" routerLink="/dashboard/clients" class="responsive">
+                    <div class="sidenav-item">
+                        <span class="title ml-1">Clientes</span>
+                    </div>
+                </mat-list-item>
+                <mat-list-item (click)="toggle()" [ngClass]="{'bg-selected-nav': isSubMenu('dashboard/report-format')}" routerLink="/dashboard/agents" class="responsive">
+                    <div class="sidenav-item">
+                        <span class="title ml-1">Vendedores</span>
+                    </div>
+                </mat-list-item>
+                <mat-list-item (click)="toggle()" [ngClass]="{'bg-selected-nav': isSubMenu('dashboard/users')}" routerLink="/dashboard/users" class="responsive">
+                    <div class="sidenav-item">
+                        <span class="title ml-1">Usuarios</span>
+                    </div>
+                </mat-list-item>
+            </mat-expansion-panel>
+        </mat-accordion>
+
+        <mat-list-item (click)="toggle()" routerLink="/dashboard/fraccionamientos" [ngClass]="{'active': isReportPage()}" class="responsive">
+            <div class="sidenav-item">
+                <mat-icon class="icon">home</mat-icon>
+                <span class="text-raleway text-semibold title" class="title">Fraccionamientos</span>
+            </div>
+        </mat-list-item>
+
+        <mat-list-item class="responsive" (click)="saludar()">
+            <div class="sidenav-item">
+                <mat-icon class="icon">local_florist</mat-icon>
+                <a class="text-raleway text-semibold title" class="title">Terrenos</a>
+            </div>
+        </mat-list-item>
+
+        <mat-list-item routerLink="/users/dashboard" class="responsive">
+            <div class="sidenav-item">
+                <mat-icon class="icon">keyboard_tab</mat-icon>
+                <span class="title">Cerrar sesión</span>
+            </div>
+        </mat-list-item>
+    </div>
+</mat-nav-list>
