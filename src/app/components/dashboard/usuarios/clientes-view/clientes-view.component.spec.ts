@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AgregarTerrenoViewComponent } from './agregar-terreno-view.component';
+import { ClientesViewComponent } from './clientes-view.component';
 
-describe('AgregarTerrenoViewComponent', () => {
-  let component: AgregarTerrenoViewComponent;
-  let fixture: ComponentFixture<AgregarTerrenoViewComponent>;
+describe('ClientesViewComponent', () => {
+  let component: ClientesViewComponent;
+  let fixture: ComponentFixture<ClientesViewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AgregarTerrenoViewComponent ]
+      declarations: [ ClientesViewComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AgregarTerrenoViewComponent);
+    fixture = TestBed.createComponent(ClientesViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

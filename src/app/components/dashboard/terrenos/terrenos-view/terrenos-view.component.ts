@@ -10,7 +10,6 @@ export class TerrenosViewComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log('on init');
   }
 
 }

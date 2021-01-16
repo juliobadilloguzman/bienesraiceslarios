@@ -1,0 +1,13 @@
+<div class="container">
+    <div class="modalTitle">
+        <span class="material-icons icon-close" (click)="closeDialog()">cancel</span>
+    </div>
+    <div class="modalContent">
+        <img class="icon-response" [src]="modalInformation.response == 'failed' ? '/assets/img/icons/others/failed.svg' : '/assets/img/icons/others/success.svg'" alt="">
+        <h3 class="text-bold text-raleway title no-margin">{{modalInformation.title}}</h3>
+        <h5 class="text-raleway no-margin message">{{modalInformation.message}}</h5>
+    </div>
+    <div class="modalFooter">
+        <button class="btn-primary no-margin deleteClickButtonStyle" (click)="closeDialog()">Aceptar</button>
+    </div>
+</div>

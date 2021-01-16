@@ -5,17 +5,20 @@ import { DashboardRoutingModule } from './dashboard-routing.module';
 import { DashboardViewComponent } from './dashboard-view/dashboard-view.component';
 import { SharedModule } from '../shared/shared.module';
 import { MaterialModule } from 'src/app/shared/material.module';
-import { TerrenosViewComponent } from './terrenos-view/terrenos-view.component';
-import { AgregarTerrenoViewComponent } from './terrenos-view/agregar-terreno-view/agregar-terreno-view.component';
-
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
-  declarations: [DashboardViewComponent, TerrenosViewComponent, AgregarTerrenoViewComponent],
+  declarations: [DashboardViewComponent],
   imports: [
     CommonModule,
     DashboardRoutingModule,
     SharedModule,
-    MaterialModule
-  ]
+    MaterialModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule
+  ],
+  entryComponents: []
 })
 export class DashboardModule { }

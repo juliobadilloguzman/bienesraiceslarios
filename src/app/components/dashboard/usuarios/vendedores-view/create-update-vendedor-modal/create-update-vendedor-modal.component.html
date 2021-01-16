@@ -1,0 +1,67 @@
+<div class="container">
+    <div class="justify-space-between" *ngIf="data">
+        <h2 *ngIf="data.accion == 'crear'">Crea un vendedor</h2>
+        <h2 *ngIf="data.accion == 'editar'">Editar a {{nombre.value}} {{apellidoPaterno.value}}</h2>
+        <span class="material-icons icon-close" (click)="closeDialog()">cancel</span>
+    </div>
+    <form [formGroup]="vendedorForm" (ngSubmit)="onSubmitForm()">
+        <div class="row">
+            <div class="col-12">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label class="text-raleway">Nombre</mat-label>
+                    <input autocomplete="off" formControlName="nombre" required matInput autofocus>
+                </mat-form-field>
+                <!-- Errors -->
+                <div *ngIf="showErrors(nombre)">
+                    <p class="text-semibold text-danger" *ngIf="nombre.errors.required">El campo es requerido</p>
+                    <p class="text-semibold text-danger" *ngIf="nombre.errors.pattern">Formato inválido</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label class="text-raleway">Apellido Paterno</mat-label>
+                    <input formControlName="apellidoPaterno" matInput autofocus>
+                </mat-form-field>
+                <!-- Errors -->
+                <div *ngIf="showErrors(apellidoPaterno)">
+                    <p class="text-semibold text-danger" *ngIf="apellidoPaterno.errors.pattern">Formato inválido</p>
+                </div>
+            </div>
+            <div class="col-6">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label class="text-raleway">Apellido Materno</mat-label>
+                    <input formControlName="apellidoMaterno" matInput autofocus>
+                </mat-form-field>
+                <!-- Errors -->
+                <div *ngIf="showErrors(apellidoMaterno)">
+                    <p class="text-semibold text-danger" *ngIf="apellidoMaterno.errors.pattern">Formato inválido</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label class="text-raleway">Teléfono</mat-label>
+                    <input formControlName="telefono" matInput autofocus>
+                </mat-form-field>
+            </div>
+            <div class="col-6">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label class="text-raleway">Correo</mat-label>
+                    <input formControlName="correo" matInput autofocus>
+                </mat-form-field>
+                <!-- Errors -->
+                <div *ngIf="showErrors(correo)">
+                    <p class="text-semibold text-danger" *ngIf="correo.errors.email">Formato inválido</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <button type="submit" [disabled]="!vendedorForm.valid" class="btn btn-primary">{{data.accion == 'editar' ? 'Editar' : 'Crear'}}</button>
+            </div>
+        </div>
+    </form>
+</div>

@@ -21,8 +21,8 @@ export class DashboardSidenavComponent implements OnInit {
     this.toggler.emit();
   }
 
-  saludar(){
-    this.router.navigateByUrl('/dashboard/terrenos');
+  navigate(path: string){
+    this.router.navigateByUrl(path);
   }
 
   isReportPage() {

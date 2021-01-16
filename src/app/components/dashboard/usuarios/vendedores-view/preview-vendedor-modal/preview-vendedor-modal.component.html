@@ -1,0 +1,37 @@
+<div class="container">
+    <div class="justify-space-end" *ngIf="data">
+        <span class="material-icons icon-close" (click)="closeDialog()">cancel</span>
+    </div>
+    <section class="vendedor-information">
+        <div class="row text-center">
+            <div class="col-4">
+                <p class="text-semibold">Nombre:</p>
+                <p>{{vendedor.nombre}}</p>
+            </div>
+            <div class="col-4">
+                <p class="text-semibold">Apellido paterno:</p>
+                <p>{{vendedor.apellidoPaterno}}</p>
+            </div>
+            <div class="col-4">
+                <p class="text-semibold">Apellido materno:</p>
+                <p>{{vendedor.apellidoMaterno}}</p>
+            </div>
+        </div>
+        <div class="row mt-2 text-center">
+            <div class="col-6">
+                <p class="text-semibold">Teléfono:</p>
+                <p>{{vendedor.telefono}}</p>
+            </div>
+            <div class="col-6">
+                <p class="text-semibold">Correo:</p>
+                <p>{{vendedor.correo}}</p>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-12">
+                <h3 class="text-semibold mt-2 text-center text-secondary">Últimos terrenos vendidos</h3>
+                <div class="noTerrenosYet p-2">Este vendedor aún no tiene terrenos vendidos</div>
+            </div>
+        </div>
+    </section>
+</div>

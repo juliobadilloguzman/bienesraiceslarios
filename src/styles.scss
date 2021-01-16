@@ -1,8 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 
 @import "../node_modules/animate.css/animate.min.css";
-@import '~ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
-@import '~ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
+@import "~ngx-owl-carousel-o/lib/styles/scss/owl.carousel";
+@import "~ngx-owl-carousel-o/lib/styles/scss/owl.theme.default";
+@import "~bootstrap/scss/bootstrap";
 html,
 body {
     height: 100%;
@@ -25,7 +26,7 @@ body {
     border: none !important;
     border-radius: 30px !important;
     cursor: pointer !important;
-    font-family: 'Raleway', sans-serif;
+    font-family: "Raleway", sans-serif;
     font-weight: 700;
     font-size: 0.85rem !important;
     transition: all 0.4s ease 0s;
@@ -39,7 +40,7 @@ body {
     padding: 15px 30px !important;
     border-radius: 30px;
     cursor: pointer !important;
-    font-family: 'Raleway', sans-serif;
+    font-family: "Raleway", sans-serif;
     font-weight: 700;
     font-size: 0.9rem;
     transition: all 0.4s ease 0s;
@@ -48,9 +49,9 @@ body {
 @mixin btnHover {
     // letter-spacing: 1px;
     transition: all 0.4s ease 0s;
-    -webkit-box-shadow: -2px 2px 18px -8px rgba(0, 0, 0, 0.50);
-    -moz-box-shadow: -2px 2px 18px -8px rgba(0, 0, 0, 0.50);
-    box-shadow: -2px 2px 18px -8px rgba(0, 0, 0, 0.50);
+    -webkit-box-shadow: -2px 2px 18px -8px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow: -2px 2px 18px -8px rgba(0, 0, 0, 0.5);
+    box-shadow: -2px 2px 18px -8px rgba(0, 0, 0, 0.5);
 }
 
 
@@ -120,15 +121,15 @@ body {
 }
 
 .text-open {
-    font-family: 'Open Sans', sans-serif !important;
+    font-family: "Open Sans", sans-serif !important;
 }
 
 .text-raleway {
-    font-family: 'Raleway', sans-serif !important;
+    font-family: "Raleway", sans-serif !important;
 }
 
 .text-montserrat {
-    font-family: 'Montserrat', sans-serif;
+    font-family: "Montserrat", sans-serif;
 }
 
 .text-bold {
@@ -194,6 +195,14 @@ body {
     @include btnHover;
 }
 
+.btn-danger {
+    @include btn(#c00b0b, #fff);
+}
+
+.btn-danger:hover {
+    @include btnHover;
+}
+
 .btn-secondary {
     @include btn(#4bc22b, #fff);
 }
@@ -214,6 +223,18 @@ body {
     @include btn-outline(#fff, #383838, #33891c);
 }
 
+.btnView {
+    color: #00a482 !important;
+}
+
+.btnEdit {
+    color: #007bff !important;
+}
+
+.btnDelete {
+    color: #a52626 !important;
+}
+
 
 /********** Backgrounds **********/
 
@@ -228,6 +249,10 @@ body {
 .bg-green,
 .bg-primary {
     background: #33891c !important;
+}
+
+.bg-divider {
+    background: #c2c2c2 !important;
 }
 
 
@@ -261,8 +286,34 @@ body {
     outline: none;
 }
 
+.deleteButtonStyle:hover,
+.deleteButtonStyle:focus,
+.deleteButtonStyle:active,
+.deleteButtonStyle:active:focus:not(:disabled):not(.disabled),
+.deleteButtonStyle:focus,
+.deleteButtonStyle:active,
+.deleteButtonStyle:hover {
+    box-shadow: none !important;
+    outline: 0;
+}
+
+.deleteClickButtonStyle:hover,
+.deleteClickButtonStyle:focus,
+.deleteClickButtonStyle:active,
+.deleteClickButtonStyle:active:focus:not(:disabled):not(.disabled),
+.deleteClickButtonStyle:focus,
+.deleteClickButtonStyle:active,
+.deleteClickButtonStyle:hover {
+    box-shadow: none !important;
+    outline: 0;
+}
+
 .no-margin {
     margin: 0 !important;
+}
+
+.no-padding {
+    padding: 0 !important;
 }
 
 .no-underline {
@@ -275,6 +326,26 @@ body {
 
 .cursorPointer {
     cursor: pointer !important;
+}
+
+.justify-space-between {
+    display: flex !important;
+    justify-content: space-between !important;
+}
+
+.justify-space-end {
+    display: flex !important;
+    justify-content: flex-end !important;
+}
+
+.icon-close {
+    color: rgb(233, 0, 0);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.icon-close:hover {
+    color: rgb(212, 0, 0);
 }
 
 
@@ -295,7 +366,7 @@ body {
     background: red;
 }
 
-.preguntasFrecuentes .mat-expansion-panel:not([class*='mat-elevation-z']) {
+.preguntasFrecuentes .mat-expansion-panel:not([class*="mat-elevation-z"]) {
     box-shadow: none;
     -webkit-box-shadow: 0px 1px 15px -5px rgba(51, 137, 28, 0.63);
     -moz-box-shadow: 0px 1px 15px -5px rgba(51, 137, 28, 0.63);
@@ -331,14 +402,14 @@ body {
 /* Change color of the focused input */
 
 .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
-    color: #00A482 !important;
+    color: #00a482 !important;
 }
 
 
 /* Floating label color */
 
 .mat-form-field-appearance-outline.mat-focused .mat-form-field-label {
-    color: #1C2442 !important;
+    color: #1c2442 !important;
 }
 
 .mat-form-field-wrapper {
@@ -358,19 +429,19 @@ body {
 /* Mat Select Color */
 
 .mat-form-field.mat-focused .mat-form-field-ripple {
-    background-color: #00A482;
+    background-color: #00a482;
 }
 
 .mat-form-field.mat-focused.mat-primary .mat-select-arrow {
-    color: #00A482;
+    color: #00a482;
 }
 
 .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
-    color: #00A482;
+    color: #00a482;
 }
 
 mat-form-field.mat-focused span.mat-form-field-label-wrapper label {
-    color: #00A482 !important;
+    color: #00a482 !important;
 }
 
 .mat-form-field-label {
@@ -379,7 +450,7 @@ mat-form-field.mat-focused span.mat-form-field-label-wrapper label {
 
 .mat-tab-header {
     background-color: #fff;
-    color: #383838
+    color: #383838;
 }
 
 .mat-tab-label-active,
@@ -414,22 +485,18 @@ mat-sidenav,
 }
 
 .container-panel .mat-drawer-inner-container {
-    background: #00A482 !important;
+    background: #00a482 !important;
     border-radius: 20px !important;
 }
 
 .mat-tab-header-pagination-chevron {
-    border-color: #000 !important
+    border-color: #000 !important;
 }
 
 .mat-card {
     background: #fff !important;
 }
 
-
-/* Importing Bootstrap SCSS file. */
-
-@import '~bootstrap/scss/bootstrap';
 
 /* from here */
 
@@ -498,14 +565,14 @@ mat-sidenav,
 // -----------------------------------------------------------------------------
 /// Regular font family
 /// @type List
-$text-font-main: 'PT Sans' !default;
+$text-font-main: "PT Sans" !default;
 /// Code (Museo Sans) font family
 /// @type List
-$text-font-alternative: 'PT Sans' !default;
+$text-font-alternative: "PT Sans" !default;
 /// @type Color
 // new color names from https://www.color-blindness.com/color-name-hue/
 //Navbar Toggler White
-$navbar-dark-color: rgba(white, .9) !default;
+$navbar-dark-color: rgba(white, 0.9) !default;
 $navbar-dark-toggler-icon-bg: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='#{$navbar-dark-color}' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !default;
 // -----------------------------------------------------------------------------
 // Backgrounds
@@ -532,8 +599,8 @@ $comet: #5c5a72 !default; // secondary headings
 $navbar-light-text: rgba(0,
 0,
 0,
-.5) !default;
-$denim-blue: #226BD2 !default;
+0.5) !default;
+$denim-blue: #226bd2 !default;
 $nero: #1e1e1e !default; // strong primary text
 $night-rider: #333 !default; // primary headings
 $mortar: #666 !default; // secondary text
@@ -561,8 +628,8 @@ $error-border: #a52626 !default;
 // -----------------------------------------------------------------------------
 $red: #f00 !default;
 $error-red: #f44336 !default; // e82929 and df0101 also found in management.component.html
-$success: #27CF1B !default;
-$warning: #F8CF13 !default;
+$success: #27cf1b !default;
+$warning: #f8cf13 !default;
 // -----------------------------------------------------------------------------
 // cards and alerts background colors
 // -----------------------------------------------------------------------------
@@ -572,7 +639,7 @@ $pale-grey: #f2f2f5 !default;
 $slate-grey: #58595b !default;
 // TO DO - COLORS TO BE REPLACED
 $error-silver: #d8d8d8;
-$error-grey:#737476;
+$error-grey: #737476;
 $link-water: #ced2df !default;
 $dark-gray: #aaa !default;
 $silver: #c1c1c1 !default;
@@ -622,12 +689,13 @@ $large-screen: 960px !default;
 $large-screen-height: 800px !default;
 $xl-screen: 1200px !default;
 $xxl-screen: 1600px !default;
-$breakpoints: ("xs": $xs-screen,
+$breakpoints: ( "xs": $xs-screen,
 "small": $small-screen,
 "medium": $medium-screen,
 "large": $large-screen,
 "xl": $xl-screen,
-"xxl": $xxl-screen) !default;
+"xxl": $xxl-screen,
+) !default;
 /// Relative or absolute URL where all assets are served from
 $base-url: "../assets/" !default;
 $base-url-img: $base-url+"images/" !default;
@@ -719,7 +787,7 @@ $base-url-img-1: "../../assets/images/" !default;
 /* BACKGROUNDS ================================== */
 
 .blue-gradient {
-    background: linear-gradient(to bottom right, #243b56 50%, #2D425B 50%);
+    background: linear-gradient(to bottom right, #243b56 50%, #2d425b 50%);
 }
 
 .light-bg {
@@ -731,7 +799,7 @@ $base-url-img-1: "../../assets/images/" !default;
 }
 
 .yellow-bg-alpha {
-    background-color: rgba($yellow, .9) !important;
+    background-color: rgba($yellow, 0.9) !important;
 }
 
 .tango-bg {
@@ -739,7 +807,7 @@ $base-url-img-1: "../../assets/images/" !default;
 }
 
 .tango-bg-alpha {
-    background-color: rgba($tango, .95) !important;
+    background-color: rgba($tango, 0.95) !important;
 }
 
 .dodger-bg {
@@ -1020,7 +1088,7 @@ $nav-pd: 8px;
 @media only screen and (max-width: $medium-screen) {
     .navbar {
         background-color: $white;
-        box-shadow: 0 2px 2px 0 rgba(black, .14);
+        box-shadow: 0 2px 2px 0 rgba(black, 0.14);
     }
 }
 
@@ -1048,7 +1116,7 @@ $nav-pd: 8px;
 }
 
 .navbar-light .navbar-toggler-icon {
-    width: 1.0em !important;
+    width: 1em !important;
     height: 1.2em !important;
 }
 
@@ -1127,7 +1195,7 @@ li.nav-item>a.nav-link.btn-login {
 @media only screen and (max-width: $medium-screen) {
     .navbar {
         background-color: $white;
-        box-shadow: 0 2px 2px 0 rgba(black, .14);
+        box-shadow: 0 2px 2px 0 rgba(black, 0.14);
     }
 }
 
@@ -1149,7 +1217,7 @@ li.nav-item>a.nav-link.btn-login {
 }
 
 .navbar-light .navbar-toggler-icon {
-    width: 1.0em !important;
+    width: 1em !important;
     height: 1.2em !important;
 }
 
@@ -1210,7 +1278,7 @@ mat-sidenav.smart-sidenav {
 }
 
 mat-sidenav.smart-sidenav.responsive {
-    background: #16A085;
+    background: #16a085;
     background: -webkit-linear-gradient(to right, #33891c, #4bc22b);
     background: linear-gradient(to right, #33891c, #4bc22b);
     padding-top: $logged-navbar-sm !important;
@@ -1296,7 +1364,7 @@ mat-sidenav.smart-sidenav.responsive {
 .sidenav-container mat-list-item {
     overflow-x: visible !important;
     @include on-event {
-        background-color: rgba($stone, .9);
+        background-color: rgba($stone, 0.9);
     }
 }
 
@@ -1353,16 +1421,16 @@ mat-sidenav.smart-sidenav.responsive {
 
 .sidenav-container mat-list-item.responsive.selected_client {
     border-right: 6px solid $dark-sky-blue;
-    background-color: rgba($stone, .1);
+    background-color: rgba($stone, 0.1);
     @include on-event {
-        background-color: rgba($stone, .1);
+        background-color: rgba($stone, 0.1);
     }
     @include respond-to(medium) {
-        background-color: rgba($stone, .9);
+        background-color: rgba($stone, 0.9);
         border-left: 6px solid $dark-sky-blue;
         border-right: none;
         @include on-event {
-            background-color: rgba($stone, .9);
+            background-color: rgba($stone, 0.9);
         }
     }
 }
@@ -1509,16 +1577,16 @@ screen and (min-width: 768px) {
     display: none;
     float: left;
     min-width: 13rem !important;
-    padding: .5rem .3rem !important;
-    margin: .125rem 0 0 !important;
+    padding: 0.5rem 0.3rem !important;
+    margin: 0.125rem 0 0 !important;
     font-size: 1rem;
     color: #212529;
     text-align: left;
     list-style: none;
     background-color: #fff;
     background-clip: padding-box;
-    border: 1px solid rgba(0, 0, 0, .15);
-    border-radius: .3rem !important;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 0.3rem !important;
 }
 
 $grey: #a4abb3;
@@ -1756,7 +1824,7 @@ textarea {
 }
 
 .material-icons {
-    font-family: 'Material Icons' !important;
+    font-family: "Material Icons" !important;
 }
 
 .mat-dialog-container {
@@ -1780,7 +1848,7 @@ textarea {
 }
 
 .login-bg {
-    background: url('/assets/images/public/background/login-background.svg') no-repeat;
+    background: url("/assets/images/public/background/login-background.svg") no-repeat;
     background-size: cover;
     width: 100vw;
     min-height: 100vh;
@@ -1794,7 +1862,7 @@ textarea {
 .request-loader {
     position: absolute;
     left: calc(50% - 24px);
-    background: url('/assets/images/public/branding/icon-nofill.svg') center center no-repeat;
+    background: url("/assets/images/public/branding/icon-nofill.svg") center center no-repeat;
     background-size: 47px 47px;
     width: 36px;
     height: 36px;
@@ -1884,10 +1952,27 @@ span.hide-password.is-invalid:focus {
     box-shadow: none !important;
 }
 
-th.mat-header-cell,
 td.mat-cell,
 td.mat-footer-cell {
+    background: #fff !important;
+    color: #212529 !important;
     font-size: 14px !important;
+    border-bottom: 1px solid rgb(231, 231, 231);
+}
+
+th.mat-header-cell {
+    background: #33891c !important;
+}
+
+.mat-paginator {
+    background: #f3f3f3 !important;
+    color: #212529 !important;
+    font-size: 14px !important;
+}
+
+table {
+    -webkit-box-shadow: 1px 5px 28px -3px rgba(0, 0, 0, 0.22);
+    box-shadow: 1px 5px 28px -3px rgba(0, 0, 0, 0.22);
 }
 
 .mat-standard-chip .mat-chip-remove.mat-icon {

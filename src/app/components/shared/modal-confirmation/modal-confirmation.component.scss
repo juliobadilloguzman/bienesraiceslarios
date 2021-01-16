@@ -1,0 +1,38 @@
+.container {
+    height: 100%;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    .modalTitle {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        .title {
+            font-size: 1.5rem;
+        }
+        .icon-close {
+            color: rgb(233, 0, 0);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .icon-close:hover {
+            color: rgb(212, 0, 0);
+        }
+    }
+    .modalContent {
+        text-align: center;
+        .title {
+            font-size: 1.5rem;
+        }
+        .message {
+            font-size: 0.9rem;
+        }
+        .icon-response {
+            width: 60px;
+            margin-bottom: 1rem;
+        }
+    }
+    .modalFooter {
+        text-align: center;
+    }
+}
