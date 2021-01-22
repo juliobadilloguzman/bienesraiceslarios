@@ -29,7 +29,8 @@ import { OverlayModule } from '@angular/cdk/overlay';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-
+import { MatChipsModule } from '@angular/material/chips';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 const MaterialComponents = [
   MatCardModule,
@@ -61,7 +62,9 @@ const MaterialComponents = [
   MatDividerModule,
   MatDialogModule,
   MatTooltipModule,
-  OverlayModule
+  OverlayModule,
+  MatChipsModule,
+  MatAutocompleteModule
 ];
 
 @NgModule({

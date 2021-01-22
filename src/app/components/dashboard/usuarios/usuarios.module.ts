@@ -13,11 +13,13 @@ import { ModalConfirmationComponent } from '../../shared/modal-confirmation/moda
 import { UiActionsService } from 'src/app/services/ui-actions.service';
 import { YesNoModalComponent } from '../../shared/yes-no-modal/yes-no-modal.component';
 import { PreviewVendedorModalComponent } from './vendedores-view/preview-vendedor-modal/preview-vendedor-modal.component';
+import { PreviewClienteModalComponent } from './clientes-view/preview-cliente-modal/preview-cliente-modal.component';
+import { CreateUpdateClienteModalComponent } from './clientes-view/create-update-cliente-modal/create-update-cliente-modal.component';
 
 
 @NgModule({
-  entryComponents: [CreateUpdateVendedorModalComponent, ModalConfirmationComponent, YesNoModalComponent, PreviewVendedorModalComponent],
-  declarations: [VendedoresViewComponent, ClientesViewComponent, CreateUpdateVendedorModalComponent, PreviewVendedorModalComponent],
+  entryComponents: [CreateUpdateVendedorModalComponent, ModalConfirmationComponent, YesNoModalComponent, PreviewVendedorModalComponent, PreviewClienteModalComponent, CreateUpdateClienteModalComponent],
+  declarations: [VendedoresViewComponent, ClientesViewComponent, CreateUpdateVendedorModalComponent, PreviewVendedorModalComponent, PreviewClienteModalComponent, CreateUpdateClienteModalComponent],
   imports: [
     CommonModule,
     UsuariosRoutingModule,
@@ -27,6 +29,7 @@ import { PreviewVendedorModalComponent } from './vendedores-view/preview-vendedo
     FormsModule,
     MaterialModule
   ],
+  exports: [CreateUpdateVendedorModalComponent],
   providers: [UiActionsService]
 })
 export class UsuariosModule { }

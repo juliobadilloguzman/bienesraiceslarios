@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { VendedoresService } from '../../../../services/vendedores.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -8,8 +8,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { CreateUpdateVendedorModalComponent } from './create-update-vendedor-modal/create-update-vendedor-modal.component';
 import { UiActionsService } from 'src/app/services/ui-actions.service';
 import { ModalType, ModalResponse, Modal } from 'src/app/models/modal';
-import { ModalConfirmationComponent } from 'src/app/components/shared/modal-confirmation/modal-confirmation.component';
-import { YesNoModalComponent } from 'src/app/components/shared/yes-no-modal/yes-no-modal.component';
 import { PreviewVendedorModalComponent } from './preview-vendedor-modal/preview-vendedor-modal.component';
 
 @Component({

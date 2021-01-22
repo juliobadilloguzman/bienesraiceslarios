@@ -25,9 +25,9 @@
                         <span class="title ml-1">Clientes</span>
                     </div>
                 </mat-list-item>
-                <mat-list-item (click)="toggle()" [ngClass]="{'bg-selected-nav': isSubMenu('dashboard/report-format')}" routerLink="/dashboard/agents" class="responsive">
+                <mat-list-item routerLink="/dashboard/usuarios/vendedores" class="responsive">
                     <div class="sidenav-item">
-                        <span class="title ml-1">Vendedores</span>
+                        <a routerLink="/dashboard/usuarios/vendedores" class="title ml-1">Vendedores</a>
                     </div>
                 </mat-list-item>
             </mat-expansion-panel>

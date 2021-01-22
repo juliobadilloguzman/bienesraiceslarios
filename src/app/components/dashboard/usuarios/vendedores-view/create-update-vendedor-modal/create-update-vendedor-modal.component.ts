@@ -5,8 +5,6 @@ import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
 import { Vendedor } from 'src/app/models/vendedor';
 import { UiActionsService } from 'src/app/services/ui-actions.service';
 import { ModalType, ModalResponse, Modal } from 'src/app/models/modal';
-import { ModalConfirmationComponent } from 'src/app/components/shared/modal-confirmation/modal-confirmation.component';
-import { YesNoModalComponent } from 'src/app/components/shared/yes-no-modal/yes-no-modal.component';
 
 @Component({
   selector: 'app-create-update-vendedor-modal',
@@ -85,9 +83,9 @@ export class CreateUpdateVendedorModalComponent implements OnInit {
   }
 
   onSubmitForm() {
+
     if (this.data.accion == 'crear') {
       this.vendedorForm.removeControl('idVendedor');
-      console.warn(this.vendedorForm.value);
       this._vendedorService.createVendedor(this.vendedorForm.value).subscribe(
         (response: Vendedor) => {
           if (response) {
@@ -95,12 +93,19 @@ export class CreateUpdateVendedorModalComponent implements OnInit {
               title: "Creado",
               message: "El vendedor se creo correctamente",
               type: ModalType.confirmation,
-              response: ModalResponse.success,
-              redirectTo: '/dashboard/usuarios/vendedores'
+              response: ModalResponse.success
             }
             this._uiActionsService.openConfirmationDialog(modalInformation);
             this.dialogRef.close();
             this.vendedorForm.reset();
+          } else {
+            const modalInformation: Modal = {
+              title: "Error",
+              message: "Hubo un error al crear el vendedor, inténtelo de nuevo.",
+              type: ModalType.confirmation,
+              response: ModalResponse.failed
+            }
+            this._uiActionsService.openConfirmationDialog(modalInformation);
           }
         },
         (error) => {
@@ -114,8 +119,31 @@ export class CreateUpdateVendedorModalComponent implements OnInit {
         }
       );
     } else {
-
+      this._vendedorService.updateVendedor(this.vendedorForm.value).subscribe(
+        (response: Vendedor) => {
+          if (response) {
+            const modalInformation: Modal = {
+              title: "Editado",
+              message: "El vendedor se edito correctamente",
+              type: ModalType.confirmation,
+              response: ModalResponse.success
+            }
+            this._uiActionsService.openConfirmationDialog(modalInformation);
+            this.dialogRef.close();
+          }
+        },
+        (error) => {
+          const modalInformation: Modal = {
+            title: "Error",
+            message: "Hubo un error al editar el vendedor, inténtelo de nuevo.",
+            type: ModalType.confirmation,
+            response: ModalResponse.failed
+          }
+          this._uiActionsService.openConfirmationDialog(modalInformation);
+        }
+      )
     }
+
   }
 
   closeDialog() {

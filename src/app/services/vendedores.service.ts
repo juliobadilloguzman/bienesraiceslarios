@@ -24,6 +24,10 @@ export class VendedoresService {
     return this.http.post<Vendedor>(this.API_URI + '/vendedores', vendedor);
   }
 
+  updateVendedor(vendedor: Vendedor): Observable<Vendedor> {
+    return this.http.patch<Vendedor>(this.API_URI + '/vendedores/' + vendedor.idVendedor, vendedor);
+  }
+
   deleteVendedor(idVendedor: number): Observable<any> {
     return this.http.delete(this.API_URI + '/vendedores/' + idVendedor);
   }

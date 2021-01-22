@@ -18,10 +18,11 @@ export class DashboardSidenavComponent implements OnInit {
   }
 
   toggle() {
+    this.navigate('/dashboard/usuarios/clientes');
     this.toggler.emit();
   }
 
-  navigate(path: string){
+  navigate(path: string) {
     this.router.navigateByUrl(path);
   }
 

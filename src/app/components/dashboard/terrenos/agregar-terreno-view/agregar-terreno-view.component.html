@@ -1,0 +1,271 @@
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/dashboard">Inicio</a></li>
+        <li class="breadcrumb-item"><a routerLink="/dashboard/terrenos">Terrenos</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Agregar Terreno</li>
+    </ol>
+</nav>
+
+<div class="card p-4">
+    <div>
+        <h2 class="text-gray text-semibold text-raleway title">Agregar Terreno</h2>
+    </div>
+    <form [formGroup]="terrenoForm" (ngSubmit)="onSubmitForm()">
+        <div class="row">
+            <div class="col-4">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>No Manzana</mat-label>
+                    <input autocomplete="off" formControlName="noManzana" required matInput>
+                </mat-form-field>
+                <!-- Errors -->
+                <div *ngIf="showErrors(noManzana)">
+                    <p class="text-semibold text-danger" *ngIf="noManzana.errors.required">
+                        El campo es requerido
+                    </p>
+                    <p class="text-semibold text-danger" *ngIf="noManzana.errors.pattern">
+                        Solo se aceptan números, sin espacios
+                    </p>
+                    <p class="text-semibold text-danger" *ngIf="noManzana.errors.min">
+                        El valor tiene que ser mayor a 0
+                    </p>
+                </div>
+            </div>
+            <div class="col-4">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>No Lote</mat-label>
+                    <input autocomplete="off" formControlName="noLote" required matInput>
+                </mat-form-field>
+                <!-- Errors -->
+                <div *ngIf="showErrors(noLote)">
+                    <p class="text-semibold text-danger" *ngIf="noLote.errors.required">
+                        El campo es requerido
+                    </p>
+                    <p class="text-semibold text-danger" *ngIf="noLote.errors.pattern">
+                        Solo se aceptan números, sin espacios
+                    </p>
+                    <p class="text-semibold text-danger" *ngIf="noLote.errors.min">
+                        El valor tiene que ser mayor a 0
+                    </p>
+                </div>
+            </div>
+            <div class="col-4">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Superficie</mat-label>
+                    <input autocomplete="off" formControlName="superficie" required matInput>
+                </mat-form-field>
+                <!-- Errors -->
+                <div *ngIf="showErrors(superficie)">
+                    <p class="text-semibold text-danger" *ngIf="superficie.errors.required">
+                        El campo es requerido
+                    </p>
+                    <p class="text-semibold text-danger" *ngIf="superficie.errors.pattern">
+                        Solo se aceptan números, sin espacios
+                    </p>
+                    <p class="text-semibold text-danger" *ngIf="superficie.errors.min">
+                        El valor tiene que ser mayor a 0
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Costo M2</mat-label>
+                    <input autocomplete="off" formControlName="costoM2" required matInput>
+                </mat-form-field>
+                <!-- Errors -->
+                <div *ngIf="showErrors(costoM2)">
+                    <p class="text-semibold text-danger" *ngIf="costoM2.errors.required">
+                        El campo es requerido
+                    </p>
+                    <p class="text-semibold text-danger" *ngIf="costoM2.errors.pattern">
+                        Solo se aceptan números, sin espacios
+                    </p>
+                    <p class="text-semibold text-danger" *ngIf="costoM2.errors.min">
+                        El valor tiene que ser mayor a 0
+                    </p>
+                </div>
+            </div>
+            <!-- Costo Total -->
+            <div class="col-6">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Costo total del terreno</mat-label>
+                    <input readonly type="text" formControlName="costoTotal" [value]="getCostoTotal()" matInput>
+                    <mat-hint class="text-danger">
+                        Costo calculado automaticamente, no se puede cambiar por seguridad.
+                    </mat-hint>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-9">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Cliente</mat-label>
+                    <input matInput aria-label="Clientes" [matAutocomplete]="autoClientes" [formControl]="clientesCtrl">
+                    <mat-autocomplete (optionSelected)="pushCliente($event)" #autoClientes="matAutocomplete">
+                        <mat-option *ngFor="let cliente of filteredClientes | async" [value]="cliente">
+                            <span>{{cliente.nombre}} {{cliente.apellidoPaterno}}
+                                {{cliente.apellidoMaterno}}</span> |
+                            <small>Correo: {{cliente.correo}}</small>
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <div class="col-3">
+                <button class="btn btn-primary" type="button" (click)="onAgregarCliente()">Dar de alta
+                    cliente</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 text-gray full-width" *ngIf="clienteTemp">
+                <div class="box-cliente full-width">
+                    <span class="text-gray text-semibold">{{clienteTemp.nombre}} {{clienteTemp.apellidoPaterno}}
+                        {{clienteTemp.apellidoMaterno}} | {{clienteTemp.correo}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col-6">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Fraccionamiento</mat-label>
+                    <mat-select required formControlName="fraccionamientoIdFraccionamiento">
+                        <mat-option *ngFor="let fraccionamiento of fraccionamientos" [value]="fraccionamiento.idFraccionamiento">
+                            {{fraccionamiento.nombre}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-6">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Fecha de Venta (dd/mm/aaaa)</mat-label>
+                    <input formControlName="fechaVenta" required matInput [matDatepicker]="fechaVentaPicker">
+                    <mat-datepicker-toggle matSuffix [for]="fechaVentaPicker"></mat-datepicker-toggle>
+                    <mat-datepicker #fechaVentaPicker></mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-9">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Vendedores</mat-label>
+                    <input matInput aria-label="Vendedores" [matAutocomplete]="auto" [formControl]="vendedoresCtrl">
+                    <mat-autocomplete (optionSelected)="pushVendedor($event)" #auto="matAutocomplete">
+                        <mat-option *ngFor="let vendedor of filteredVendedores | async" [value]="vendedor">
+                            <span>{{vendedor.nombre}} {{vendedor.apellidoPaterno}}
+                                {{vendedor.apellidoMaterno}}</span> |
+                            <small>Correo: {{vendedor.correo}}</small>
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <div class="col-3">
+                <button class="btn btn-primary" type="button" (click)="onAgregarVendedor()">Dar de alta
+                    vendedor</button>
+            </div>
+            <div class="row">
+                <div class="col-12 text-gray" *ngIf="vendedoresTemp.length > 0">
+                    <mat-list>
+                        <mat-list-item *ngFor="let vendedor of vendedoresTemp; let i = index">
+                            <span class="text-gray">{{i+1}}.- {{vendedor.nombre}} {{vendedor.apellidoPaterno}}
+                                {{vendedor.apellidoMaterno}} <span class="material-icons icon-close2"
+                                    (click)="removeVendedor(vendedor)">cancel</span></span>
+                        </mat-list-item>
+
+                    </mat-list>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-1 mt-1">
+            <div class="col-12">
+                <input type="checkbox" (change)="onSetPago($event.target.checked)"><span style="margin-left: 0.3rem !important;" class="text-gray">Paga al
+                    contado</span>
+            </div>
+        </div>
+        <section *ngIf="!pagoDeContado">
+            <div class="row">
+                <div class="col-6">
+                    <mat-form-field appearance="fill" class="full-width">
+                        <mat-label>Monto del Enganche</mat-label>
+                        <input formControlName="enganche" matInput [value]="getEnganche()">
+                        <mat-hint class="text-hint">Enganche del 10% calculado automaticamente, cámbielo si es necesario.
+                        </mat-hint>
+                    </mat-form-field>
+
+                </div>
+                <div class="col-6">
+                    <mat-form-field appearance="fill" class="full-width">
+                        <mat-label>Forma de pago del enganche</mat-label>
+                        <mat-select formControlName="formaPagoEnganche" [value]="formaPagoEnganche">
+                            <mat-option value="Efectivo">
+                                Efectivo
+                            </mat-option>
+                            <mat-option value="Depósito">
+                                Depósito
+                            </mat-option>
+                            <mat-option value="Transferencia Bancaria">
+                                Transferencia Bancaria
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row mt-1">
+                <div class="col-6">
+                    <mat-form-field appearance="fill" class="full-width">
+                        <mat-label>Numero de mensualidades</mat-label>
+                        <input autocomplete="off" formControlName="noMensualidades" [value]="getNoMensualidades()" matInput>
+                    </mat-form-field>
+                </div>
+                <div class="col-6">
+                    <mat-form-field appearance="fill" class="full-width">
+                        <mat-label>Monto de cada mensualidad</mat-label>
+                        <input autocomplete="off" formControlName="montoMensualidad" matInput [value]="getMontoMensualidad()">
+                        <mat-hint class="text-hint">Monto de mensualidad calculado automaticamente, cámbielo si es necesario.
+                        </mat-hint>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row mt-1">
+                <div class="col-4">
+                    <mat-form-field appearance="fill" class="full-width">
+                        <mat-label>Dia de pago del (de cada mes)</mat-label>
+                        <input autocomplete="off" formControlName="diaPagoDel" matInput>
+                    </mat-form-field>
+                </div>
+                <div class="col-4">
+                    <mat-form-field appearance="fill" class="full-width">
+                        <mat-label>Dia de pago al (de cada mes)</mat-label>
+                        <input autocomplete="off" formControlName="diaPagoAl" matInput>
+                    </mat-form-field>
+                </div>
+                <div class="col-4">
+                    <mat-form-field appearance="fill" class="full-width">
+                        <mat-label>Fecha primera mensualidad (dd/mm/aaaa)</mat-label>
+                        <input matInput formControlName="fechaPrimeraMensualidad" [matDatepicker]="fechaPrimeraMensualidadPicker">
+                        <mat-datepicker-toggle matSuffix [for]="fechaPrimeraMensualidadPicker">
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #fechaPrimeraMensualidadPicker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
+        </section>
+        <div class="row">
+            <div class="col-12">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Comentarios adicionales</mat-label>
+                    <textarea formControlName="comentariosAdicionales" matInput style="min-height: 200px !important"></textarea>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row mb-1 mt-1">
+            <div class="col-12">
+                <input type="checkbox" (change)="onSetDeslinde($event.target.checked)"><span style="margin-left: 0.3rem !important;" class="text-gray">Paga deslinde</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">Agregar Terreno</button>
+            </div>
+        </div>
+    </form>
+</div>
