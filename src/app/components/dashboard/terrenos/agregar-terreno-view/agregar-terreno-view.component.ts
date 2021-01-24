@@ -17,6 +17,7 @@ import * as moment from 'moment';
 import { ConfirmAgregarTerrenoModalComponent } from '../confirm-agregar-terreno-modal/confirm-agregar-terreno-modal.component';
 import { Usuario } from 'src/app/models/usuario';
 import { CreateUpdateClienteModalComponent } from '../../usuarios/clientes-view/create-update-cliente-modal/create-update-cliente-modal.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-agregar-terreno-view',
@@ -63,7 +64,8 @@ export class AgregarTerrenoViewComponent implements OnInit {
     private _uiActionsService: UiActionsService,
     private _usuariosService: UsuariosService,
     public dialog: MatDialog,
-    private dateAdapter: DateAdapter<Date>
+    private dateAdapter: DateAdapter<Date>,
+    private router: Router
   ) {
 
     this.dateAdapter.setLocale('en-GB'); //dd/MM/yyyy
@@ -450,10 +452,29 @@ export class AgregarTerrenoViewComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(action => {
-      console.warn(action);
-      if (action == 'proceed') {
-        //add terreno
+    dialogRef.afterClosed().subscribe(data => {
+      if (data.action == 'proceed') {
+        console.warn('DATA FORM', data.form);
+        this._terrenosService.createTerreno(data.form).subscribe(
+          (response: any) => {
+            console.warn(response);
+            if (response) {
+              const modalInformation: Modal = {
+                title: "Creado",
+                message: "El fraccionamiento se creo correctamente",
+                type: ModalType.confirmation,
+                response: ModalResponse.success
+              }
+              const dialogRef = this._uiActionsService.openConfirmationDialog(modalInformation);
+              dialogRef.afterClosed().subscribe(() => {
+                this.router.navigateByUrl('/dashboard/terrenos');
+              })
+            }
+          },
+          (error) => {
+            console.error(error);
+          }
+        );
       }
     });
 

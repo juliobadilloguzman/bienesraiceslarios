@@ -14,7 +14,8 @@ export class PreviewVendedorModalComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<PreviewVendedorModalComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: any) { }
+    public data: any
+  ) { }
 
   ngOnInit(): void {
     this.vendedor = this.data['row'];

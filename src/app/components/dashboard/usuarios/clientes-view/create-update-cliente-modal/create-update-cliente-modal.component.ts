@@ -6,6 +6,7 @@ import { UiActionsService } from 'src/app/services/ui-actions.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { Modal, ModalType, ModalResponse } from 'src/app/models/modal';
 import { Usuario } from 'src/app/models/usuario';
+import { toJSDate } from '@ng-bootstrap/ng-bootstrap/datepicker/ngb-calendar';
 
 @Component({
   selector: 'app-create-update-cliente-modal',
@@ -27,7 +28,9 @@ export class CreateUpdateClienteModalComponent implements OnInit {
     private _authService: AuthService
   ) {
     this.clienteForm = this.fb.group({
+      idUsuario: [null],
       email: [null, [Validators.required, Validators.email]],
+      oldEmail: [],
       password: [null, [Validators.required, Validators.pattern(/^[a-zA-Z0-9]*$/), Validators.minLength(6)]],
       nombre: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]],
       apellidoPaterno: ['', [Validators.pattern(/^[a-zA-Z\s]*$/)]],
@@ -44,8 +47,20 @@ export class CreateUpdateClienteModalComponent implements OnInit {
     });
   }
 
+  get idUsuario() {
+    return this.clienteForm.get('idUsuario') as FormControl;
+  }
+
   get email() {
     return this.clienteForm.get('email') as FormControl;
+  }
+
+  get oldEmail() {
+    return this.clienteForm.get('oldEmail') as FormControl;
+  }
+
+  get correo() {
+    return this.clienteForm.get('correo') as FormControl;
   }
 
   get password() {
@@ -105,7 +120,27 @@ export class CreateUpdateClienteModalComponent implements OnInit {
       this._usuariosService.getUsuario(this.data.row.idUsuario).subscribe(
         (response: Usuario) => {
           this.cliente = response;
-          console.warn(response);
+          console.warn(this.cliente);
+          this.idUsuario.patchValue(this.cliente.idUsuario);
+          this.oldEmail.patchValue(this.cliente.correo);
+          this.email.patchValue(this.cliente.correo);
+          this.nombre.patchValue(this.cliente.nombre);
+          this.apellidoPaterno.patchValue(this.cliente.apellidoPaterno);
+          this.apellidoMaterno.patchValue(this.cliente.apellidoMaterno);
+          this.calle.patchValue(this.cliente.calle);
+          this.colonia.patchValue(this.cliente.colonia);
+          this.numeroExterior.patchValue(this.cliente.numeroExterior);
+          this.numeroInterior.patchValue(this.cliente.numeroInterior);
+          this.municipio.patchValue(this.cliente.municipio);
+          this.codigoPostal.patchValue(this.cliente.codigoPostal);
+          this.telefonoFijo.patchValue(this.cliente.telefonoFijo);
+          this.telefonoCelular.patchValue(this.cliente.telefonoCelular);
+
+          //Remove validator from password
+          this.password.clearValidators();
+          this.password.updateValueAndValidity();
+          this.password.setValidators([Validators.pattern(/^[a-zA-Z0-9]*$/), Validators.minLength(6)]);
+
         },
         (error) => {
           const modalInformation: Modal = {
@@ -129,9 +164,14 @@ export class CreateUpdateClienteModalComponent implements OnInit {
     // if(this.clienteForm.valid)
     //   return;
 
-    console.log(this.clienteForm.value);
+    //console.log(this.clienteForm.value);
 
     if (this.data.accion == 'crear') {
+
+      //Remove controls
+      this.clienteForm.removeControl('idUsuario');
+      this.clienteForm.removeControl('correo');
+      this.clienteForm.removeControl('oldEmail');
 
       this._authService.signUp(this.clienteForm.value).subscribe(
         (response) => {
@@ -139,7 +179,7 @@ export class CreateUpdateClienteModalComponent implements OnInit {
           if (response) {
             const modalInformation: Modal = {
               title: "Creado",
-              message: "El cliente se creo correctamente",
+              message: "El cliente se creó correctamente",
               type: ModalType.confirmation,
               response: ModalResponse.success
             }
@@ -168,6 +208,36 @@ export class CreateUpdateClienteModalComponent implements OnInit {
       );
 
     } else {
+      if (this.password.value == null || this.password.value == "") {
+        this.password.setValue(null);
+      }
+      console.warn('FORM', this.clienteForm.value);
+
+      this._authService.updateAccount(this.clienteForm.value).subscribe(
+        (response) => {
+          if (response) {
+            console.warn(response);
+            this.dialogRef.close();
+            const modalInformation: Modal = {
+              title: "Editado",
+              message: "El cliente se editó correctamente",
+              type: ModalType.confirmation,
+              response: ModalResponse.success
+            }
+            this._uiActionsService.openConfirmationDialog(modalInformation);
+            this.clienteForm.reset();
+          }
+        },
+        (error) => {
+          const modalInformation: Modal = {
+            title: "Error",
+            message: "Hubo un error al editar el cliente, inténtelo de nuevo.",
+            type: ModalType.confirmation,
+            response: ModalResponse.failed
+          }
+          this._uiActionsService.openConfirmationDialog(modalInformation);
+        }
+      );
 
     }
 

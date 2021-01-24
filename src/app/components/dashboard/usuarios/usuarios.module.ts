@@ -15,11 +15,13 @@ import { YesNoModalComponent } from '../../shared/yes-no-modal/yes-no-modal.comp
 import { PreviewVendedorModalComponent } from './vendedores-view/preview-vendedor-modal/preview-vendedor-modal.component';
 import { PreviewClienteModalComponent } from './clientes-view/preview-cliente-modal/preview-cliente-modal.component';
 import { CreateUpdateClienteModalComponent } from './clientes-view/create-update-cliente-modal/create-update-cliente-modal.component';
+import { AdministradoresViewComponent } from './administradores-view/administradores-view.component';
+import { CapturistasViewComponent } from './capturistas-view/capturistas-view.component';
 
 
 @NgModule({
   entryComponents: [CreateUpdateVendedorModalComponent, ModalConfirmationComponent, YesNoModalComponent, PreviewVendedorModalComponent, PreviewClienteModalComponent, CreateUpdateClienteModalComponent],
-  declarations: [VendedoresViewComponent, ClientesViewComponent, CreateUpdateVendedorModalComponent, PreviewVendedorModalComponent, PreviewClienteModalComponent, CreateUpdateClienteModalComponent],
+  declarations: [VendedoresViewComponent, ClientesViewComponent, CreateUpdateVendedorModalComponent, PreviewVendedorModalComponent, PreviewClienteModalComponent, CreateUpdateClienteModalComponent, AdministradoresViewComponent, CapturistasViewComponent],
   imports: [
     CommonModule,
     UsuariosRoutingModule,

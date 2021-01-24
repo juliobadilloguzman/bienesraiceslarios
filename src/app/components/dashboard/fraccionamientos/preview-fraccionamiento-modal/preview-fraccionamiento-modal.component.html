@@ -1,0 +1,17 @@
+<div class="container">
+    <div class="justify-space-end" *ngIf="data">
+        <span class="material-icons icon-close" (click)="closeDialog()">cancel</span>
+    </div>
+    <section>
+        <div class="row text-center">
+            <div class="col-6">
+                <p class="text-semibold">Nombre:</p>
+                <p>{{fraccionamiento.nombre}}</p>
+            </div>
+            <div class="col-6">
+                <p class="text-semibold">Régimen:</p>
+                <p>{{fraccionamiento.regimen}}</p>
+            </div>
+        </div>
+    </section>
+</div>

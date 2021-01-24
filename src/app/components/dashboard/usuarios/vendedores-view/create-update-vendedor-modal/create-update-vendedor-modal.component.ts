@@ -22,8 +22,8 @@ export class CreateUpdateVendedorModalComponent implements OnInit {
     public data: any,
     private _vendedorService: VendedoresService,
     private fb: FormBuilder,
-    private _uiActionsService: UiActionsService,
-    private dialog: MatDialog) {
+    private _uiActionsService: UiActionsService
+  ) {
 
     this.vendedorForm = this.fb.group({
       idVendedor: [],
@@ -124,7 +124,7 @@ export class CreateUpdateVendedorModalComponent implements OnInit {
           if (response) {
             const modalInformation: Modal = {
               title: "Editado",
-              message: "El vendedor se edito correctamente",
+              message: "El vendedor se editó correctamente",
               type: ModalType.confirmation,
               response: ModalResponse.success
             }
@@ -141,7 +141,7 @@ export class CreateUpdateVendedorModalComponent implements OnInit {
           }
           this._uiActionsService.openConfirmationDialog(modalInformation);
         }
-      )
+      );
     }
 
   }

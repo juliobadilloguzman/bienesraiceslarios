@@ -1,1 +1,35 @@
-<p>preview-cliente-modal works!</p>
+<div class="container">
+    <div class="justify-space-end" *ngIf="data">
+        <span class="material-icons icon-close" (click)="closeDialog()">cancel</span>
+    </div>
+    <section class="vendedor-information">
+        <div class="row text-center">
+            <div class="col-4">
+                <p class="text-semibold">Nombre:</p>
+                <p>{{cliente.nombre}}</p>
+            </div>
+            <div class="col-4">
+                <p class="text-semibold">Apellido Paterno:</p>
+                <p>{{cliente.apellidoPaterno}}</p>
+            </div>
+            <div class="col-4">
+                <p class="text-semibold">Apellido Materno:</p>
+                <p>{{cliente.apellidoMaterno}}</p>
+            </div>
+        </div>
+        <div class="row mt-2 text-center">
+            <div class="col-4">
+                <p class="text-semibold">Teléfono Fijo:</p>
+                <p>{{cliente.telefonoFijo}}</p>
+            </div>
+            <div class="col-4">
+                <p class="text-semibold">Teléfono Celular:</p>
+                <p>{{cliente.telefonoCelular}}</p>
+            </div>
+            <div class="col-4">
+                <p class="text-semibold">Correo:</p>
+                <p>{{cliente.correo}}</p>
+            </div>
+        </div>
+    </section>
+</div>

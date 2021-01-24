@@ -127,7 +127,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <button type="submit" class="btn btn-primary">{{data.accion == 'editar' ? 'Editar' : 'Crear'}}</button>
+                <button type="submit" [disabled]="!clienteForm.valid" class="btn btn-primary">{{data.accion == 'editar' ? 'Editar' : 'Crear'}}</button>
             </div>
         </div>
     </form>

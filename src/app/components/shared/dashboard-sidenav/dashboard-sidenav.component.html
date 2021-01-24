@@ -15,19 +15,24 @@
                         <span class="title">Usuarios</span>
                     </mat-panel-title>
                 </mat-expansion-panel-header>
-                <mat-list-item (click)="toggle()" [ngClass]="{'bg-selected-nav': isSubMenu('dashboard/expense-format')}" routerLink="/dashboard/expense-format" class="responsive">
+                <mat-list-item (click)="toggle('/dashboard/usuarios/administradores')" class="responsive">
                     <div class="sidenav-item">
                         <span class="title ml-1">Administradores</span>
                     </div>
                 </mat-list-item>
-                <mat-list-item (click)="toggle()" [ngClass]="{'bg-selected-nav': isSubMenu('dashboard/categories')}" routerLink="/dashboard/clients" class="responsive">
+                <mat-list-item (click)="toggle('/dashboard/usuarios/capturistas')" class="responsive">
+                    <div class="sidenav-item">
+                        <span class="title ml-1">Capturistas</span>
+                    </div>
+                </mat-list-item>
+                <mat-list-item (click)="toggle('/dashboard/usuarios/clientes')" class="responsive">
                     <div class="sidenav-item">
                         <span class="title ml-1">Clientes</span>
                     </div>
                 </mat-list-item>
-                <mat-list-item routerLink="/dashboard/usuarios/vendedores" class="responsive">
+                <mat-list-item (click)="toggle('/dashboard/usuarios/vendedores')" class="responsive">
                     <div class="sidenav-item">
-                        <a routerLink="/dashboard/usuarios/vendedores" class="title ml-1">Vendedores</a>
+                        <span class="title ml-1">Vendedores</span>
                     </div>
                 </mat-list-item>
             </mat-expansion-panel>

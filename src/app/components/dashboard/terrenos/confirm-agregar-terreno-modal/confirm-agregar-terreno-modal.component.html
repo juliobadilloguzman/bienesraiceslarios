@@ -92,6 +92,10 @@
                         <mat-label>Introduce el nuevo saldo</mat-label>
                         <input matInput aria-label="Vendedores" [formControl]="saldoCtrl">
                     </mat-form-field>
+                    <div>
+                        <button class="btn btn-danger" (click)="cancelNewSaldo()">Cancelar modificación de
+                            saldo</button>
+                    </div>
                 </ng-container>
             </div>
         </div>

@@ -7,6 +7,7 @@ import { TerrenosService } from 'src/app/services/terrenos.service';
 import { MatDialog } from '@angular/material/dialog';
 import { UiActionsService } from 'src/app/services/ui-actions.service';
 import { Modal, ModalType, ModalResponse } from 'src/app/models/modal';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-terrenos-view',
@@ -21,7 +22,12 @@ export class TerrenosViewComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private _terrenosService: TerrenosService, public dialog: MatDialog, private _uiActionsService: UiActionsService) { }
+  constructor(
+    private _terrenosService: TerrenosService,
+    public dialog: MatDialog,
+    private _uiActionsService: UiActionsService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.getTerrenos();
@@ -59,6 +65,10 @@ export class TerrenosViewComponent implements OnInit {
 
 
 
+  }
+
+  onPayMensualidad(terreno: Terreno) {
+    this.router.navigateByUrl('/dashboard/mensualidades', { state: { terreno: terreno } });
   }
 
   applyFilter(event: Event): void {

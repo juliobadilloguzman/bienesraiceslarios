@@ -17,8 +17,8 @@ export class DashboardSidenavComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  toggle() {
-    this.navigate('/dashboard/usuarios/clientes');
+  toggle(route?: string) {
+    this.navigate(route);
     this.toggler.emit();
   }
 

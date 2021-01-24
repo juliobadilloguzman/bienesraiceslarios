@@ -20,4 +20,8 @@ export class TerrenosService {
     return this.http.get<Terreno>(this.API_URI + '/terrenos/' + idTerreno);
   }
 
+  createTerreno(terreno: Terreno): Observable<Terreno> {
+    return this.http.post<Terreno>(this.API_URI + '/terrenos', terreno);
+  }
+
 }

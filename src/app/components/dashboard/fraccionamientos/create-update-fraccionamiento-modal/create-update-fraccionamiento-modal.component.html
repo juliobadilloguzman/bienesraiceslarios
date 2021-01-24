@@ -1,0 +1,42 @@
+<div class="container">
+    <div class="justify-space-between" *ngIf="data">
+        <h2 *ngIf="data.accion == 'crear'">Crea un fraccionamiento</h2>
+        <h2 *ngIf="data.accion == 'editar'">Editar a {{nombre.value}}</h2>
+        <span class="material-icons icon-close" (click)="closeDialog()">cancel</span>
+    </div>
+    <form [formGroup]="fraccionamientoForm" (ngSubmit)="onSubmitForm()">
+        <div class="row">
+            <div class="col-12">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label class="text-raleway">Nombre</mat-label>
+                    <input autocomplete="off" formControlName="nombre" required matInput autofocus>
+                </mat-form-field>
+                <!-- Errors -->
+                <div *ngIf="showErrors(nombre)">
+                    <p class="text-semibold text-danger" *ngIf="nombre.errors.required">El campo es requerido</p>
+                    <p class="text-semibold text-danger" *ngIf="nombre.errors.pattern">Formato inválido</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Régimen</mat-label>
+                    <mat-select required formControlName="regimen">
+                        <mat-option value="Propiedad Privada">Propiedad Privada</mat-option>
+                        <mat-option value="Ejidal">Ejidal</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <!-- Errors -->
+                <div *ngIf="showErrors(regimen)">
+                    <p class="text-semibold text-danger" *ngIf="regimen.errors.required">El campo es requerido</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <button type="submit" class="btn btn-primary">{{data.accion == 'editar' ? 'Editar' : 'Crear'}}</button>
+            </div>
+        </div>
+    </form>
+</div>

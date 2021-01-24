@@ -207,6 +207,14 @@ body {
     @include btnHover;
 }
 
+.btn-warning {
+    @include btn(#ffc107, #fff);
+}
+
+.btn-warning:hover {
+    @include btnHover;
+}
+
 .btn-secondary {
     @include btn(#4bc22b, #fff);
 }
@@ -237,6 +245,10 @@ body {
 
 .btnDelete {
     color: #a52626 !important;
+}
+
+.btnPay {
+    color: #33891c !important;
 }
 
 

@@ -59,10 +59,18 @@ export class ConfirmAgregarTerrenoModalComponent implements OnInit {
     this.showSaldoInput = true;
   }
 
+  cancelNewSaldo() {
+    this.showSaldoInput = false;
+  }
+
   closeDialog(action?: string) {
 
+    if (this.showSaldoInput) {
+      this.data.form.saldo = this.saldoCtrl.value;
+    }
+
     if (action) {
-      this.dialogRef.close(action);
+      this.dialogRef.close({ action: action, form: this.data.form });
     } else {
       this.dialogRef.close();
     }
