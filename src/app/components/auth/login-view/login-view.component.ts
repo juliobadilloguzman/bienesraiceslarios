@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
+import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-view',
@@ -10,7 +12,11 @@ export class LoginViewComponent implements OnInit {
 
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private fb: FormBuilder,
+    private _authService: AuthService,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -19,8 +25,28 @@ export class LoginViewComponent implements OnInit {
     });
   }
 
-  logIn(): void{
+  get email() {
+    return this.loginForm.get('email') as FormControl;
+  }
+
+  get password() {
+    return this.loginForm.get('password') as FormControl;
+  }
+
+  logIn(): void {
     console.warn(this.loginForm.value);
+    this._authService.logIn(this.email.value, this.password.value).subscribe(
+      (response) => {
+        if (response) {
+          console.warn(response);
+          //Navigate to the dashboard
+          this.router.navigateByUrl('/dashboard');
+        }
+      },
+      (error) => {
+        console.error(error);
+      }
+    )
   }
 
 }

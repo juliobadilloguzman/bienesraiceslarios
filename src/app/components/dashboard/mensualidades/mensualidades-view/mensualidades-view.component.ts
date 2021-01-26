@@ -65,7 +65,7 @@ export class MensualidadesViewComponent implements OnInit {
       (error) => {
         const modalInformation: Modal = {
           title: "Error",
-          message: "Error al cargar la informacion, verifique su conexion a internet e inténtelo de nuevo",
+          message: "Error al cargar la información, verifique su conexión a internet e inténtelo de nuevo",
           type: ModalType.confirmation,
           response: ModalResponse.failed
         }
@@ -88,7 +88,9 @@ export class MensualidadesViewComponent implements OnInit {
       width: '600px',
       data: {
         accion: accion,
-        row: row
+        row: row,
+        idTerreno: this.terreno.idTerreno,
+        montoMensualidad: this.terreno.montoMensualidad
       }
     });
     dialogRef.afterClosed().subscribe(() => this.getMensualidades());

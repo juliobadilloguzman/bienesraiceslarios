@@ -1,1 +1,44 @@
-<p>preview-mensualidad-modal works!</p>
+<div class="container">
+    <div class="justify-space-end" *ngIf="data">
+        <span class="material-icons icon-close" (click)="closeDialog()">cancel</span>
+    </div>
+    <section>
+        <div class="row text-center">
+            <div class="col-6">
+                <p class="text-semibold">Numero de mensualidad:</p>
+                <p>{{mensualidad.numeroMensualidad}}</p>
+            </div>
+            <div class="col-6">
+                <p class="text-semibold">Fecha de pago:</p>
+                <p>{{mensualidad.fechaPago}}</p>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-12">
+                <p class="text-semibold">Correspondiente al mes de:</p>
+                <p>{{mensualidad.mes}}</p>
+            </div>
+        </div>
+
+        <div class="row text-center">
+            <div class="col-6">
+                <p class="text-semibold">Forma de pago:</p>
+                <p>{{mensualidad.formaPago}}</p>
+            </div>
+            <div class="col-6">
+                <p class="text-semibold">Estatus:</p>
+                <p class="text-semibold text-secondary"><span class="badge text-white" [ngClass]="{
+                    'bg-primary': mensualidad.estatusPago === 'PAGADA',
+                    'bg-danger': mensualidad.estatusPago === 'NO PAGADA'
+                   }">{{mensualidad.estatusPago}}</span></p>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-12 box">
+                <p class="text-semibold mt-1">Monto:</p>
+                <p class="text-semibold text-secondary">{{mensualidad.monto | currency}}</p>
+                <p class="text-semibold text-white">{{mensualidad.cantidadConLetra}}</p>
+            </div>
+        </div>
+    </section>
+</div>

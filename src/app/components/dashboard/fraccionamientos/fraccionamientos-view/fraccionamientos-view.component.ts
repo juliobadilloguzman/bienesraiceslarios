@@ -9,6 +9,10 @@ import { UiActionsService } from 'src/app/services/ui-actions.service';
 import { Modal, ModalType, ModalResponse } from 'src/app/models/modal';
 import { PreviewFraccionamientoModalComponent } from '../preview-fraccionamiento-modal/preview-fraccionamiento-modal.component';
 import { CreateUpdateFraccionamientoModalComponent } from '../create-update-fraccionamiento-modal/create-update-fraccionamiento-modal.component';
+import { AuthService } from 'src/app/services/auth.service';
+import { from } from 'rxjs';
+import { Account } from 'src/app/models/account';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-fraccionamientos-view',
@@ -23,10 +27,20 @@ export class FraccionamientosViewComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private _fraccionamientoService: FraccionamientosService, public dialog: MatDialog, private _uiActionsService: UiActionsService) { }
+  constructor(
+    private _fraccionamientoService: FraccionamientosService,
+    public dialog: MatDialog,
+    private _uiActionsService: UiActionsService,
+    private _authService: AuthService
+  ) { }
 
   ngOnInit(): void {
+
     this.getFraccionamientos();
+    this._authService.isAuthenticated.subscribe(
+      (response) => console.warn(response)
+    );
+
   }
 
   getFraccionamientos(): void {

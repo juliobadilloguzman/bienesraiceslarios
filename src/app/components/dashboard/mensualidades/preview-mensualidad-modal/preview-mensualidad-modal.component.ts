@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { Mensualidad } from 'src/app/models/mensualidad';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-preview-mensualidad-modal',
@@ -7,9 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PreviewMensualidadModalComponent implements OnInit {
 
-  constructor() { }
+  mensualidad: Mensualidad;
+
+  constructor(
+    public dialogRef: MatDialogRef<PreviewMensualidadModalComponent>,
+    @Inject(MAT_DIALOG_DATA)
+    public data: any) { }
 
   ngOnInit(): void {
+    this.mensualidad = this.data['row'];
+  }
+
+  closeDialog() {
+    this.dialogRef.close();
   }
 
 }

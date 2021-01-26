@@ -33,6 +33,6 @@ export class MensualidadesService {
   }
 
   deleteMensualidad(idMensualidad: number): Observable<any> {
-    return this.http.delete(this.API_URI + '/Mensualidads/' + idMensualidad);
+    return this.http.delete(this.API_URI + '/mensualidads/' + idMensualidad);
   }
 }

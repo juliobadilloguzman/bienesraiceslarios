@@ -39,7 +39,7 @@
             <!-- Fecha Pago -->
             <ng-container matColumnDef="fechaPago">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha pago </th>
-                <td mat-cell *matCellDef="let row"> {{row.fechaPago | date: 'dd/MM/yyyy'}} </td>
+                <td mat-cell *matCellDef="let row"> {{row.fechaPago}} </td>
             </ng-container>
 
             <!-- Monto -->
@@ -59,9 +59,9 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Estatus </th>
                 <td mat-cell *matCellDef="let row">
                     <span class="badge text-white" [ngClass]="{
-                        'bg-primary': row.estatus === 'PAGADA',
-                        'bg-danger': row.estatus === 'NO PAGADA'
-                       }">{{row.estatus}}</span>
+                        'bg-primary': row.estatusPago === 'PAGADA',
+                        'bg-danger': row.estatusPago === 'NO PAGADA'
+                       }">{{row.estatusPago}}</span>
                 </td>
             </ng-container>
 
@@ -75,9 +75,9 @@
                     <button class="deleteButtonStyle cursorPointer" (click)="onAgregarEditarMensualidad('editar', row)">
                         <mat-icon class="btnEdit">edit</mat-icon>
                     </button>
-                    <button class="deleteButtonStyle cursorPointer" (click)="onDeleteMensualidad(row)">
+                    <!-- <button class="deleteButtonStyle cursorPointer" (click)="onDeleteMensualidad(row)">
                         <mat-icon class="btnDelete">delete</mat-icon>
-                    </button>
+                    </button> -->
                 </td>
             </ng-container>
 
@@ -90,7 +90,8 @@
             </tr>
 
         </table>
-        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+        <mat-paginator itemsPerPageLabel="Mensualidades por pagina" [pageSize]="48" [pageSizeOptions]="[5, 10, 25, 100]">
+        </mat-paginator>
     </div>
 
 </div>

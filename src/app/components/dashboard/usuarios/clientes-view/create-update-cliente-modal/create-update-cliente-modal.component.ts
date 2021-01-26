@@ -119,8 +119,9 @@ export class CreateUpdateClienteModalComponent implements OnInit {
     if (this.data.accion == 'editar') {
       this._usuariosService.getUsuario(this.data.row.idUsuario).subscribe(
         (response: Usuario) => {
+
           this.cliente = response;
-          console.warn(this.cliente);
+
           this.idUsuario.patchValue(this.cliente.idUsuario);
           this.oldEmail.patchValue(this.cliente.correo);
           this.email.patchValue(this.cliente.correo);
@@ -161,10 +162,8 @@ export class CreateUpdateClienteModalComponent implements OnInit {
 
   onSubmitForm() {
 
-    // if(this.clienteForm.valid)
-    //   return;
-
-    //console.log(this.clienteForm.value);
+    if (!this.clienteForm.valid)
+      return;
 
     if (this.data.accion == 'crear') {
 
@@ -175,7 +174,6 @@ export class CreateUpdateClienteModalComponent implements OnInit {
 
       this._authService.signUp(this.clienteForm.value).subscribe(
         (response) => {
-          console.log(response);
           if (response) {
             const modalInformation: Modal = {
               title: "Creado",
@@ -208,10 +206,10 @@ export class CreateUpdateClienteModalComponent implements OnInit {
       );
 
     } else {
+
       if (this.password.value == null || this.password.value == "") {
         this.password.setValue(null);
       }
-      console.warn('FORM', this.clienteForm.value);
 
       this._authService.updateAccount(this.clienteForm.value).subscribe(
         (response) => {
