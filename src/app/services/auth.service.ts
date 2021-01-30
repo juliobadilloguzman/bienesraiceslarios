@@ -24,7 +24,6 @@ export class AuthService {
   get isAuthenticated() {
     return this._account.asObservable().pipe(
       map(account => {
-        console.warn(account);
         if (account) {
           return !!account.token;
         } else {
@@ -92,6 +91,7 @@ export class AuthService {
   autoLogin() {
     return from(this.getStoredData()).pipe(
       map(storedData => {
+
         if (localStorage.getItem("authData") === null) {
           return null;
         }
@@ -169,8 +169,8 @@ export class AuthService {
     this._account.next(account);
     this.autoLogout(account.tokenDuration);
     this.storeAuthData(
-      accountData.idUsuario,
       accountData.idCuenta,
+      accountData.idUsuario,
       accountData.token,
       expirationTime.toISOString(),
       accountData.email,

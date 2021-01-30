@@ -15,6 +15,8 @@ export interface Terreno {
     diaPagoDel?: number;
     diaPagoAl?: number;
     pagoDeslinde: number;
+    fechaPagoDeslinde?: number;
+    montoDeslinde?: number;
     fechaPrimeraMensualidad?: string;
     comentariosAdicionales?: string;
     estatus: string;

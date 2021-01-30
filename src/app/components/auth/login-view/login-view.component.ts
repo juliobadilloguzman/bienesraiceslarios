@@ -12,6 +12,11 @@ export class LoginViewComponent implements OnInit {
 
   loginForm: FormGroup;
 
+  //Errors
+  accountNotFoundError: boolean = false;
+  notValidCredentials: boolean = false;
+  invalidFormat: boolean = false;
+
   constructor(
     private fb: FormBuilder,
     private _authService: AuthService,
@@ -33,18 +38,36 @@ export class LoginViewComponent implements OnInit {
     return this.loginForm.get('password') as FormControl;
   }
 
+  showErrors(control: FormControl): boolean {
+    const { dirty, touched, errors } = control;
+    return dirty && touched && !!errors;
+  }
+
   logIn(): void {
-    console.warn(this.loginForm.value);
+
+    this.accountNotFoundError = false;
+    this.notValidCredentials = false;
+    this.invalidFormat = false;
+
     this._authService.logIn(this.email.value, this.password.value).subscribe(
       (response) => {
         if (response) {
-          console.warn(response);
           //Navigate to the dashboard
           this.router.navigateByUrl('/dashboard');
         }
       },
       (error) => {
-        console.error(error);
+        switch (error.error.statusCode) {
+          case 404:
+            this.accountNotFoundError = true;
+            break;
+          case 401:
+            this.notValidCredentials = true
+            break;
+          case 400:
+            this.invalidFormat = true
+            break;
+        }
       }
     )
   }

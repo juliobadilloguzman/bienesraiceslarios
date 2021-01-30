@@ -12,13 +12,29 @@
             <mat-card-content class="container-form">
                 <mat-form-field appearance="fill">
                     <mat-label class="text-raleway">Correo</mat-label>
-                    <input type="text" autocomplete="off" formControlName="email" matInput placeholder="Introduzca su correo">
+                    <input type="text" formControlName="email" matInput placeholder="Introduzca su correo">
                 </mat-form-field>
+                <!-- Errors -->
+                <div *ngIf="showErrors(email)">
+                    <p class="text-semibold text-danger" *ngIf="email.errors.required">El campo es requerido</p>
+                    <p class="text-semibold text-danger" *ngIf="email.errors.email">Formato inválido</p>
+                </div>
                 <mat-form-field appearance="fill">
                     <mat-label class="text-raleway">Contraseña</mat-label>
                     <input type="password" formControlName="password" matInput placeholder="Introduzca su contraseña">
                 </mat-form-field>
-
+                <!-- Errors -->
+                <div *ngIf="showErrors(password)">
+                    <p class="text-semibold text-danger" *ngIf="password.errors.required">El campo es requerido</p>
+                    <p class="text-semibold text-danger" *ngIf="password.errors.minlength">Se requieren mínimo 6 caractéres
+                    </p>
+                </div>
+                <ng-container>
+                    <p class="text-semibold text-danger text-center" *ngIf="accountNotFoundError">No existe una cuenta asociada a este correo</p>
+                    <p class="text-semibold text-danger text-center" *ngIf="notValidCredentials">La contraseña es incorrecta
+                    </p>
+                    <p class="text-semibold text-danger text-center" *ngIf="invalidFormat">El correo no es válido</p>
+                </ng-container>
                 <span class="text-primary text-center m-auto text-semibold text-raleway cursorPointer" matTooltip="Solicítala en las oficinas o comunícate con nosotros por cualquier medio">No tienes una
                     cuenta?</span>
             </mat-card-content>

@@ -23,7 +23,11 @@ export class ClientesViewComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private _usuariosService: UsuariosService, private dialog: MatDialog, private _uiActionsService: UiActionsService) { }
+  constructor(
+    private _usuariosService: UsuariosService,
+    private dialog: MatDialog,
+    private _uiActionsService: UiActionsService
+  ) { }
 
   ngOnInit(): void {
     this.getClientes();
@@ -45,7 +49,7 @@ export class ClientesViewComponent implements OnInit {
         }
         this._uiActionsService.openConfirmationDialog(modalInformation);
       }
-    )
+    );
   }
 
   onViewCliente(row: Usuario): void {
@@ -54,7 +58,7 @@ export class ClientesViewComponent implements OnInit {
       data: {
         row: row
       }
-    })
+    });
   }
 
   onAgregarEditarCliente(accion: string, row?: Usuario): void {

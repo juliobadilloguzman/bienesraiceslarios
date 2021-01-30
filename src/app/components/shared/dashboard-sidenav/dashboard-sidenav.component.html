@@ -1,9 +1,17 @@
 <mat-nav-list class="paddingless sidenav-container">
     <div>
+
         <mat-list-item (click)="toggle()" routerLink="/dashboard/home" class="responsive">
             <div class="sidenav-item">
                 <mat-icon class="icon">description</mat-icon>
                 <span class="title">Inicio</span>
+            </div>
+        </mat-list-item>
+
+        <mat-list-item class="responsive" (click)="navigate('/dashboard/mi-cuenta')">
+            <div class="sidenav-item">
+                <mat-icon class="icon">person_pin</mat-icon>
+                <a class="text-raleway text-semibold title" class="title">Mi Cuenta</a>
             </div>
         </mat-list-item>
 
@@ -55,7 +63,7 @@
         </ng-container>
 
         <ng-container *ngIf="isCliente()">
-            <mat-list-item class="responsive" (click)="navigate('/dashboard/terrenos')">
+            <mat-list-item class="responsive" (click)="navigate('/dashboard/terrenos/mis-terrenos')">
                 <div class="sidenav-item">
                     <mat-icon class="icon">local_florist</mat-icon>
                     <a class="text-raleway text-semibold title" class="title">Mis Terrenos</a>

@@ -17,11 +17,15 @@ import { PreviewClienteModalComponent } from './clientes-view/preview-cliente-mo
 import { CreateUpdateClienteModalComponent } from './clientes-view/create-update-cliente-modal/create-update-cliente-modal.component';
 import { AdministradoresViewComponent } from './administradores-view/administradores-view.component';
 import { CapturistasViewComponent } from './capturistas-view/capturistas-view.component';
+import { PreviewAdministradorModalComponent } from './administradores-view/preview-administrador-modal/preview-administrador-modal.component';
+import { CreateUpdateAdministradorModalComponent } from './administradores-view/create-update-administrador-modal/create-update-administrador-modal.component';
+import { PreviewCapturistaModalComponent } from './capturistas-view/preview-capturista-modal/preview-capturista-modal.component';
+import { CreateUpdateCapturistaModalComponent } from './capturistas-view/create-update-capturista-modal/create-update-capturista-modal.component';
 
 
 @NgModule({
-  entryComponents: [CreateUpdateVendedorModalComponent, ModalConfirmationComponent, YesNoModalComponent, PreviewVendedorModalComponent, PreviewClienteModalComponent, CreateUpdateClienteModalComponent],
-  declarations: [VendedoresViewComponent, ClientesViewComponent, CreateUpdateVendedorModalComponent, PreviewVendedorModalComponent, PreviewClienteModalComponent, CreateUpdateClienteModalComponent, AdministradoresViewComponent, CapturistasViewComponent],
+  entryComponents: [CreateUpdateVendedorModalComponent, ModalConfirmationComponent, YesNoModalComponent, PreviewVendedorModalComponent, PreviewClienteModalComponent, CreateUpdateClienteModalComponent, PreviewAdministradorModalComponent, CreateUpdateAdministradorModalComponent, CreateUpdateCapturistaModalComponent, PreviewCapturistaModalComponent],
+  declarations: [VendedoresViewComponent, ClientesViewComponent, CreateUpdateVendedorModalComponent, PreviewVendedorModalComponent, PreviewClienteModalComponent, CreateUpdateClienteModalComponent, AdministradoresViewComponent, CapturistasViewComponent, PreviewAdministradorModalComponent, CreateUpdateAdministradorModalComponent, PreviewCapturistaModalComponent, CreateUpdateCapturistaModalComponent],
   imports: [
     CommonModule,
     UsuariosRoutingModule,

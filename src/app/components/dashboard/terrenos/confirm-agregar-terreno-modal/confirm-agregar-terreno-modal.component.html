@@ -78,7 +78,12 @@
                         <td><span [ngClass]="{
                             'text-danger': data.form.pagoDeslinde == 0,
                             'text-secondary': data.form.pagoDeslinde == 1
-                           }">{{(data.form.pagoDeslinde == 1) ? 'Pagado' : 'NO Pagado'}}</span></td>
+                           }">{{(data.form.pagoDeslinde == 1) ? 'Pagado' : 'NO Pagado'}}
+                            </span>
+                            <span *ngIf="data.form.pagoDeslinde == 1"> la fecha </span>
+                            <span class="text-semibold">{{data.form.fechaPagoDeslinde}}
+                            </span> con un monto de <span class="text-semibold text-secondary">{{data.form.montoDeslinde | currency}}</span>
+                        </td>
                     </tr>
                 </tbody>
             </table>

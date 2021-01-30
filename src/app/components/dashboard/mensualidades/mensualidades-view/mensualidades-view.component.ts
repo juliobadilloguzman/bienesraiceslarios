@@ -13,6 +13,7 @@ import { UiActionsService } from 'src/app/services/ui-actions.service';
 import { Modal, ModalType, ModalResponse } from 'src/app/models/modal';
 import { PreviewMensualidadModalComponent } from '../preview-mensualidad-modal/preview-mensualidad-modal.component';
 import { CreateUpdateMensualidadModalComponent } from '../create-update-mensualidad-modal/create-update-mensualidad-modal.component';
+import { DownloadService } from 'src/app/services/download.service';
 
 @Component({
   selector: 'app-mensualidades-view',
@@ -23,14 +24,22 @@ export class MensualidadesViewComponent implements OnInit {
 
   state$: Observable<object>;
   terreno: Terreno;
+  mensualidades: Mensualidad[];
 
-  displayedColumns: string[] = ['numeroMensualidad', 'fechaPago', 'monto', 'mes', 'estatus', 'acciones'];
+  displayedColumns: string[] = ['numeroMensualidad', 'fechaPago', 'monto', 'mes', 'interes', 'estatus', 'acciones'];
   dataSource: MatTableDataSource<Mensualidad>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private router: Router, public route: ActivatedRoute, private _mensualidadesService: MensualidadesService, public dialog: MatDialog, private _uiActionsService: UiActionsService) { }
+  constructor(
+    private router: Router,
+    public route: ActivatedRoute,
+    private _mensualidadesService: MensualidadesService,
+    public dialog: MatDialog,
+    private _uiActionsService: UiActionsService,
+    private _downloadService: DownloadService
+  ) { }
 
   ngOnInit(): void {
     this.state$ = this.route.paramMap.pipe(map(() => window.history.state));
@@ -57,10 +66,21 @@ export class MensualidadesViewComponent implements OnInit {
   getMensualidades(): void {
     this._mensualidadesService.getMensualidadesFromTerreno(this.terreno.idTerreno).subscribe(
       (response: Mensualidad[]) => {
-        console.warn(response);
-        this.dataSource = new MatTableDataSource(response);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        if (response) {
+          this.dataSource = new MatTableDataSource(response);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+          this.mensualidades = response;
+          console.warn('mensualidades', this.mensualidades);
+        } else {
+          const modalInformation: Modal = {
+            title: "Error",
+            message: "Error al cargar la información, verifique su conexión a internet e inténtelo de nuevo",
+            type: ModalType.confirmation,
+            response: ModalResponse.failed
+          }
+          this._uiActionsService.openConfirmationDialog(modalInformation);
+        }
       },
       (error) => {
         const modalInformation: Modal = {
@@ -80,7 +100,7 @@ export class MensualidadesViewComponent implements OnInit {
       data: {
         row: row
       }
-    })
+    });
   }
 
   onAgregarEditarMensualidad(accion: string, row?: Mensualidad): void {
@@ -97,6 +117,12 @@ export class MensualidadesViewComponent implements OnInit {
   }
 
   onDeleteMensualidad(mensualidad: Mensualidad) {
+
+  }
+
+  generarReporte() {
+    console.log('generando.....');
+    this._downloadService.generateEstadoCuentaPdf(this.mensualidades);
 
   }
 

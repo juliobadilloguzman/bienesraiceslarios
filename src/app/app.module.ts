@@ -8,6 +8,7 @@ import { AuthModule } from './components/auth/auth.module';
 import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
+import { CurrencyPipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
     NgbModule,
     NgxSpinnerModule
   ],
-  providers: [NgxSpinnerService],
+  providers: [NgxSpinnerService, CurrencyPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

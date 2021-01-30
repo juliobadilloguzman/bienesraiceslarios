@@ -30,7 +30,7 @@ export class CreateUpdateFraccionamientoModalComponent implements OnInit {
       idFraccionamiento: [],
       nombre: ['', [Validators.required]],
       regimen: [null, [Validators.required]],
-      estatus: []
+      estatus: ['ACTIVO']
     });
 
   }

@@ -11,7 +11,9 @@
                 <li class="cursorPointer"><a (click)="scrollTo(services)" class="text-white text-raleway no-underline cursorPointer">Servicios</a></li>
                 <li class="cursorPointer"><a (click)="scrollTo(terrenos)" class="text-white text-raleway no-underline cursorPointer">Terrenos</a></li>
                 <li class="cursorPointer"><a (click)="scrollTo(contact)" class="text-white text-raleway no-underline cursorPointer">Contacto</a></li>
-                <li class="cursorPointer"><a routerLink="/login" class="btn-white no-underline">Iniciar Sesión</a></li>
+                <li class="cursorPointer" *ngIf="!isAuthenticated"><a routerLink="/login" class="btn-white no-underline">Iniciar Sesión</a></li>
+                <li class="cursorPointer" *ngIf="isAuthenticated"><button (click)="logOut()" class="btn-danger no-underline">Cerrar
+                        Sesión</button></li>
             </ul>
         </div>
     </div>
@@ -64,10 +66,12 @@
         <div class="text-about">
             <div class="container-title">
                 <h3 class="text-primary text-semibold text-raleway no-margin title">¿Quiénes Sómos?</h3>
-                <h4 class="text-gray text-raleway text-semibold no-margin subtitle">Tenemos más de 35 años de experiencia.</h4>
+                <h4 class="text-gray text-raleway text-semibold no-margin subtitle">Tenemos más de 35 años de experiencia.
+                </h4>
                 <p class="text-gray text-raleway text-justify paragraph">Bienes Raíces Larios es el nombre de nuestra empresa que desde 1980 ha creado un gran impacto en el ramo de Bienes Raíces, recogiendo la experiencia de varias generaciones.</p>
                 <p class="text-gray text-raleway text-justify paragraph">Actualmente somos la empresa líder en su ramo dedicada a la venta de terrenos, construcción en general y diseño de planos arquitectónicos.</p>
-                <p class="text-gray text-raleway text-justify paragraph">Contamos con más de 35 años de experiencia y tenemos un equipo multidisciplinario que hará que tu experiencia con nosotros sea de lo más agradable.</p>
+                <p class="text-gray text-raleway text-justify paragraph">Contamos con más de 35 años de experiencia y tenemos un equipo multidisciplinario que hará que tu experiencia con nosotros sea de lo más agradable.
+                </p>
                 <div class="container-button">
                     <button class="btn-primary" (click)="scrollTo(contact)">Contáctanos</button>
                 </div>
@@ -129,7 +133,8 @@
         <div class="container-services">
             <div class="service-one__single text-center" (click)="openServiceModal('terrenos')">
                 <div class="service-one__inner">
-                    <i class="service-one__icon dimon-icon-laptop"><span class="material-icons icon-service">home</span></i>
+                    <i class="service-one__icon dimon-icon-laptop"><span
+                            class="material-icons icon-service">home</span></i>
                     <h3 class="text-raleway text-semibold">Venta de terrenos</h3>
                     <p>Descubre <br> tu próximo <br> patrimonio.</p>
                     <a class="icon-arrow-a"><span class="material-icons icon-arrow ">east</span></a>
@@ -138,7 +143,8 @@
 
             <div class="service-one__single text-center" (click)="openServiceModal('planos')">
                 <div class="service-one__inner">
-                    <i class="service-one__icon dimon-icon-laptop"><span class="material-icons icon-service">architecture</span></i>
+                    <i class="service-one__icon dimon-icon-laptop"><span
+                            class="material-icons icon-service">architecture</span></i>
                     <h3 class="text-raleway text-semibold">Planos arquitectónicos</h3>
                     <p>Déjanos plasmar <br> el inicio <br> tu sueño.</p>
                     <a class="icon-arrow-a"><span class="material-icons icon-arrow ">east</span></a>
@@ -147,7 +153,8 @@
 
             <div class="service-one__single text-center" (click)="openServiceModal('construccion')">
                 <div class="service-one__inner">
-                    <i class="service-one__icon dimon-icon-laptop"><span class="material-icons icon-service">home_work</span></i>
+                    <i class="service-one__icon dimon-icon-laptop"><span
+                            class="material-icons icon-service">home_work</span></i>
                     <h3 class="text-raleway text-semibold">Construcción</h3>
                     <p>Haz realidad <br> tu proyecto <br> que siempre soñaste.</p>
                     <a class="icon-arrow-a"><span class="material-icons icon-arrow ">east</span></a>
@@ -178,7 +185,8 @@
                     <p class="text-justify text-montserrat description-fraccionamiento">Real del Valle es un desarrollo inmobiliario en Yecapixtla "La Capital de la Cecina" a solo 5 minutos del centro de Yecapixtla, ubicado en un punto estratégico en medio de Cuautla y Yecapixtla, a 15 minutos de Oaxtepec. Con una impresionane
                         vista e ideal para construir tu patrimonio en este Pueblo con encanto.</p>
                     <div class="container-button">
-                        <button class="btn-secondary" (click)="openFraccionamientoModal('realdelvalle')">Conoce más</button>
+                        <button class="btn-secondary" (click)="openFraccionamientoModal('realdelvalle')">Conoce
+                            más</button>
                     </div>
                 </div>
                 <div class="bg-fraccionamientoreal bg-fraccionamiento"></div>
@@ -190,7 +198,8 @@
                     <h6 class="text-raleway location">Yecapixtla, Morelos</h6>
                     <p class="text-justify text-montserrat description-fraccionamiento">Lomas de Yecapixtla es un desarrollo inmobiliario en Yecapixtla "La Capital de la Cecina", este fraccionamiento se encuentra a tan solo 3 minutos del centro de Yecapixtla, a 10 minutos de Cuautla. Ubicado a pie de carretera.</p>
                     <div class="container-button">
-                        <button class="btn-secondary" (click)="openFraccionamientoModal('lomasyeca')">Conoce más</button>
+                        <button class="btn-secondary" (click)="openFraccionamientoModal('lomasyeca')">Conoce
+                            más</button>
                     </div>
                 </div>
             </div>
@@ -201,7 +210,8 @@
                     <p class="text-justify text-montserrat description-fraccionamiento">Pedregal de Cocoyoc es desarrollo inmobiliario exclusivo en Oaxtepec, Morelos. Colinda con Lomas de Cocoyoc, lo que lo hace tener una alta plusvalía. Además, está en una excelente ubicación, teniendo instituciones educativas, restaurantes,
                         y atracciones como el Six Flas Hurricane Harbor a menos de 10 minutos.</p>
                     <div class="container-button">
-                        <button class="btn-secondary" (click)="openFraccionamientoModal('pedregalcocoyoc')">Conoce más</button>
+                        <button class="btn-secondary" (click)="openFraccionamientoModal('pedregalcocoyoc')">Conoce
+                            más</button>
                     </div>
                 </div>
                 <div class="bg-pedregal bg-fraccionamiento"></div>
@@ -222,14 +232,16 @@
                         ¿Cuál es el proceso para ver los terrenos?
                     </mat-panel-title>
                 </mat-expansion-panel-header>
-                <p>El proceso para ver los terrenos es muy sencillo, basta con hacer una cita por el medio que gustes:</p>
+                <p>El proceso para ver los terrenos es muy sencillo, basta con hacer una cita por el medio que gustes:
+                </p>
                 <ul>
                     <li><span class="text-semibold">A WhatsApp: </span><a target="_blank" href="https://wa.me/message/7JLBCCJEHOUIG1">https://wa.me/message/7JLBCCJEHOUIG1</a></li>
                     <li><span class="text-semibold">A los números:</span> (55) 49-81-45-52 o (55) 63-53-04-94</li>
                     <li><span class="text-semibold">Al correo:</span> raiceslarios@gmail.com</li>
                     <li><span class="text-semibold">Inbox en nuestra página:</span> <a href="https://www.facebook.com/bienesraiceslarios" target="_blank">https://www.facebook.com/bienesraiceslarios</a></li>
                 </ul>
-                <p>Después de hacer tu cita, te esperamos en nuestras oficinas, ubicadas a 300 metros pasando los arcos de Bienvenida a Yecapixtla, justo a lado de un local de cementos Cruz Azul. <a href="https://goo.gl/maps/ZZFCmMxbjGh5GbMD8" target="_blank">Click aquí para abrir el mapa con la ubicación exacta.</a>
+                <p>Después de hacer tu cita, te esperamos en nuestras oficinas, ubicadas a 300 metros pasando los arcos de Bienvenida a Yecapixtla, justo a lado de un local de cementos Cruz Azul. <a href="https://goo.gl/maps/ZZFCmMxbjGh5GbMD8" target="_blank">Click aquí para abrir el mapa con
+                        la ubicación exacta.</a>
                 </p>
                 <p>Finalmente, en nuestras oficinas resolveremos todas las dudas que tengas y te llevaremos a ver los terrenos sin compromiso.</p>
             </mat-expansion-panel>
@@ -336,7 +348,8 @@
                     </div>
                     <div class="info-container">
                         <h6 class="no-margin title-text text-raleway text-semibold">Ubicación</h6>
-                        <p class="information-text text-raleway">Carretera Cuautla Yecapixtla S/N, 62820 Yecapixtla, Mor.</p>
+                        <p class="information-text text-raleway">Carretera Cuautla Yecapixtla S/N, 62820 Yecapixtla, Mor.
+                        </p>
                     </div>
                 </div>
                 <div class="container-individual">
@@ -376,10 +389,12 @@
             <a class="text-white text-raleway" rel="license" href="http://creativecommons.org/licenses/by-nd/4.0/">
                 <img alt="Licencia Creative Commons" style="border-width:0" class="logo-license" src="https://i.creativecommons.org/l/by-nd/4.0/88x31.png" />
             </a>
-            <p class="text-white text-raleway text-center">Esta obra está bajo una <br><a target="_blank" rel="license" class="text-white text-raleway text-semibold" href="http://creativecommons.org/licenses/by-nd/4.0/">Licencia Creative Commons Atribución-SinDerivadas 4.0 Internacional</a>.</p>
+            <p class="text-white text-raleway text-center">Esta obra está bajo una <br><a target="_blank" rel="license" class="text-white text-raleway text-semibold" href="http://creativecommons.org/licenses/by-nd/4.0/">Licencia Creative Commons
+                    Atribución-SinDerivadas 4.0 Internacional</a>.</p>
         </div>
 
         <p class="text-raleway text-white footer-text">Bienes Raíces Larios | 2020</p>
-        <a href="https://www.facebook.com/bienesraiceslarios" target="_blank"><span class="material-icons icon-facebook text-white">facebook</span></a>
+        <a href="https://www.facebook.com/bienesraiceslarios" target="_blank"><span
+                class="material-icons icon-facebook text-white">facebook</span></a>
     </div>
 </footer>

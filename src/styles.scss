@@ -223,6 +223,14 @@ body {
     @include btnHover;
 }
 
+.btn-info {
+    @include btn(#17a2b8, #fff);
+}
+
+.btn-info:hover {
+    @include btnHover;
+}
+
 .btn-gray {
     @include btn(#a5a5a5, #fff);
 }

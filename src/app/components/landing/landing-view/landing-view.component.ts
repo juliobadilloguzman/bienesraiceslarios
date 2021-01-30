@@ -6,6 +6,9 @@ import { ServiceLanding } from '../../../models/LandingPage/service-landing';
 import { FraccionamientoModalComponent } from '../modals/fraccionamiento-modal/fraccionamiento-modal.component';
 import { FraccionamientoLanding } from 'src/app/models/LandingPage/fraccionamiento-landing';
 import { VideoModalComponent } from '../modals/video-modal/video-modal.component';
+import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-landing-view',
@@ -15,10 +18,12 @@ import { VideoModalComponent } from '../modals/video-modal/video-modal.component
 export class LandingViewComponent implements OnInit {
 
   @ViewChild(MapInfoWindow, { static: false }) info: MapInfoWindow;
-  
+
   zoom: number = 12;
 
   center: google.maps.LatLngLiteral;
+
+  isAuthenticated: boolean = true;
 
   options: google.maps.MapOptions = {
     zoomControl: false,
@@ -48,15 +53,24 @@ export class LandingViewComponent implements OnInit {
 
   serviceTerrenos: ServiceLanding;
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private _authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
+
     navigator.geolocation.getCurrentPosition((position) => {
       this.center = {
         lat: 18.893112,
         lng: -98.898506,
       }
     });
+
+    this._authService.isAuthenticated.pipe(take(1)).subscribe(res => console.log(res));
+
+    if (localStorage.getItem('authData') == undefined)
+      this.isAuthenticated = false;
+
+    console.warn(this.isAuthenticated);
+
   }
 
   openInfo(marker: MapMarker, content) {
@@ -68,37 +82,37 @@ export class LandingViewComponent implements OnInit {
     console.log(event)
   }
 
-  openServiceModal(service: string): void{
+  openServiceModal(service: string): void {
 
     switch (service) {
       case 'terrenos':
-          this.serviceTerrenos =  {
-            name: 'Venta de Terrenos',
-            description: 'Confía en nosotros para adquirir tu próximo terreno en el estado de Morelos. Tenemos más de 35 años que nos respaldan. La tierra es el inicio de lo que puede ser la casa o el negocio de tus sueños.'
-          };
-          break;
+        this.serviceTerrenos = {
+          name: 'Venta de Terrenos',
+          description: 'Confía en nosotros para adquirir tu próximo terreno en el estado de Morelos. Tenemos más de 35 años que nos respaldan. La tierra es el inicio de lo que puede ser la casa o el negocio de tus sueños.'
+        };
+        break;
       case 'construccion':
-        this.serviceTerrenos =  {
+        this.serviceTerrenos = {
           name: 'Construcción',
           description: 'Haz realidad la casa o negocio de tus sueños con nosotros.'
         };
-          break;
+        break;
       case 'planos':
-        this.serviceTerrenos =  {
+        this.serviceTerrenos = {
           name: 'Planos Arquitectónicos',
           description: 'Permítenos plasmar tu sueño en una hoja de papel, para que sea el inicio de llevar a la realidad la casa de tus sueños.'
         };
-          break;
-  }
+        break;
+    }
 
     this.dialog.open(ServiceModalComponent, {
       width: '600px',
-      data: {servicio: this.serviceTerrenos}
+      data: { servicio: this.serviceTerrenos }
     });
-    
+
   }
 
-  openFraccionamientoModal(name: string): void{
+  openFraccionamientoModal(name: string): void {
 
     let fraccionamiento: FraccionamientoLanding;
 
@@ -119,7 +133,7 @@ export class LandingViewComponent implements OnInit {
           priceList: '/assets/img/fraccionamientos/lomasyeca/priceList.jpg',
           location: 'https://goo.gl/maps/CfVCzL5hvUtQ7egj8'
         }
-      break;
+        break;
 
       case 'pedregalcocoyoc':
         fraccionamiento = {
@@ -128,30 +142,32 @@ export class LandingViewComponent implements OnInit {
           priceList: '/assets/img/fraccionamientos/pedregalcocoyoc/priceList.jpg',
           location: 'https://www.google.com/maps?q=18.928638,-98.947364&hl=es&gl=us&shorturl=1'
         }
-      break;
+        break;
       default:
         break;
     }
 
     this.dialog.open(FraccionamientoModalComponent, {
       width: '800px',
-      data: {fraccionamiento}
+      data: { fraccionamiento }
     });
   }
 
-  openPromotionalVideo(): void{
-
+  openPromotionalVideo(): void {
     this.dialog.open(VideoModalComponent, {
       width: '800px',
       data: {}
     });
-
   }
 
 
   scrollTo(el: HTMLElement) {
-    el.scrollIntoView({behavior: 'smooth'});
+    el.scrollIntoView({ behavior: 'smooth' });
   }
 
+  logOut() {
+    this._authService.logOut();
+    this.isAuthenticated = false;
+  }
 
 }

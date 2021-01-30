@@ -10,6 +10,14 @@ const routes: Routes = [
     component: DashboardViewComponent,
     children: [
       {
+        path: '',
+        loadChildren: () => import('./home/home.module').then(m => m.HomeModule)
+      },
+      {
+        path: 'mi-cuenta',
+        loadChildren: () => import('./mi-cuenta/mi-cuenta.module').then(m => m.MiCuentaModule)
+      },
+      {
         path: 'terrenos',
         loadChildren: () => import('./terrenos/terrenos.module').then(m => m.TerrenosModule)
       },

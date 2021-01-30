@@ -19,7 +19,13 @@
                     {{terreno.usuario.apellidoPaterno}} {{terreno.usuario.apellidoMaterno}}</span></h4>
         </div>
         <div style="display: flex; flex-direction: column;">
-            <button class="btn btn-primary" (click)="onAgregarEditarMensualidad('crear')">Agregar Mensualidad</button>
+            <button class="btn btn-primary" style="margin-bottom: 0.3rem;" (click)="onAgregarEditarMensualidad('crear')">Agregar
+                Mensualidad</button>
+            <ng-container *ngIf="mensualidades">
+                <ng-container *ngIf="mensualidades.length > 0">
+                    <button class="btn btn-info" (click)="generarReporte()">Generar Estado de cuenta</button>
+                </ng-container>
+            </ng-container>
         </div>
     </div>
 
@@ -43,15 +49,23 @@
             </ng-container>
 
             <!-- Monto -->
+            <!-- Monto -->
             <ng-container matColumnDef="monto">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Monto </th>
-                <td mat-cell *matCellDef="let row"> {{row.monto | currency}} </td>
+                <td mat-cell *matCellDef="let row"> <span class="text-semibold text-secondary">
+                        {{row.monto | currency}}</span> </td>
             </ng-container>
 
             <!-- Mes -->
             <ng-container matColumnDef="mes">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Mes </th>
                 <td mat-cell *matCellDef="let row"> {{row.mes}} </td>
+            </ng-container>
+
+            <!-- Interes -->
+            <ng-container matColumnDef="interes">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Intereses </th>
+                <td mat-cell *matCellDef="let row"> {{row.interes}} </td>
             </ng-container>
 
             <!-- Mes -->

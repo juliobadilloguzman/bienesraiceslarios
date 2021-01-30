@@ -25,6 +25,24 @@ export class UsuariosService {
 
   }
 
+  getAdministradores(): Observable<Usuario[]> {
+
+    let params = new HttpParams();
+    params = params.append('rol', 'administradores');
+
+    return this.http.get<Usuario[]>(this.API_URI + '/usuarios', { params: params });
+
+  }
+
+  getCapturistas(): Observable<Usuario[]> {
+
+    let params = new HttpParams();
+    params = params.append('rol', 'capturistas');
+
+    return this.http.get<Usuario[]>(this.API_URI + '/usuarios', { params: params });
+
+  }
+
   getUsuario(idUsuario: number): Observable<Usuario> {
     return this.http.get<Usuario>(this.API_URI + '/usuarios/' + idUsuario);
   }

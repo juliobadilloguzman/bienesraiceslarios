@@ -18,6 +18,8 @@ export class CreateUpdateMensualidadModalComponent implements OnInit {
   mensualidadForm: FormGroup;
   mensualidad: Mensualidad;
 
+  tieneInteres: boolean = false;
+
   constructor(
     public dialogRef: MatDialogRef<CreateUpdateMensualidadModalComponent>,
     @Inject(MAT_DIALOG_DATA)
@@ -34,12 +36,14 @@ export class CreateUpdateMensualidadModalComponent implements OnInit {
     this.mensualidadForm = this.fb.group({
       idMensualidad: [],
       numeroMensualidad: [null, [Validators.required]],
+      numeroRecibo: [null],
       fechaPago: [null, [Validators.required]],
       monto: [null, [Validators.required]],
       cantidadConLetra: [null],
       mes: [null, [Validators.required]],
       formaPago: [null, [Validators.required]],
       estatusPago: [],
+      interes: [],
       estatus: [null],
       terrenoIdTerreno: [null]
     });
@@ -51,6 +55,10 @@ export class CreateUpdateMensualidadModalComponent implements OnInit {
 
   get numeroMensualidad() {
     return this.mensualidadForm.get('numeroMensualidad') as FormControl;
+  }
+
+  get numeroRecibo() {
+    return this.mensualidadForm.get('numeroRecibo') as FormControl;
   }
 
   get fechaPago() {
@@ -81,17 +89,29 @@ export class CreateUpdateMensualidadModalComponent implements OnInit {
     return this.mensualidadForm.get('estatus') as FormControl;
   }
 
+  get interes() {
+    return this.mensualidadForm.get('interes') as FormControl;
+  }
+
   get terrenoIdTerreno() {
     return this.mensualidadForm.get('terrenoIdTerreno') as FormControl;
   }
 
   ngOnInit(): void {
 
+    //Disable Estatus si la mensalidad esta pagada
+    if (this.data.accion == 'editar' && this.data.row.estatusPago == 'PAGADA') {
+      this.estatusPago.disable();
+    }
+
     //Patch id Terreno value
     this.terrenoIdTerreno.patchValue(this.data.idTerreno);
 
     //Patch monto mensualidad
     this.monto.patchValue(this.data.montoMensualidad);
+
+    //Patch interes
+    this.interes.patchValue(this.data.montoMensualidad * .10);
 
     console.warn('DATA', this.data);
 
@@ -128,6 +148,10 @@ export class CreateUpdateMensualidadModalComponent implements OnInit {
     //Patch fechas
     this.fechaPago.patchValue(moment(this.fechaPago.value).format("DD/MM/YYYY"));
 
+    if (!this.tieneInteres) {
+      this.interes.patchValue(null);
+    }
+
     if (this.data.accion == 'crear') {
       this.mensualidadForm.removeControl('idMensualidad');
       this._mensualidadService.createMensualidad(this.mensualidadForm.value).subscribe(
@@ -143,12 +167,20 @@ export class CreateUpdateMensualidadModalComponent implements OnInit {
             this._uiActionsService.openConfirmationDialog(modalInformation);
             this.dialogRef.close();
             this.mensualidadForm.reset();
+          } else {
+            const modalInformation: Modal = {
+              title: "Error",
+              message: "Hubo un error al agregar la mensualidad, inténtelo de nuevo.",
+              type: ModalType.confirmation,
+              response: ModalResponse.failed
+            }
+            this._uiActionsService.openConfirmationDialog(modalInformation);
           }
         },
         (error) => {
           const modalInformation: Modal = {
             title: "Error",
-            message: "Hubo un error al agregar la mensualidad, inténtelo de nuevo.",
+            message: "Error al cargar la informacion, verifique su conexion a internet e inténtelo de nuevo",
             type: ModalType.confirmation,
             response: ModalResponse.failed
           }
@@ -157,6 +189,14 @@ export class CreateUpdateMensualidadModalComponent implements OnInit {
       );
     } else {
 
+    }
+  }
+
+  onSetInteres(checked: boolean) {
+    if (checked) {
+      this.tieneInteres = true;
+    } else {
+      this.tieneInteres = false;
     }
   }
 

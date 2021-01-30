@@ -10,11 +10,12 @@ import { CreateUpdateMensualidadModalComponent } from './create-update-mensualid
 import { YesNoModalComponent } from '../../shared/yes-no-modal/yes-no-modal.component';
 import { ModalConfirmationComponent } from '../../shared/modal-confirmation/modal-confirmation.component';
 import { UiActionsService } from 'src/app/services/ui-actions.service';
+import { MisMensualidadesViewComponent } from './cliente/mis-mensualidades-view/mis-mensualidades-view.component';
 
 
 @NgModule({
   entryComponents: [PreviewMensualidadModalComponent, YesNoModalComponent, ModalConfirmationComponent, CreateUpdateMensualidadModalComponent, ModalConfirmationComponent],
-  declarations: [MensualidadesViewComponent, PreviewMensualidadModalComponent, CreateUpdateMensualidadModalComponent],
+  declarations: [MensualidadesViewComponent, PreviewMensualidadModalComponent, CreateUpdateMensualidadModalComponent, MisMensualidadesViewComponent],
   imports: [
     CommonModule,
     MensualidadesRoutingModule,

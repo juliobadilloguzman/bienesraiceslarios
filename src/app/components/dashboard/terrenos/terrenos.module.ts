@@ -14,11 +14,12 @@ import { UiActionsService } from 'src/app/services/ui-actions.service';
 import { CreateUpdateVendedorModalComponent } from '../usuarios/vendedores-view/create-update-vendedor-modal/create-update-vendedor-modal.component';
 import { ConfirmAgregarTerrenoModalComponent } from './confirm-agregar-terreno-modal/confirm-agregar-terreno-modal.component';
 import { CreateUpdateClienteModalComponent } from '../usuarios/clientes-view/create-update-cliente-modal/create-update-cliente-modal.component';
+import { MisTerrenosViewComponent } from './cliente/mis-terrenos-view/mis-terrenos-view.component';
 
 
 @NgModule({
   entryComponents: [ModalConfirmationComponent, YesNoModalComponent, CreateUpdateVendedorModalComponent, ConfirmAgregarTerrenoModalComponent, CreateUpdateClienteModalComponent],
-  declarations: [TerrenosViewComponent, AgregarTerrenoViewComponent, ConfirmAgregarTerrenoModalComponent],
+  declarations: [TerrenosViewComponent, AgregarTerrenoViewComponent, ConfirmAgregarTerrenoModalComponent, MisTerrenosViewComponent],
   imports: [
     CommonModule,
     TerrenosRoutingModule,

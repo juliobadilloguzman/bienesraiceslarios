@@ -15,7 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DateAdapter } from '@angular/material/core';
 import * as moment from 'moment';
 import { ConfirmAgregarTerrenoModalComponent } from '../confirm-agregar-terreno-modal/confirm-agregar-terreno-modal.component';
-import { Usuario } from 'src/app/models/usuario';
+import { Usuario } from 'src/app/models/usuario'
 import { CreateUpdateClienteModalComponent } from '../../usuarios/clientes-view/create-update-cliente-modal/create-update-cliente-modal.component';
 import { Router } from '@angular/router';
 
@@ -33,6 +33,7 @@ export class AgregarTerrenoViewComponent implements OnInit {
 
   terrenoForm: FormGroup;
   pagoDeContado: boolean = false;
+  deslindePagado: boolean = false;
   fraccionamientos: Fraccionamiento[];
 
   //Filter Vendedores
@@ -87,6 +88,8 @@ export class AgregarTerrenoViewComponent implements OnInit {
       diaPagoDel: [],
       diaPagoAl: [],
       pagoDeslinde: [0],
+      fechaPagoDeslinde: [],
+      montoDeslinde: [null],
       fechaPrimeraMensualidad: [],
       comentariosAdicionales: [],
       fraccionamientoIdFraccionamiento: [],
@@ -158,6 +161,14 @@ export class AgregarTerrenoViewComponent implements OnInit {
 
   get pagoDeslinde() {
     return this.terrenoForm.get('pagoDeslinde') as FormControl;
+  }
+
+  get fechaPagoDeslinde() {
+    return this.terrenoForm.get('fechaPagoDeslinde') as FormControl;
+  }
+
+  get montoDeslinde() {
+    return this.terrenoForm.get('montoDeslinde') as FormControl;
   }
 
   get fechaPrimeraMensualidad() {
@@ -253,8 +264,18 @@ export class AgregarTerrenoViewComponent implements OnInit {
 
   getFraccionamientos() {
     this._fraccionamientosService.getFraccionamientos().subscribe(
-      (response) => {
-        this.fraccionamientos = response;
+      (response: Fraccionamiento[]) => {
+        if (response) {
+          this.fraccionamientos = response;
+        } else {
+          const modalInformation: Modal = {
+            title: "Error",
+            message: "Error al cargar la informacion, verifique su conexion a internet e inténtelo de nuevo",
+            type: ModalType.confirmation,
+            response: ModalResponse.failed
+          }
+          this._uiActionsService.openConfirmationDialog(modalInformation);
+        }
       },
       (error) => {
         const modalInformation: Modal = {
@@ -379,11 +400,29 @@ export class AgregarTerrenoViewComponent implements OnInit {
   }
 
   onSetDeslinde(checked: boolean) {
+
     if (checked) {
+
       this.pagoDeslinde.patchValue(1);
+      this.deslindePagado = true;
+
+      this.fechaPagoDeslinde.setValidators([Validators.required]);
+      this.fechaPagoDeslinde.updateValueAndValidity();
+
+      this.montoDeslinde.setValidators([Validators.required]);
+      this.montoDeslinde.updateValueAndValidity();
+
     }
     else {
       this.pagoDeslinde.patchValue(0);
+      this.deslindePagado = false;
+
+      this.fechaPagoDeslinde.setValidators([]);
+      this.fechaPagoDeslinde.updateValueAndValidity();
+
+      this.montoDeslinde.setValidators([]);
+      this.montoDeslinde.updateValueAndValidity();
+
     }
   }
 
@@ -405,7 +444,6 @@ export class AgregarTerrenoViewComponent implements OnInit {
 
       //Patch integer values
       this.enganche.patchValue(parseFloat(this.enganche.value));
-      this.noMensualidades.patchValue(parseInt(this.noMensualidades.value));
 
       //Patch fechas
       this.fechaPrimeraMensualidad.patchValue(moment(this.fechaPrimeraMensualidad.value).format("DD/MM/YYYY"));
@@ -421,12 +459,19 @@ export class AgregarTerrenoViewComponent implements OnInit {
       this.fechaPrimeraMensualidad.patchValue(null);
     }
 
+    if (this.deslindePagado) {
+      this.montoDeslinde.patchValue(parseInt(this.montoDeslinde.value));
+      this.fechaPagoDeslinde.patchValue(moment(this.fechaPagoDeslinde.value).format("DD/MM/YYYY"));
+    } else {
+      this.montoDeslinde.patchValue(null);
+      this.fechaPagoDeslinde.patchValue(null);
+    }
+
     //Patch integer values
     this.noManzana.patchValue(parseInt(this.noManzana.value));
     this.noLote.patchValue(parseInt(this.noLote.value));
     this.superficie.patchValue(parseFloat(this.superficie.value));
     this.costoM2.patchValue(parseFloat(this.costoM2.value));
-
 
     //Clear vendedores
     this.vendedores.clear();
@@ -468,7 +513,7 @@ export class AgregarTerrenoViewComponent implements OnInit {
               const dialogRef = this._uiActionsService.openConfirmationDialog(modalInformation);
               dialogRef.afterClosed().subscribe(() => {
                 this.router.navigateByUrl('/dashboard/terrenos');
-              })
+              });
             }
           },
           (error) => {

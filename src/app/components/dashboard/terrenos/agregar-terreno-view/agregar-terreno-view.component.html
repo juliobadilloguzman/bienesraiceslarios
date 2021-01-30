@@ -262,6 +262,23 @@
                 <input type="checkbox" (change)="onSetDeslinde($event.target.checked)"><span style="margin-left: 0.3rem !important;" class="text-gray">Paga deslinde</span>
             </div>
         </div>
+        <div class="row mb-1 mt-1" *ngIf="deslindePagado">
+            <div class="col-6">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Fecha de pago de deslinde (dd/mm/aaaa)</mat-label>
+                    <input matInput formControlName="fechaPagoDeslinde" [matDatepicker]="fechaPagoDeslindePicker">
+                    <mat-datepicker-toggle matSuffix [for]="fechaPagoDeslindePicker">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #fechaPagoDeslindePicker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-6">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Monto del deslinde</mat-label>
+                    <input autocomplete="off" formControlName="montoDeslinde" matInput>
+                </mat-form-field>
+            </div>
+        </div>
         <div class="row">
             <div class="col-12">
                 <button type="submit" class="btn btn-primary">Agregar Terreno</button>

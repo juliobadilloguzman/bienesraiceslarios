@@ -5,6 +5,8 @@ import { Usuario } from 'src/app/models/usuario';
 import { FraccionamientosService } from 'src/app/services/fraccionamientos.service';
 import { Fraccionamiento } from 'src/app/models/fraccionamiento';
 import { FormControl } from '@angular/forms';
+import { Modal, ModalType, ModalResponse } from 'src/app/models/modal';
+import { UiActionsService } from 'src/app/services/ui-actions.service';
 
 @Component({
   selector: 'app-confirm-agregar-terreno-modal',
@@ -24,7 +26,8 @@ export class ConfirmAgregarTerrenoModalComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA)
     public data: any,
     private _usuariosService: UsuariosService,
-    private _fraccionamientosService: FraccionamientosService
+    private _fraccionamientosService: FraccionamientosService,
+    private _uiActionsService: UiActionsService
   ) { }
 
   ngOnInit(): void {
@@ -36,10 +39,18 @@ export class ConfirmAgregarTerrenoModalComponent implements OnInit {
   getCliente(): void {
     this._usuariosService.getUsuario(this.data.form.usuarioIdUsuario).subscribe(
       (response) => {
-        this.cliente = response;
+        if (response) {
+          this.cliente = response;
+        }
       },
       (error) => {
-
+        const modalInformation: Modal = {
+          title: "Error",
+          message: "Error al cargar la informacion, verifique su conexion a internet e inténtelo de nuevo",
+          type: ModalType.confirmation,
+          response: ModalResponse.failed
+        }
+        this._uiActionsService.openConfirmationDialog(modalInformation);
       }
     );
   }
@@ -47,10 +58,18 @@ export class ConfirmAgregarTerrenoModalComponent implements OnInit {
   getFraccionamiento(): void {
     this._fraccionamientosService.getFraccionamiento(this.data.form.fraccionamientoIdFraccionamiento).subscribe(
       (response) => {
-        this.fraccionamiento = response;
+        if (response) {
+          this.fraccionamiento = response;
+        }
       },
       (error) => {
-
+        const modalInformation: Modal = {
+          title: "Error",
+          message: "Error al cargar la informacion, verifique su conexion a internet e inténtelo de nuevo",
+          type: ModalType.confirmation,
+          response: ModalResponse.failed
+        }
+        this._uiActionsService.openConfirmationDialog(modalInformation);
       }
     );
   }

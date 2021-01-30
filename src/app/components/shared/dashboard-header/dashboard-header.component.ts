@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-dashboard-header',
@@ -14,7 +15,7 @@ export class DashboardHeaderComponent implements OnInit {
   public userImage = '/assets/images/dashboard/default-user.png';
   public logoImage = '/assets/images/public/branding/logo-blue.png';
 
-  constructor(public router: Router) { }
+  constructor(public router: Router, private _authService: AuthService) { }
 
   ngOnInit() {
   }
@@ -23,9 +24,13 @@ export class DashboardHeaderComponent implements OnInit {
     this.toggleEmit.emit();
   }
 
-  logout() {
-    localStorage.removeItem('user_id');
+  goToHome() {
     this.router.navigateByUrl('/');
+  }
+
+  logOut(): void {
+    this._authService.logOut();
+    this.router.navigateByUrl('/login');
   }
 
 }

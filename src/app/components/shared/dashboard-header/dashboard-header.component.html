@@ -1,20 +1,21 @@
 <nav class="navbar navbar-expand-md navbar-expand-lg navbar-light scrolling-navbar fixed-top col-md-12">
     <div class="container dashboard">
-        <a class="">
+        <a (click)="goToHome()">
             <img src="/assets/img/logos/logo.png" alt="logoBlue" class="header-logo">
         </a>
         <button class="navbar-toggler focus-out-none" type="button" data-toggle="collapse" data-target="#navbarDefault" aria-controls="navbarDefault" aria-expanded="false" aria-label="Toggle navigation" (click)="toggle()">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+            <span class="navbar-toggler-icon"></span>
+        </button>
         <div [ngbCollapse]="!isMenuOpen" class="collapse navbar-collapse justify-content-end show-for-medium" id="navbarDefault">
             <ul class="navbar-nav ml-auto">
                 <!-- Dropdown Menu  -->
                 <li class="dropdown show-for-medium" (click)="!isDropdownOpen">
 
-                    <div class="user-info-image" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" [ngStyle]="{'background': 'url(' + userImage + ') no-repeat center center', 'background-size': 'cover'}"></div>
+                    <div class="user-info-image" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" [ngStyle]="{'background': 'url(' + userImage + ') no-repeat center center', 'background-size': 'cover'}">
+                    </div>
                     <div [ngbCollapse]="isDropdownOpen" class="dropdown-menu">
                         <div class="arrow-up"></div>
-                        <a class="ft-12 bold night-text nav-link cursor-pointer pd-5 pd-t-10" routerLinkActive="active" (click)="logout()">
+                        <a class="ft-12 bold night-text nav-link cursor-pointer pd-5 pd-t-10" routerLinkActive="active" (click)="logOut()">
                             <i class="fa fa-sign-out" aria-hidden="true" id="cerrar-sesion-desk"></i> Cerrar sesión
                             <span class="sr-only"></span>
                         </a>

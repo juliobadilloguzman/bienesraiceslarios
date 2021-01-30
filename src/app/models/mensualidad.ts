@@ -4,12 +4,14 @@ import { Terreno } from './terreno';
 export interface Mensualidad {
     idMensualidad?: number;
     numeroMensualidad: number;
+    numeroRecibo: string;
     fechaPago: string;
     monto: number;
     cantidadConLetra?: string;
     mes: string;
     formaPago: string;
     estatusPago: string;
+    interes?: number;
     estatus?: string;
     usuario?: Usuario;
     terreno?: Terreno;
