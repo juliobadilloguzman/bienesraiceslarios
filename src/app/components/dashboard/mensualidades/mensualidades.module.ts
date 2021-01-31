@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { MensualidadesRoutingModule } from './mensualidades-routing.module';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { SharedModule } from '../../shared/shared.module';
@@ -24,6 +24,6 @@ import { MisMensualidadesViewComponent } from './cliente/mis-mensualidades-view/
     ReactiveFormsModule,
     FormsModule
   ],
-  providers: [UiActionsService]
+  providers: [UiActionsService, CurrencyPipe]
 })
 export class MensualidadesModule { }

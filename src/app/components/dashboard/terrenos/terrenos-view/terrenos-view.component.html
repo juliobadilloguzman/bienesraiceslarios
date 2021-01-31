@@ -65,11 +65,11 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Estatus </th>
                 <td mat-cell *matCellDef="let row">
                     <span class="badge text-white" [ngClass]="{
-                        'bg-primary': row.estatus === 'AL CORRIENTE',
-                        'bg-warning': row.estatus === 'ATRASADO',
-                        'bg-info': row.estatus === 'LIQUIDADO',
-                        'bg-danger': row.estatus === 'CANCELADO'
-                       }">{{row.estatus}}</span>
+                        'bg-primary': row.estatusTerreno == 'AL CORRIENTE',
+                        'bg-warning': row.estatusTerreno == 'CON INTERESES',
+                        'bg-info': row.estatusTerreno == 'LIQUIDADO',
+                        'bg-danger': row.estatusTerreno == 'CANCELADO'
+                       }">{{row.estatusTerreno}}</span>
                 </td>
             </ng-container>
 

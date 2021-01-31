@@ -10,10 +10,9 @@ import { GoogleMapsModule } from '@angular/google-maps'
 import { SharedModule } from '../shared/shared.module';
 import { CarouselModule } from 'ngx-owl-carousel-o';
 import { VideoModalComponent } from './modals/video-modal/video-modal.component';
-import { PlanoInteractivoComponent } from './plano-interactivo/plano-interactivo.component';
 
 @NgModule({
-  declarations: [LandingViewComponent, ServiceModalComponent, FraccionamientoModalComponent, VideoModalComponent, PlanoInteractivoComponent],
+  declarations: [LandingViewComponent, ServiceModalComponent, FraccionamientoModalComponent, VideoModalComponent],
   imports: [
     CommonModule,
     LandingRoutingModule,

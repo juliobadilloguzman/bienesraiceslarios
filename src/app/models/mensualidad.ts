@@ -12,6 +12,7 @@ export interface Mensualidad {
     formaPago: string;
     estatusPago: string;
     interes?: number;
+    estatusInteres?: string;
     estatus?: string;
     usuario?: Usuario;
     terreno?: Terreno;

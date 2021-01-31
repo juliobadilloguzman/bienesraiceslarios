@@ -38,7 +38,7 @@
 
             <!-- Numero Mensualidad -->
             <ng-container matColumnDef="numeroMensualidad" style="background-color: #fff !important;">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Numero de Mensualidad </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> # Mensualidad </th>
                 <td mat-cell *matCellDef="let row"> {{row.numeroMensualidad}} </td>
             </ng-container>
 
@@ -64,13 +64,21 @@
 
             <!-- Interes -->
             <ng-container matColumnDef="interes">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Intereses </th>
-                <td mat-cell *matCellDef="let row"> {{row.interes}} </td>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Interés </th>
+                <td mat-cell *matCellDef="let row">
+
+                    <span class="text-semibold" [ngClass]="{
+                    'text-secondary': (row.estatusInteres == 'PAGADO' || row.interes == null),
+                    'text-danger': row.estatusInteres == 'NO PAGADO'
+                   }">{{getInteresTable(row)}}</span>
+
+
+                </td>
             </ng-container>
 
-            <!-- Mes -->
-            <ng-container matColumnDef="estatus">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Estatus </th>
+            <!-- Estatus Mensualidad -->
+            <ng-container matColumnDef="estatusMensualidad">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Estatus Mensualidad </th>
                 <td mat-cell *matCellDef="let row">
                     <span class="badge text-white" [ngClass]="{
                         'bg-primary': row.estatusPago === 'PAGADA',

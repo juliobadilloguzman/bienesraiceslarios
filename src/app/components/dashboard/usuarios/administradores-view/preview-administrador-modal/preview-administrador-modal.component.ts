@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { Usuario } from 'src/app/models/usuario';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-preview-administrador-modal',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PreviewAdministradorModalComponent implements OnInit {
 
-  constructor() { }
+  administrador: Usuario;
+
+  constructor(
+    public dialogRef: MatDialogRef<PreviewAdministradorModalComponent>,
+    @Inject(MAT_DIALOG_DATA)
+    public data: any
+  ) { }
 
   ngOnInit(): void {
+    this.administrador = this.data['row'];
+  }
+
+  closeDialog() {
+    this.dialogRef.close();
   }
 
 }

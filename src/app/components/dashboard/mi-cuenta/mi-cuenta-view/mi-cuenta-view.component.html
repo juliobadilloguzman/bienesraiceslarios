@@ -7,4 +7,126 @@
 
 <div class="card p-4">
 
+    <div style="display: flex; flex-direction: column; text-align: center;">
+        <h2 class="text-gray text-semibold text-raleway title">Mi Cuenta</h2>
+        <p class="text-gray text-raleway">Por favor, si su información no es correcta comuníquese con nosotros por cualquier medio para actualizar la información.</p>
+    </div>
+
+    <p class="text-gray">{{cuentaForm.errors | json}}</p>
+
+    <form [formGroup]="cuentaForm" (ngSubmit)="onSubmitForm()">
+        <div class="row mt-1 mb-1">
+            <div class="col-12">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Correo</mat-label>
+                    <input autocomplete="off" matInput formControlName="email">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-5">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Contraseña</mat-label>
+                    <input autocomplete="off" type="password" matInput formControlName="password">
+                </mat-form-field>
+                <!-- Errors -->
+                <div *ngIf="showErrors(password)">
+                    <p class="text-semibold text-danger" *ngIf="password.errors.minlength">Se requieren mínimo 6 caractéres
+                    </p>
+                </div>
+            </div>
+            <div class="col-5">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Confirmar Contraseña</mat-label>
+                    <input autocomplete="off" type="password" matInput formControlName="confirmPassword">
+                </mat-form-field>
+                <!-- Errors -->
+                <div *ngIf="showErrors(confirmPassword)">
+                    <p class="text-semibold text-danger" *ngIf="confirmPassword.errors.minlength">Se requieren mínimo 6 caractéres
+                    </p>
+                </div>
+                <div *ngIf="(password.touched || password.dirty) && (confirmPassword.touched || confirmPassword.dirty) && cuentaForm.errors">
+                    <p class="text-danger" *ngIf="cuentaForm.errors.passwordsDontMatch">Las contraseñas no coinciden</p>
+                </div>
+            </div>
+            <div class="col-2">
+                <button type="submit" [disabled]="!cuentaForm.valid" class="btn btn-primary">Cambiar Contraseña</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Nombre</mat-label>
+                    <input autocomplete="off" matInput formControlName="nombre">
+                </mat-form-field>
+            </div>
+            <div class="col-4">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Apellido Paterno</mat-label>
+                    <input autocomplete="off" matInput formControlName="apellidoPaterno">
+                </mat-form-field>
+            </div>
+            <div class="col-4">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Apellido Materno</mat-label>
+                    <input autocomplete="off" matInput formControlName="apellidoMaterno">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Calle</mat-label>
+                    <input autocomplete="off" matInput formControlName="calle">
+                </mat-form-field>
+            </div>
+            <div class="col-3">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Numero exterior</mat-label>
+                    <input autocomplete="off" matInput formControlName="numeroExterior">
+                </mat-form-field>
+            </div>
+            <div class="col-3">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Numero interior</mat-label>
+                    <input autocomplete="off" matInput formControlName="numeroInterior">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Colonia</mat-label>
+                    <input autocomplete="off" matInput formControlName="colonia">
+                </mat-form-field>
+            </div>
+            <div class="col-4">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Municipio</mat-label>
+                    <input autocomplete="off" matInput formControlName="municipio">
+                </mat-form-field>
+            </div>
+            <div class="col-4">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Codigo Postal</mat-label>
+                    <input autocomplete="off" matInput formControlName="codigoPostal">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Teléfono Fijo</mat-label>
+                    <input autocomplete="off" matInput formControlName="telefonoFijo">
+                </mat-form-field>
+            </div>
+            <div class="col-6">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Teléfono Celular</mat-label>
+                    <input autocomplete="off" matInput formControlName="telefonoCelular">
+                </mat-form-field>
+            </div>
+        </div>
+    </form>
+
 </div>

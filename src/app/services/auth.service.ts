@@ -7,6 +7,8 @@ import { AuthResponse } from '../models/auth-response';
 import { map, tap } from 'rxjs/operators';
 import { Account } from '../models/account';
 import { Rol } from '../models/rol';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { Router } from '@angular/router';
 
 
 @Injectable({
@@ -19,7 +21,7 @@ export class AuthService {
   private _account = new BehaviorSubject<Account>(null);
   private activeLogoutTimer: any;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   get isAuthenticated() {
     return this._account.asObservable().pipe(
@@ -66,7 +68,15 @@ export class AuthService {
   }
 
   updateAccount(account: UpdateAccount): Observable<any> {
-    return this.http.patch<UpdateAccount>(this.API_URI + '/auth/account/' + account.idUsuario, account)
+    return this.http.patch<UpdateAccount>(this.API_URI + '/auth/account/' + account.idUsuario, account);
+  }
+
+  changePassword(idCuenta: number, password: string): Observable<any> {
+    return this.http.patch<{ password: string }>(this.API_URI + '/auth/account/changePassword/' + idCuenta, { password: password });
+  }
+
+  deleteAccount(idUsuario: number) {
+    return this.http.delete(this.API_URI + '/auth/account/' + idUsuario);
   }
 
   private storeAuthData(
@@ -152,6 +162,7 @@ export class AuthService {
     }
     this._account.next(null);
     localStorage.removeItem('authData');
+    this.router.navigateByUrl('/');
   }
 
   private setAccountData(accountData: AuthResponse) {

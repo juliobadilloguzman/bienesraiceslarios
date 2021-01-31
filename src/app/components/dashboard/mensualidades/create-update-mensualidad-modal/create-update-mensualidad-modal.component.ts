@@ -32,21 +32,22 @@ export class CreateUpdateMensualidadModalComponent implements OnInit {
 
     this.dateAdapter.setLocale('en-GB');
 
-
     this.mensualidadForm = this.fb.group({
       idMensualidad: [],
       numeroMensualidad: [null, [Validators.required]],
       numeroRecibo: [null],
-      fechaPago: [null, [Validators.required]],
+      fechaPago: [null],
       monto: [null, [Validators.required]],
       cantidadConLetra: [null],
       mes: [null, [Validators.required]],
-      formaPago: [null, [Validators.required]],
-      estatusPago: [],
-      interes: [],
+      formaPago: [null],
+      estatusPago: [null],
+      interes: [null],
+      estatusInteres: [null],
       estatus: [null],
       terrenoIdTerreno: [null]
     });
+
   }
 
   get idMensualidad() {
@@ -91,6 +92,10 @@ export class CreateUpdateMensualidadModalComponent implements OnInit {
 
   get interes() {
     return this.mensualidadForm.get('interes') as FormControl;
+  }
+
+  get estatusInteres() {
+    return this.mensualidadForm.get('estatusInteres') as FormControl;
   }
 
   get terrenoIdTerreno() {
@@ -143,14 +148,22 @@ export class CreateUpdateMensualidadModalComponent implements OnInit {
   }
 
   onSubmitForm(): void {
-    console.log(this.mensualidadForm.value);
+
+    console.log('MENSUALIDAD TO INSERT', this.mensualidadForm.value);
 
     //Patch fechas
-    this.fechaPago.patchValue(moment(this.fechaPago.value).format("DD/MM/YYYY"));
+    if (this.fechaPago.value != null) {
+      this.fechaPago.patchValue(moment(this.fechaPago.value).format("DD/MM/YYYY"));
+    }
 
     if (!this.tieneInteres) {
       this.interes.patchValue(null);
     }
+
+    if (this.estatusPago.value == 'NO PAGADA') {
+      this.monto.patchValue(0);
+    }
+
 
     if (this.data.accion == 'crear') {
       this.mensualidadForm.removeControl('idMensualidad');
@@ -190,6 +203,7 @@ export class CreateUpdateMensualidadModalComponent implements OnInit {
     } else {
 
     }
+
   }
 
   onSetInteres(checked: boolean) {

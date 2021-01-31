@@ -14,6 +14,7 @@ import { Modal, ModalType, ModalResponse } from 'src/app/models/modal';
 import { PreviewMensualidadModalComponent } from '../preview-mensualidad-modal/preview-mensualidad-modal.component';
 import { CreateUpdateMensualidadModalComponent } from '../create-update-mensualidad-modal/create-update-mensualidad-modal.component';
 import { DownloadService } from 'src/app/services/download.service';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-mensualidades-view',
@@ -25,8 +26,9 @@ export class MensualidadesViewComponent implements OnInit {
   state$: Observable<object>;
   terreno: Terreno;
   mensualidades: Mensualidad[];
+  mensualidadesSinIntereses: Mensualidad[] = [];
 
-  displayedColumns: string[] = ['numeroMensualidad', 'fechaPago', 'monto', 'mes', 'interes', 'estatus', 'acciones'];
+  displayedColumns: string[] = ['numeroMensualidad', 'fechaPago', 'monto', 'mes', 'interes', 'estatusMensualidad', 'acciones'];
   dataSource: MatTableDataSource<Mensualidad>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -38,7 +40,8 @@ export class MensualidadesViewComponent implements OnInit {
     private _mensualidadesService: MensualidadesService,
     public dialog: MatDialog,
     private _uiActionsService: UiActionsService,
-    private _downloadService: DownloadService
+    private _downloadService: DownloadService,
+    private currencyPipe: CurrencyPipe
   ) { }
 
   ngOnInit(): void {
@@ -72,6 +75,7 @@ export class MensualidadesViewComponent implements OnInit {
           this.dataSource.sort = this.sort;
           this.mensualidades = response;
           console.warn('mensualidades', this.mensualidades);
+
         } else {
           const modalInformation: Modal = {
             title: "Error",
@@ -92,6 +96,18 @@ export class MensualidadesViewComponent implements OnInit {
         this._uiActionsService.openConfirmationDialog(modalInformation);
       }
     );
+  }
+
+  getInteresTable(mensualidad: Mensualidad) {
+    if (mensualidad.interes == null) {
+      return this.currencyPipe.transform(0);
+    } else {
+      if (mensualidad.estatusInteres == 'PAGADO') {
+        return `${this.currencyPipe.transform(mensualidad.interes)}`
+      } else if (mensualidad.estatusInteres == 'NO PAGADO') {
+        return `${this.currencyPipe.transform(mensualidad.interes)}`
+      }
+    }
   }
 
   onViewMensualidad(row: Mensualidad): void {
@@ -121,9 +137,7 @@ export class MensualidadesViewComponent implements OnInit {
   }
 
   generarReporte() {
-    console.log('generando.....');
     this._downloadService.generateEstadoCuentaPdf(this.mensualidades);
-
   }
 
   applyFilter(event: Event): void {

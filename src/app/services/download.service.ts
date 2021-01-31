@@ -56,7 +56,7 @@ export class DownloadService {
     const generatedMensualidades: any = [
       [
         {
-          text: 'Numero de Mensualidad',
+          text: '# Mensualidad',
           fillColor: '#1e2642',
           fontSize: 9,
           color: '#ffffff',
@@ -118,8 +118,9 @@ export class DownloadService {
         {
           border: [false, false, false, true],
           fontSize: 9,
-          text: mensualidad.fechaPago,
-          fillColor: '#f5f5f5',
+          text: (mensualidad.fechaPago == null) ? 'No pagada aún' : mensualidad.fechaPago,
+          bold: (mensualidad.fechaPago == null) ? true : false,
+          fillColor: (mensualidad.fechaPago == null) ? '#ff8383' : '#f5f5f5',
           alignment: 'right',
           margin: [0, 5, 0, 5],
         },
@@ -134,7 +135,9 @@ export class DownloadService {
         {
           border: [false, false, false, true],
           fontSize: 9,
-          text: `${(mensualidad.interes == null) ? this.currencyPipe.transform(0) : this.currencyPipe.transform(mensualidad.interes)}`,
+          text: this.getInteres(mensualidad),
+          color: this.getColorInteres(mensualidad),
+          bold: true,
           fillColor: '#f5f5f5',
           alignment: 'right',
           margin: [0, 5, 0, 5],
@@ -143,7 +146,7 @@ export class DownloadService {
           border: [false, false, false, true],
           fontSize: 9,
           text: `MXN ${this.currencyPipe.transform(mensualidad.monto)}`,
-          fillColor: '#f5f5f5',
+          fillColor: (mensualidad.estatusPago == 'NO PAGADA') ? '#ff8383' : '#80d26d',
           alignment: 'right',
           margin: [0, 5, 0, 5],
         },
@@ -154,6 +157,60 @@ export class DownloadService {
     });
 
     return generatedMensualidades;
+  }
+
+  getColorInteres(mensualidad: Mensualidad): string {
+    if (mensualidad.estatusInteres == null) {
+      return '#000000';
+    } else if (mensualidad.estatusInteres == 'PAGADO') {
+      return '#33891c';
+    } else if (mensualidad.estatusInteres == "NO PAGADO") {
+      return '#dc3545';
+    }
+  }
+
+  getInteres(mensualidad: Mensualidad) {
+
+    if (mensualidad.interes == null) {
+      return this.currencyPipe.transform(0);
+    } else {
+      if (mensualidad.estatusInteres == 'PAGADO') {
+        return `${this.currencyPipe.transform(mensualidad.interes)}`
+      } else if (mensualidad.estatusInteres == 'NO PAGADO') {
+        return `${this.currencyPipe.transform(mensualidad.interes)}`
+      }
+    }
+
+  }
+
+  getTotalPagadoMensualidades(mensualidades: Mensualidad[]): number {
+
+    let total: number = 0;
+
+    for (const mensualidad of mensualidades) {
+      if (mensualidad.estatusPago == 'PAGADA') {
+        total += mensualidad.monto;
+      }
+    }
+
+    return total;
+
+  }
+
+  getTotalIntereses(mensualidades: Mensualidad[]): number {
+
+    let total: number = 0;
+
+    for (const mensualidad of mensualidades) {
+      if (mensualidad.interes != null && mensualidad.estatusInteres == 'NO PAGADO') {
+        total += mensualidad.interes;
+      }
+    }
+
+    console.log(total);
+
+    return total;
+
   }
 
   generateEstadoCuentaPdf(content: Mensualidad[]): void {
@@ -366,7 +423,7 @@ export class DownloadService {
         {
           width: '100%',
           alignment: 'center',
-          text: 'Mensualidades realizadas hasta la fecha',
+          text: 'Mensualidades hasta hasta la fecha',
           bold: true,
           margin: [0, 10, 0, 10],
           fontSize: 12,
@@ -419,7 +476,7 @@ export class DownloadService {
           },
           table: {
             headerRows: 1,
-            widths: [90, 90, 90, 80, 120],
+            widths: [80, 90, 90, 100, 100],
             body: this.generateMensualidades(content),
           },
         },
@@ -519,7 +576,7 @@ export class DownloadService {
               ],
               [
                 {
-                  text: 'Total de intereses',
+                  text: 'Intereses por pagar',
                   border: [false, true, false, true],
                   fontSize: 9,
                   alignment: 'right',
@@ -531,13 +588,30 @@ export class DownloadService {
                   alignment: 'right',
                   color: '#ffffff',
                   fontSize: 9,
-                  fillColor: '#a50000',
+                  fillColor: (this.getTotalIntereses(content) > 0) ? '#a50000' : 'green',
                   margin: [0, 3, 0, 0],
                 },
               ],
               [
                 {
-                  text: 'Saldo a pagar hasta la fecha',
+                  text: 'Saldo total sin intereses',
+                  border: [false, true, false, true],
+                  fontSize: 9,
+                  alignment: 'right',
+                  margin: [0, 3, 0, 5],
+                },
+                {
+                  border: [false, true, false, true],
+                  text: `${this.currencyPipe.transform(content[0].terreno.saldo)}`,
+                  alignment: 'right',
+                  fontSize: 9,
+                  fillColor: '#f5f5f5',
+                  margin: [0, 3, 0, 0],
+                },
+              ],
+              [
+                {
+                  text: 'Saldo total a pagar hasta la fecha',
                   bold: true,
                   alignment: 'right',
                   fontSize: 9,
@@ -545,7 +619,7 @@ export class DownloadService {
                   margin: [0, 3, 0, 5],
                 },
                 {
-                  text: `${this.currencyPipe.transform(content[0].terreno.saldo)}`,
+                  text: `${this.currencyPipe.transform(content[0].terreno.saldo + this.getTotalIntereses(content))}`,
                   bold: true,
                   alignment: 'right',
                   fontSize: 9,
@@ -630,31 +704,6 @@ export class DownloadService {
 
   }
 
-  getTotalPagadoMensualidades(mensualidades: Mensualidad[]): number {
-
-    let total: number = 0;
-
-    for (const mensualidad of mensualidades) {
-      total += mensualidad.monto;
-    }
-
-    return total;
-
-  }
-
-  getTotalIntereses(mensualidades: Mensualidad[]): number {
-
-    let total: number = 0;
-
-    for (const mensualidad of mensualidades) {
-      if (mensualidad.interes != null) {
-        total += mensualidad.interes;
-      }
-    }
-
-    return total;
-
-  }
 
   openPdf(): void {
     this.pdfObj.open();

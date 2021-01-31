@@ -19,6 +19,7 @@ export interface Terreno {
     montoDeslinde?: number;
     fechaPrimeraMensualidad?: string;
     comentariosAdicionales?: string;
+    estatusTerreno?: string;
     estatus: string;
     fraccionamiento: any;
     usuario: any;

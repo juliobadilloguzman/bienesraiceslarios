@@ -1,1 +1,35 @@
-<p>preview-administrador-modal works!</p>
+<div class="container">
+    <div class="justify-space-end" *ngIf="data">
+        <span class="material-icons icon-close" (click)="closeDialog()">cancel</span>
+    </div>
+    <section class="vendedor-information">
+        <div class="row text-center">
+            <div class="col-4">
+                <p class="text-semibold">Nombre:</p>
+                <p>{{administrador.nombre}}</p>
+            </div>
+            <div class="col-4">
+                <p class="text-semibold">Apellido Paterno:</p>
+                <p>{{administrador.apellidoPaterno}}</p>
+            </div>
+            <div class="col-4">
+                <p class="text-semibold">Apellido Materno:</p>
+                <p>{{administrador.apellidoMaterno}}</p>
+            </div>
+        </div>
+        <div class="row mt-2 text-center">
+            <div class="col-4">
+                <p class="text-semibold">Teléfono Fijo:</p>
+                <p>{{administrador.telefonoFijo}}</p>
+            </div>
+            <div class="col-4">
+                <p class="text-semibold">Teléfono Celular:</p>
+                <p>{{administrador.telefonoCelular}}</p>
+            </div>
+            <div class="col-4">
+                <p class="text-semibold">Correo:</p>
+                <p>{{administrador.correo}}</p>
+            </div>
+        </div>
+    </section>
+</div>

@@ -23,7 +23,7 @@
             <div class="col-12">
                 <mat-form-field appearance="fill" class="full-width">
                     <mat-label class="text-raleway">Numero de recibo</mat-label>
-                    <input autocomplete="off" type="text" formControlName="numeroRecibo" required matInput>
+                    <input autocomplete="off" type="text" formControlName="numeroRecibo" matInput>
                 </mat-form-field>
                 <!-- Errors -->
                 <div *ngIf="showErrors(numeroRecibo)">
@@ -150,7 +150,7 @@
             </div>
             <div class="col-6">
                 <mat-form-field appearance="fill" class="full-width">
-                    <mat-label>Estatus</mat-label>
+                    <mat-label>Estatus de la mensualidad</mat-label>
                     <mat-select formControlName="estatusPago" [value]="estatusPago">
                         <mat-option value="PAGADA">
                             Pagada
@@ -172,13 +172,26 @@
             </div>
         </div>
         <div class="row mb-1" *ngIf="tieneInteres">
-            <div class="col-12">
+            <div class="col-6">
                 <mat-form-field appearance="fill" class="full-width">
                     <mat-label class="text-raleway">Monto del interés</mat-label>
                     <input autocomplete="off" formControlName="interes" matInput>
                     <mat-hint class="text-hint">
                         Interés del 10% calculado automaticamente, si es necesario cámbielo.
                     </mat-hint>
+                </mat-form-field>
+            </div>
+            <div class="col-6">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Estatus del Interés</mat-label>
+                    <mat-select formControlName="estatusInteres" [value]="estatusPago">
+                        <mat-option value="PAGADO">
+                            Pagado
+                        </mat-option>
+                        <mat-option value="NO PAGADO">
+                            No Pagado
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
             </div>
         </div>

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PlanoInteractivoComponent } from './plano-interactivo.component';
+import { CotizadorViewComponent } from './cotizador-view.component';
 
-describe('PlanoInteractivoComponent', () => {
-  let component: PlanoInteractivoComponent;
-  let fixture: ComponentFixture<PlanoInteractivoComponent>;
+describe('CotizadorViewComponent', () => {
+  let component: CotizadorViewComponent;
+  let fixture: ComponentFixture<CotizadorViewComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PlanoInteractivoComponent ]
+      declarations: [ CotizadorViewComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PlanoInteractivoComponent);
+    fixture = TestBed.createComponent(CotizadorViewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

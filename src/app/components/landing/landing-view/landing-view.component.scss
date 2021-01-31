@@ -13,7 +13,7 @@ nav.menu-desktop {
     position: absolute !important;
     top: 0;
     z-index: 10;
-    border-bottom: 1px solid rgba(255, 255, 255, .15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     width: 100%;
     .container {
         width: 80%;
@@ -84,7 +84,7 @@ nav.menu-mobile {
             border-radius: 3px;
             z-index: 1;
             transform-origin: 4px 0px;
-            transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0), background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0), opacity 0.55s ease;
+            transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), background 0.5s cubic-bezier(0.77, 0.2, 0.05, 1), opacity 0.55s ease;
         }
         span:first-child {
             transform-origin: 0% 0%;
@@ -125,7 +125,7 @@ nav.menu-mobile {
     /* to stop flickering of text in safari */
     transform-origin: 0% 0%;
     transform: translate(-100%, 0);
-    transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0);
+    transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1);
 }
 
 #menu li {
@@ -148,7 +148,7 @@ nav.menu-mobile {
 header {
     width: 100%;
     min-height: 100vh;
-    background-image: url('/assets/img/backgrounds/header1.jpg');
+    background-image: url("/assets/img/backgrounds/header1.jpg");
     background-size: cover;
     height: auto;
     display: flex;
@@ -211,7 +211,7 @@ section.about {
                     margin-bottom: 2rem;
                 }
                 button {
-                    justify-self: flex-start
+                    justify-self: flex-start;
                 }
             }
         }
@@ -234,7 +234,7 @@ section.about {
 .images {
     margin-bottom: 30px;
     border-radius: 45px;
-    width: 180px!important
+    width: 180px !important;
 }
 
 
@@ -382,7 +382,7 @@ section.services {
 section.video {
     width: 100%;
     min-height: 50vh;
-    background: url('/assets/img/backgrounds/video-preview.jpg');
+    background: url("/assets/img/backgrounds/video-preview.jpg");
     background-size: cover;
     background-repeat: no-repeat;
     display: flex;
@@ -429,7 +429,12 @@ section.terrenos {
                     justify-content: center;
                     .title {
                         font-size: 2.5rem;
-                        margin-bottom: 0.9rem !important;
+                        margin-bottom: 0.3rem !important;
+                    }
+                    .vendido-text {
+                        font-size: 1.2rem;
+                        line-height: 40px;
+                        text-decoration: line-through;
                     }
                     .location {
                         font-size: 1.4rem;
@@ -443,19 +448,24 @@ section.terrenos {
                     }
                 }
                 .bg-fraccionamientoreal {
-                    background-image: url('src/assets/img/fraccionamientos/realdelvalle/4.jpg') !important;
+                    background-image: url("src/assets/img/fraccionamientos/realdelvalle/4.jpg") !important;
                     background-size: cover;
                     background-repeat: no-repeat;
                     background-position: top;
                 }
                 .bg-fraccionamientlomasyeca {
-                    background-image: url('src/assets/img/fraccionamientos/lomasyeca/2.jpeg') !important;
+                    background-image: url("src/assets/img/fraccionamientos/lomasyeca/2.jpeg") !important;
                     background-size: cover;
                     background-repeat: no-repeat;
                     background-position: bottom;
                 }
                 .bg-pedregal {
-                    background-image: url('src/assets/img/fraccionamientos/pedregalcocoyoc/1.jpeg') !important;
+                    background-image: url("src/assets/img/fraccionamientos/pedregalcocoyoc/1.jpeg") !important;
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                }
+                .bg-proximamente {
+                    background-image: url("src/assets/img/others/proximamente.jpg") !important;
                     background-size: cover;
                     background-repeat: no-repeat;
                 }
@@ -493,7 +503,7 @@ section.colabora {
     width: 100%;
     min-height: 25vh;
     height: auto;
-    background: #16A085;
+    background: #16a085;
     background: -webkit-linear-gradient(to right, #33891c, #4bc22b);
     background: linear-gradient(to right, #33891c, #4bc22b);
     display: flex;
