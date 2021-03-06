@@ -12,6 +12,7 @@
                 <li class="cursorPointer"><a (click)="scrollTo(terrenos)" class="text-white text-raleway no-underline cursorPointer">Terrenos</a></li>
                 <li class="cursorPointer"><a (click)="scrollTo(contact)" class="text-white text-raleway no-underline cursorPointer">Contacto</a></li>
                 <li class="cursorPointer" *ngIf="!isAuthenticated"><a routerLink="/login" class="btn-white no-underline">Iniciar Sesión</a></li>
+                <li class="cursorPointer" *ngIf="isAuthenticated"><button (click)="goToDashoard()" class="btn-white no-underline">Dashboard</button></li>
                 <li class="cursorPointer" *ngIf="isAuthenticated"><button (click)="logOut()" class="btn-danger no-underline">Cerrar
                         Sesión</button></li>
             </ul>
@@ -181,9 +182,9 @@
             <div class="fraccionamiento">
                 <div class="bg-proximamente bg-fraccionamiento"></div>
                 <div class="container-description">
-                    <h4 class="title no-margin text-raleway text-semibold">El Gavilán</h4>
+                    <h4 class="title no-margin text-raleway text-semibold">Residencial Campestre</h4>
                     <h6 class="text-raleway location">Yecapixtla, Morelos</h6>
-                    <p class="text-justify text-montserrat description-fraccionamiento">Proximamente! Proximamente! Proximamente! Proximamente! Proximamente!</p>
+                    <p class="text-justify text-montserrat description-fraccionamiento">Proximamente! Proximamente! Proximamente! Proximamente! Proximamente! Proximamente!</p>
                     <div class="container-button">
                         <button class="btn-gray" [disabled]="true">Proximamente, esperalo!</button>
                     </div>

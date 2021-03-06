@@ -26,7 +26,6 @@ export class MensualidadesViewComponent implements OnInit {
   state$: Observable<object>;
   terreno: Terreno;
   mensualidades: Mensualidad[];
-  mensualidadesSinIntereses: Mensualidad[] = [];
 
   displayedColumns: string[] = ['numeroMensualidad', 'fechaPago', 'monto', 'mes', 'interes', 'estatusMensualidad', 'acciones'];
   dataSource: MatTableDataSource<Mensualidad>;
@@ -136,8 +135,8 @@ export class MensualidadesViewComponent implements OnInit {
 
   }
 
-  generarReporte() {
-    this._downloadService.generateEstadoCuentaPdf(this.mensualidades);
+  generarReporte(): void {
+    this._downloadService.generateEstadoCuentaPdf(this.mensualidades, this.terreno);
   }
 
   applyFilter(event: Event): void {

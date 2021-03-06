@@ -31,10 +31,11 @@ export class CreateUpdateClienteModalComponent implements OnInit {
       idUsuario: [null],
       email: [null, [Validators.required, Validators.email]],
       oldEmail: [],
-      password: [null, [Validators.required, Validators.pattern(/^[a-zA-Z0-9]*$/), Validators.minLength(6)]],
-      nombre: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]],
-      apellidoPaterno: ['', [Validators.pattern(/^[a-zA-Z\s]*$/)]],
-      apellidoMaterno: ['', [Validators.pattern(/^[a-zA-Z\s]*$/)]],
+      password: [null, [Validators.required]],
+      // password: [null, [Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{6,15}$/), Validators.minLength(6)]],
+      nombre: ['', [Validators.required, Validators.pattern(/^([A-Za-z0-9\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$/)]],
+      apellidoPaterno: ['', [Validators.pattern(/^([A-Za-z0-9\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$/)]],
+      apellidoMaterno: ['', [Validators.pattern(/^([A-Za-z0-9\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$/)]],
       calle: [null],
       numeroExterior: [null],
       numeroInterior: [null],
@@ -141,6 +142,7 @@ export class CreateUpdateClienteModalComponent implements OnInit {
           this.password.clearValidators();
           this.password.updateValueAndValidity();
           this.password.setValidators([Validators.pattern(/^[a-zA-Z0-9]*$/), Validators.minLength(6)]);
+          this.password.updateValueAndValidity();
 
         },
         (error) => {

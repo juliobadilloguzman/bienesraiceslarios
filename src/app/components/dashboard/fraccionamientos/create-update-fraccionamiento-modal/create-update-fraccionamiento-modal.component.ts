@@ -28,9 +28,12 @@ export class CreateUpdateFraccionamientoModalComponent implements OnInit {
 
     this.fraccionamientoForm = this.fb.group({
       idFraccionamiento: [],
-      nombre: ['', [Validators.required]],
+      nombre: ['', [Validators.required, Validators.pattern(/^([A-Za-z0-9\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$/)]],
       regimen: [null, [Validators.required]],
-      estatus: ['ACTIVO']
+      municipio: [null, [Validators.required]],
+      estado: ['Morelos', [Validators.required]],
+      ubicacionMaps: [null],
+      estatusFraccionamiento: ['ACTIVO']
     });
 
   }
@@ -47,11 +50,30 @@ export class CreateUpdateFraccionamientoModalComponent implements OnInit {
     return this.fraccionamientoForm.get('regimen') as FormControl;
   }
 
+  get municipio() {
+    return this.fraccionamientoForm.get('municipio') as FormControl;
+  }
+
+  get estado() {
+    return this.fraccionamientoForm.get('estado') as FormControl;
+  }
+
+  get ubicacionMaps() {
+    return this.fraccionamientoForm.get('ubicacionMaps') as FormControl;
+  }
+
+  get estatusFraccionamiento() {
+    return this.fraccionamientoForm.get('estatusFraccionamiento') as FormControl;
+  }
+
   ngOnInit(): void {
     if (this.data.accion == 'editar') {
       this._fraccionamientosService.getFraccionamiento(this.data.row.idFraccionamiento).subscribe(
         (response: Fraccionamiento) => {
-          this.fraccionamientoForm.setValue(response);
+          if (response) {
+            console.log(response);
+            this.fraccionamientoForm.setValue(response);
+          }
         },
         (error) => {
           const modalInformation: Modal = {

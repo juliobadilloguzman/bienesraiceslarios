@@ -1,3 +1,7 @@
+import { Usuario } from './usuario';
+import { Fraccionamiento } from './fraccionamiento';
+import { Vendedor } from './vendedor';
+
 export interface Terreno {
     idTerreno: number;
     noManzana: number
@@ -21,7 +25,7 @@ export interface Terreno {
     comentariosAdicionales?: string;
     estatusTerreno?: string;
     estatus: string;
-    fraccionamiento: any;
-    usuario: any;
-    vendedores: any[];
+    fraccionamiento: Fraccionamiento;
+    usuario: Usuario;
+    vendedores: Vendedor[];
 }

@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { Usuario } from 'src/app/models/usuario';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-preview-capturista-modal',
@@ -7,9 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PreviewCapturistaModalComponent implements OnInit {
 
-  constructor() { }
+  capturista: Usuario;
+
+  constructor(
+    public dialogRef: MatDialogRef<PreviewCapturistaModalComponent>,
+    @Inject(MAT_DIALOG_DATA)
+    public data: any
+  ) { }
 
   ngOnInit(): void {
+    this.capturista = this.data['row'];
+  }
+
+  closeDialog() {
+    this.dialogRef.close();
   }
 
 }

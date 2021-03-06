@@ -64,12 +64,8 @@ export class LandingViewComponent implements OnInit {
       }
     });
 
-    this._authService.isAuthenticated.pipe(take(1)).subscribe(res => console.log(res));
-
     if (localStorage.getItem('authData') == undefined)
       this.isAuthenticated = false;
-
-    console.warn(this.isAuthenticated);
 
   }
 
@@ -151,6 +147,7 @@ export class LandingViewComponent implements OnInit {
       width: '800px',
       data: { fraccionamiento }
     });
+
   }
 
   openPromotionalVideo(): void {
@@ -163,6 +160,10 @@ export class LandingViewComponent implements OnInit {
 
   scrollTo(el: HTMLElement) {
     el.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  goToDashoard() {
+    this.router.navigateByUrl('/dashboard');
   }
 
   logOut() {

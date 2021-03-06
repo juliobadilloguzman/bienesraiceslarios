@@ -103,7 +103,7 @@ export class ClientesViewComponent implements OnInit {
           (error) => {
             const modalInformation: Modal = {
               title: "Error",
-              message: "Hubo un error al eliminar el client, inténtelo de nuevo.",
+              message: "Hubo un error al eliminar el cliente, inténtelo de nuevo.",
               type: ModalType.confirmation,
               response: ModalResponse.failed
             }

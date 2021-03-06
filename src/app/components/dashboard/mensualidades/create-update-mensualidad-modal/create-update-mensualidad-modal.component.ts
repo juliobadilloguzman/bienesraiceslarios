@@ -41,7 +41,7 @@ export class CreateUpdateMensualidadModalComponent implements OnInit {
       cantidadConLetra: [null],
       mes: [null, [Validators.required]],
       formaPago: [null],
-      estatusPago: [null],
+      estatusPago: [null, Validators.required],
       interes: [null],
       estatusInteres: [null],
       estatus: [null],
@@ -121,15 +121,27 @@ export class CreateUpdateMensualidadModalComponent implements OnInit {
     console.warn('DATA', this.data);
 
     if (this.data.accion == 'editar') {
+
       this._mensualidadService.getMensualidad(this.data.row.idMensualidad).subscribe(
         (response: Mensualidad) => {
+
           this.mensualidadForm.removeControl('terrenoIdTerreno');
           this.mensualidad = response;
           delete this.mensualidad.terreno;
           delete this.mensualidad.usuario;
           console.log('mensualidad', this.mensualidad);
+
+          //Patch interes
+          if(this.mensualidad.estatusInteres == 'NO PAGADO'){
+            this.tieneInteres = true;
+          }
+
           this.mensualidadForm.setValue(this.mensualidad);
+
+          this.mensualidadForm.addControl('terrenoIdTerreno', new FormControl(this.data.idTerreno));
+
         },
+
         (error) => {
           const modalInformation: Modal = {
             title: "Error",
@@ -138,7 +150,8 @@ export class CreateUpdateMensualidadModalComponent implements OnInit {
             response: ModalResponse.failed
           }
           this._uiActionsService.openConfirmationDialog(modalInformation);
-        });
+        }
+      );
     }
   }
 
@@ -162,6 +175,10 @@ export class CreateUpdateMensualidadModalComponent implements OnInit {
 
     if (this.estatusPago.value == 'NO PAGADA') {
       this.monto.patchValue(0);
+      this.fechaPago.patchValue(null);
+      this.numeroRecibo.patchValue(null);
+      this.cantidadConLetra.patchValue(null);
+      this.formaPago.patchValue(null);
     }
 
 
@@ -169,26 +186,33 @@ export class CreateUpdateMensualidadModalComponent implements OnInit {
       this.mensualidadForm.removeControl('idMensualidad');
       this._mensualidadService.createMensualidad(this.mensualidadForm.value).subscribe(
         (response: any) => {
+
           if (response) {
-            console.warn(response);
+
             const modalInformation: Modal = {
               title: "Agregada",
               message: "La mensualidad se agregó correctamente",
               type: ModalType.confirmation,
               response: ModalResponse.success
             }
+
             this._uiActionsService.openConfirmationDialog(modalInformation);
             this.dialogRef.close();
             this.mensualidadForm.reset();
+
           } else {
+
             const modalInformation: Modal = {
               title: "Error",
               message: "Hubo un error al agregar la mensualidad, inténtelo de nuevo.",
               type: ModalType.confirmation,
               response: ModalResponse.failed
             }
+
             this._uiActionsService.openConfirmationDialog(modalInformation);
+
           }
+
         },
         (error) => {
           const modalInformation: Modal = {
@@ -202,6 +226,35 @@ export class CreateUpdateMensualidadModalComponent implements OnInit {
       );
     } else {
 
+      this._mensualidadService.updateMensualidad(this.mensualidadForm.value).subscribe(
+        (response: any) => {
+          
+          const modalInformation: Modal = {
+            title: "Editada",
+            message: "La mensualidad se editó correctamente",
+            type: ModalType.confirmation,
+            response: ModalResponse.success
+          }
+          
+          this._uiActionsService.openConfirmationDialog(modalInformation);
+          this.dialogRef.close();
+          this.mensualidadForm.reset();
+          
+        }, 
+        (error) => {
+
+          const modalInformation: Modal = {
+            title: "Error",
+            message: "Hubo un error al editar la mensualidad, inténtelo de nuevo.",
+            type: ModalType.confirmation,
+            response: ModalResponse.failed
+          }
+
+          this._uiActionsService.openConfirmationDialog(modalInformation);
+
+        }
+      )
+
     }
 
   }
@@ -209,8 +262,23 @@ export class CreateUpdateMensualidadModalComponent implements OnInit {
   onSetInteres(checked: boolean) {
     if (checked) {
       this.tieneInteres = true;
+
+      //Update validators
+      this.interes.setValidators([Validators.required]);
+      this.interes.updateValueAndValidity();
+
+      this.estatusInteres.setValidators([Validators.required]);
+      this.estatusInteres.updateValueAndValidity();
+
     } else {
       this.tieneInteres = false;
+
+      this.interes.clearValidators()
+      this.interes.updateValueAndValidity();
+
+      this.estatusInteres.clearValidators()
+      this.estatusInteres.updateValueAndValidity();
+
     }
   }
 

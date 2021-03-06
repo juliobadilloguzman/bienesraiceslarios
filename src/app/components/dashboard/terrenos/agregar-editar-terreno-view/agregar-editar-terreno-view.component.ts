@@ -17,16 +17,19 @@ import * as moment from 'moment';
 import { ConfirmAgregarTerrenoModalComponent } from '../confirm-agregar-terreno-modal/confirm-agregar-terreno-modal.component';
 import { Usuario } from 'src/app/models/usuario'
 import { CreateUpdateClienteModalComponent } from '../../usuarios/clientes-view/create-update-cliente-modal/create-update-cliente-modal.component';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Terreno } from 'src/app/models/terreno';
 
 @Component({
-  selector: 'app-agregar-terreno-view',
-  templateUrl: './agregar-terreno-view.component.html',
-  styleUrls: ['./agregar-terreno-view.component.scss']
+  selector: 'app-agregar-editar-terreno-view',
+  templateUrl: './agregar-editar-terreno-view.component.html',
+  styleUrls: ['./agregar-editar-terreno-view.component.scss']
 })
+export class AgregarEditarTerrenoViewComponent implements OnInit {
 
-
-export class AgregarTerrenoViewComponent implements OnInit {
+  //State to accion
+  state$: Observable<object>;
+  accion: string;
 
   isNaN: Function = Number.isNaN;
   isFinite: Function = Number.isFinite;
@@ -56,6 +59,7 @@ export class AgregarTerrenoViewComponent implements OnInit {
 
   //Saldo
   saldoFinal: number;
+  terreno: Terreno;
 
   constructor(
     private fb: FormBuilder,
@@ -66,7 +70,8 @@ export class AgregarTerrenoViewComponent implements OnInit {
     private _usuariosService: UsuariosService,
     public dialog: MatDialog,
     private dateAdapter: DateAdapter<Date>,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
 
     this.dateAdapter.setLocale('en-GB'); //dd/MM/yyyy
@@ -197,6 +202,53 @@ export class AgregarTerrenoViewComponent implements OnInit {
     this.getVendedores();
     this.getClientes();
 
+    //Get the action and the terreno
+    this.state$ = this.route.paramMap.pipe(map(() => window.history.state));
+    this.state$.subscribe(response => {
+      this.accion = response['accion'];
+      if (response['row']) {
+        this.terreno = response['row'];
+        console.warn('TERRENO TO EDIT', this.terreno);
+      }
+    });
+
+    if (this.accion == 'editar') {
+
+      if (!this.terreno) {
+        const modalInformation: Modal = {
+          title: "Error",
+          message: "Debe de seleccionar el terreno a editar desde la tabla de terrenos",
+          type: ModalType.confirmation,
+          response: ModalResponse.failed
+        }
+        const dialogRef = this._uiActionsService.openConfirmationDialog(modalInformation);
+        dialogRef.afterClosed().subscribe(() => {
+          this.router.navigateByUrl('/dashboard/terrenos');
+        });
+      } else {
+
+        this.terrenoForm.patchValue(this.terreno);
+        this.fraccionamientoIdFraccionamiento.setValue(this.terreno.fraccionamiento.idFraccionamiento);
+        this.usuarioIdUsuario.setValue(this.terreno.usuario.idUsuario);
+        this.fechaVenta.patchValue(new Date(this.terreno.fechaVenta));
+        this.vendedoresTemp = this.terreno.vendedores;
+        this.clienteTemp = this.terreno.usuario;
+
+        //Patch Pago al contado
+        if (this.terreno.pagoAlContado == 1) {
+          this.pagoDeContado = true;
+        }
+
+        //Patch Pago deslinde
+        if (this.terreno.pagoDeslinde == 1) {
+          this.deslindePagado = true;
+          this.fechaPagoDeslinde.patchValue(new Date(this.terreno.fechaPagoDeslinde));
+          this.montoDeslinde.patchValue(this.terreno.montoDeslinde);
+        }
+      }
+
+    }
+
   }
 
   showErrors(control: FormControl): boolean {
@@ -209,7 +261,6 @@ export class AgregarTerrenoViewComponent implements OnInit {
       const filterValue = value.toLowerCase();
       return this.vendedoresList.filter(vendedor => vendedor.nombre.toLowerCase().indexOf(filterValue) === 0);
     }
-
   }
 
   private _filterClientes(value: string): Usuario[] {
@@ -217,7 +268,6 @@ export class AgregarTerrenoViewComponent implements OnInit {
       const filterValue = value.toLowerCase();
       return this.clientesList.filter(cliente => cliente.nombre.toLowerCase().indexOf(filterValue) === 0);
     }
-
   }
 
   onAgregarVendedor(): void {
@@ -484,10 +534,9 @@ export class AgregarTerrenoViewComponent implements OnInit {
     //*********** SALDO ************ /
     if (!this.pagoDeContado) {
       this.saldoFinal = this.costoTotal.value - this.enganche.value;
+    } else {
+      this.saldoFinal = this.costoTotal.value;
     }
-    // } else {
-    //   this.saldoFinal = 0;
-    // }
 
     this.saldo.patchValue(this.saldoFinal);
 
@@ -507,7 +556,7 @@ export class AgregarTerrenoViewComponent implements OnInit {
             if (response) {
               const modalInformation: Modal = {
                 title: "Creado",
-                message: "El fraccionamiento se creo correctamente",
+                message: "El terreno se creo correctamente",
                 type: ModalType.confirmation,
                 response: ModalResponse.success
               }

@@ -11,11 +11,11 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        loadChildren: () => import('./home/home.module').then(m => m.HomeModule)
+        redirectTo: 'mi-cuenta'
       },
       {
         path: 'mi-cuenta',
-        loadChildren: () => import('./mi-cuenta/mi-cuenta.module').then(m => m.MiCuentaModule)
+        loadChildren: () => import('./mi-cuenta/mi-cuenta.module').then(m => m.MiCuentaModule),
       },
       {
         path: 'terrenos',

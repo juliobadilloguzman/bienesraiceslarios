@@ -29,7 +29,7 @@
                 <!-- Errors -->
                 <div *ngIf="showErrors(password)">
                     <p class="text-semibold text-danger" *ngIf="password.errors.required">El campo es requerido</p>
-                    <p class="text-semibold text-danger" *ngIf="password.errors.pattern">Formato inválido</p>
+                    <p class="text-semibold text-danger" *ngIf="password.errors.pattern">Formato inválido, al menos un número, una mayúscula y una mínuscula</p>
                     <p class="text-semibold text-danger" *ngIf="password.errors.minlength">Se requiere mínimo 6 caracteres
                     </p>
                 </div>

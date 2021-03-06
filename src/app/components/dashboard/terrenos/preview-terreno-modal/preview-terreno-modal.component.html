@@ -1,0 +1,97 @@
+<div class="container">
+    <div class="justify-space-end" style="margin-bottom: 0.2rem;" *ngIf="data">
+        <span class="material-icons icon-close" (click)="closeDialog()">cancel</span>
+    </div>
+    <div class="row scrollCondition">
+        <div class="col-12">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th scope="row">No. Manzana</th>
+                        <td>{{terreno.noManzana}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">No. Lote</th>
+                        <td>{{terreno.noLote}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Superficie</th>
+                        <td>{{terreno.superficie}}m2</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Costo x m2</th>
+                        <td>{{terreno.costoM2 | currency}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Costo Total</th>
+                        <td>{{terreno.costoTotal | currency}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Cliente</th>
+                        <td><span class="text-secondary">{{terreno.usuario.nombre}}
+                                {{terreno.usuario.apellidoPaterno}}
+                                {{terreno.usuario.apellidoMaterno}}</span></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Fraccionamiento</th>
+                        <td><span class="text-semibold">{{terreno.fraccionamiento.nombre}}</span></td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Fecha de venta</th>
+                        <td>{{terreno.fechaVenta}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Vendedores</th>
+                        <td>
+                            <ol>
+                                <li *ngFor="let vendedor of terreno.vendedores">{{vendedor.nombre}} {{vendedor.apellidoPaterno}}
+                                </li>
+                            </ol>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Forma de pago</th>
+                        <td>{{(terreno.pagoAlContado == 0) ? 'Financiamiento a' : 'Contado'}} <span class="text-semibold" *ngIf="terreno.pagoAlContado == 0">{{terreno.noMensualidades}}
+                                mensualidades</span>
+                        </td>
+                    </tr>
+                    <ng-container *ngIf="terreno.pagoAlContado == 0">
+                        <tr>
+                            <th scope="row">Enganche</th>
+                            <td>{{terreno.enganche | currency}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Monto de cada mensualidad</th>
+                            <td>{{terreno.montoMensualidad | currency}}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Fechas de pago</th>
+                            <td>Del <span class="text-semibold">{{terreno.diaPagoDel}}</span> al <span class="text-semibold">{{terreno.diaPagoAl}}</span> de cada mes</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Fecha de la primera mensualidad</th>
+                            <td>{{terreno.fechaPrimeraMensualidad}}</td>
+                        </tr>
+                    </ng-container>
+                    <tr>
+                        <th scope="row">Deslinde</th>
+                        <td><span [ngClass]="{
+                            'text-danger': terreno.pagoDeslinde == 0,
+                            'text-secondary': terreno.pagoDeslinde == 1
+                           }">{{(terreno.pagoDeslinde == 1) ? 'Pagado' : 'NO Pagado'}}
+                            </span>
+                            <span *ngIf="terreno.pagoDeslinde == 1"> la fecha </span>
+                            <span class="text-semibold" *ngIf="terreno.pagoDeslinde == 1">{{terreno.fechaPagoDeslinde}}</span>
+                            <span *ngIf="terreno.pagoDeslinde == 1">con un monto de</span>
+                            <span class="text-semibold text-secondary">{{terreno.montoDeslinde | currency}}</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="box-saldo">
+                <p class="text-semibold no-margin">Saldo a pagar: <span class="text-secondary">{{terreno.saldo | currency}}</span></p>
+            </div>
+        </div>
+    </div>
+</div>

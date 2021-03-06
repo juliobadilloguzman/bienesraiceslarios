@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { TerrenosViewComponent } from './terrenos-view/terrenos-view.component';
 import { AgregarTerrenoViewComponent } from './agregar-terreno-view/agregar-terreno-view.component';
 import { MisTerrenosViewComponent } from './cliente/mis-terrenos-view/mis-terrenos-view.component';
+import { AgregarEditarTerrenoViewComponent } from './agregar-editar-terreno-view/agregar-editar-terreno-view.component';
 
 
 const routes: Routes = [
@@ -12,7 +13,13 @@ const routes: Routes = [
   },
   {
     path: 'agregar',
-    component: AgregarTerrenoViewComponent
+    component: AgregarEditarTerrenoViewComponent,
+    data: {accion: 'agregar'}
+  },
+  {
+    path: 'editar',
+    component: AgregarEditarTerrenoViewComponent,
+    data: {acction: 'editar'}
   },
   {
     path: 'mis-terrenos',

@@ -12,8 +12,6 @@
         <p class="text-gray text-raleway">Por favor, si su información no es correcta comuníquese con nosotros por cualquier medio para actualizar la información.</p>
     </div>
 
-    <p class="text-gray">{{cuentaForm.errors | json}}</p>
-
     <form [formGroup]="cuentaForm" (ngSubmit)="onSubmitForm()">
         <div class="row mt-1 mb-1">
             <div class="col-12">

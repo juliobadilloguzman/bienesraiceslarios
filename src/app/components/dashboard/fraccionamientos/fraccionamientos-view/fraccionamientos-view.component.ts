@@ -35,12 +35,7 @@ export class FraccionamientosViewComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-
     this.getFraccionamientos();
-    this._authService.isAuthenticated.subscribe(
-      (response) => console.warn(response)
-    );
-
   }
 
   getFraccionamientos(): void {
@@ -68,7 +63,7 @@ export class FraccionamientosViewComponent implements OnInit {
       data: {
         row: row
       }
-    })
+    });
   }
 
   onAgregarEditarFraccionamiento(accion: string, row?: Fraccionamiento): void {

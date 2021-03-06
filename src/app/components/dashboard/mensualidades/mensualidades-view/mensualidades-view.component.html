@@ -9,7 +9,7 @@
 
     <div style="display: flex; justify-content: space-between;">
         <div>
-            <h2 class="text-gray text-semibold text-raleway title">Mensualidades</h2>
+            <h2 class="text-gray text-semibold text-raleway title">Mensualidades y Pagos</h2>
             <h4 class="text-gray text-raleway no-margin" *ngIf="terreno">Fraccionamiento:
                 <span class="text-semibold text-raleway text-secondary">{{terreno.fraccionamiento.nombre}}</span>
             </h4>
@@ -22,23 +22,23 @@
             <button class="btn btn-primary" style="margin-bottom: 0.3rem;" (click)="onAgregarEditarMensualidad('crear')">Agregar
                 Mensualidad</button>
             <ng-container *ngIf="mensualidades">
-                <ng-container *ngIf="mensualidades.length > 0">
-                    <button class="btn btn-info" (click)="generarReporte()">Generar Estado de cuenta</button>
-                </ng-container>
+                <!-- <ng-container *ngIf="mensualidades.length > 0"> -->
+                <button class="btn btn-info" (click)="generarReporte()">Generar Estado de cuenta</button>
+                <!-- </ng-container> -->
             </ng-container>
         </div>
     </div>
 
     <div class="card-body">
         <mat-form-field appearance="fill" class="full-width">
-            <mat-label class="text-raleway text-semibold">Busca una mensualidad....</mat-label>
+            <mat-label class="text-raleway text-semibold">Busca una mensualidad o pago....</mat-label>
             <input autofocus matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
         </mat-form-field>
         <table mat-table [dataSource]="dataSource" matSort class="full-width">
 
             <!-- Numero Mensualidad -->
             <ng-container matColumnDef="numeroMensualidad" style="background-color: #fff !important;">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> # Mensualidad </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> # Mensualidad/Pago </th>
                 <td mat-cell *matCellDef="let row"> {{row.numeroMensualidad}} </td>
             </ng-container>
 
@@ -78,7 +78,7 @@
 
             <!-- Estatus Mensualidad -->
             <ng-container matColumnDef="estatusMensualidad">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Estatus Mensualidad </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Estatus </th>
                 <td mat-cell *matCellDef="let row">
                     <span class="badge text-white" [ngClass]="{
                         'bg-primary': row.estatusPago === 'PAGADA',
@@ -97,9 +97,6 @@
                     <button class="deleteButtonStyle cursorPointer" (click)="onAgregarEditarMensualidad('editar', row)">
                         <mat-icon class="btnEdit">edit</mat-icon>
                     </button>
-                    <!-- <button class="deleteButtonStyle cursorPointer" (click)="onDeleteMensualidad(row)">
-                        <mat-icon class="btnDelete">delete</mat-icon>
-                    </button> -->
                 </td>
             </ng-container>
 

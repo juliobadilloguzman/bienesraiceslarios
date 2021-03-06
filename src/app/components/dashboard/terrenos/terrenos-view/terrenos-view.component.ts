@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { UiActionsService } from 'src/app/services/ui-actions.service';
 import { Modal, ModalType, ModalResponse } from 'src/app/models/modal';
 import { Router } from '@angular/router';
+import { PreviewTerrenoModalComponent } from '../preview-terreno-modal/preview-terreno-modal.component';
 
 @Component({
   selector: 'app-terrenos-view',
@@ -64,18 +65,26 @@ export class TerrenosViewComponent implements OnInit {
   }
 
   onViewTerreno(row: Terreno): void {
-
+    this.dialog.open(PreviewTerrenoModalComponent, {
+      width: '600px',
+      data: {
+        row: row
+      }
+    });
   }
 
   onAgregarEditarTerreno(accion: string, row?: Terreno): void {
-
+    if(accion == 'agregar'){
+      this.router.navigateByUrl('/dashboard/terrenos/agregar', { state: { accion: 'agregar' } });
+    }else if(accion == 'editar'){
+      this.router.navigateByUrl('/dashboard/terrenos/editar', { state: { accion: 'editar', row: row } });
+    }
   }
 
   onDeleteTerreno(terreno: Terreno) {
 
-
-
   }
+
 
   onPayMensualidad(terreno: Terreno) {
     this.router.navigateByUrl('/dashboard/mensualidades', { state: { terreno: terreno } });

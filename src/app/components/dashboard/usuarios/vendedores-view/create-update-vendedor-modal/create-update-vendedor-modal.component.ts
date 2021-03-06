@@ -27,9 +27,9 @@ export class CreateUpdateVendedorModalComponent implements OnInit {
 
     this.vendedorForm = this.fb.group({
       idVendedor: [],
-      nombre: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]],
-      apellidoPaterno: ['', [Validators.pattern(/^[a-zA-Z\s]*$/)]],
-      apellidoMaterno: ['', [Validators.pattern(/^[a-zA-Z\s]*$/)]],
+      nombre: ['', [Validators.required, Validators.pattern(/^([A-Za-z0-9\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$/)]],
+      apellidoPaterno: ['', [Validators.pattern(/^([A-Za-z0-9\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$/)]],
+      apellidoMaterno: ['', [Validators.pattern(/^([A-Za-z0-9\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$/)]],
       telefono: [''],
       correo: ['', Validators.email]
     });

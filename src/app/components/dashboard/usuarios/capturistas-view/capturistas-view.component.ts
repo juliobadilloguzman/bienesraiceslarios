@@ -9,6 +9,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatDialog } from '@angular/material/dialog';
 import { PreviewCapturistaModalComponent } from './preview-capturista-modal/preview-capturista-modal.component';
 import { CreateUpdateCapturistaModalComponent } from './create-update-capturista-modal/create-update-capturista-modal.component';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 @Component({
@@ -27,7 +28,8 @@ export class CapturistasViewComponent implements OnInit {
   constructor(
     private _usuariosService: UsuariosService,
     private dialog: MatDialog,
-    private _uiActionsService: UiActionsService
+    private _uiActionsService: UiActionsService,
+    private _authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -84,6 +86,44 @@ export class CapturistasViewComponent implements OnInit {
   }
 
   onDeleteCapturista(capturista: Usuario) {
+
+    const modalInformation: Modal = {
+      title: "¿Estás seguro?",
+      message: `Borrarás al capturista "${capturista.nombre} ${capturista.apellidoPaterno}" permamente y ya no podrá iniciar sesión, deseas continuar?`,
+      type: ModalType.yesno,
+      response: ModalResponse.warning
+    }
+
+    const dialogRef = this._uiActionsService.openYesNoDialog(modalInformation);
+
+    dialogRef.afterClosed().subscribe((response) => {
+
+      if (response && response == 'confirm') {
+        this._authService.deleteAccount(capturista.idUsuario).subscribe(
+          (response: any) => {
+            const modalInformation: Modal = {
+              title: "Eliminado",
+              message: `El capturista "${capturista.nombre} ${capturista.apellidoPaterno}" fue eliminado correctamente`,
+              type: ModalType.confirmation,
+              response: ModalResponse.success
+            }
+            const dialogRef = this._uiActionsService.openConfirmationDialog(modalInformation);
+            dialogRef.afterClosed().subscribe(() => this.getCapturistas());
+          },
+          (error) => {
+            const modalInformation: Modal = {
+              title: "Error",
+              message: "Hubo un error al eliminar el capturista, inténtelo de nuevo.",
+              type: ModalType.confirmation,
+              response: ModalResponse.failed
+            }
+            this._uiActionsService.openConfirmationDialog(modalInformation);
+          }
+        )
+      }
+
+    });
+
   }
 
   applyFilter(event: Event): void {

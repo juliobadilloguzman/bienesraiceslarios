@@ -1,1 +1,135 @@
-<p>create-update-capturista-modal works!</p>
+<div class="container">
+    <div class="justify-space-between" *ngIf="data">
+        <h2 *ngIf="data.accion == 'crear'">Crea un capturista</h2>
+        <h2 *ngIf="data.accion == 'editar' && capturista">Editar a {{capturista.nombre}} {{capturista.apellidoPaterno}}
+        </h2>
+        <span class="material-icons icon-close" (click)="closeDialog()">cancel</span>
+    </div>
+    <form [formGroup]="capturistaForm" (ngSubmit)="onSubmitForm()">
+        <div class="row">
+            <div class="col-6">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label class="text-raleway">Correo</mat-label>
+                    <input type="text" formControlName="email" matInput required>
+                </mat-form-field>
+                <!-- Errors -->
+                <div *ngIf="showErrors(email)">
+                    <p class="text-semibold text-danger" *ngIf="email.errors.required">El campo es requerido</p>
+                    <p class="text-semibold text-danger" *ngIf="email.errors.email">Formato de email inválido</p>
+                </div>
+            </div>
+            <div class="col-6">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label class="text-raleway">Contraseña</mat-label>
+                    <input type="password" formControlName="password" matInput required>
+                </mat-form-field>
+                <div class="mb-1" *ngIf="password.value != null">
+                    <span class="text-gray text-semibold small-text">Contraseña: </span> <span class="small-text text-gray">{{password.value}}</span>
+                </div>
+                <!-- Errors -->
+                <div *ngIf="showErrors(password)">
+                    <p class="text-semibold text-danger" *ngIf="password.errors.required">El campo es requerido</p>
+                    <p class="text-semibold text-danger" *ngIf="password.errors.pattern">Formato inválido, al menos un número, una mayúscula y una mínuscula</p>
+                    <p class="text-semibold text-danger" *ngIf="password.errors.minlength">Se requiere mínimo 6 caracteres
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label class="text-raleway">Nombre</mat-label>
+                    <input type="text" formControlName="nombre" matInput required>
+                </mat-form-field>
+                <!-- Errors -->
+                <div *ngIf="showErrors(nombre)">
+                    <p class="text-semibold text-danger" *ngIf="nombre.errors.required">El campo es requerido</p>
+                    <p class="text-semibold text-danger" *ngIf="nombre.errors.pattern">Formato inválido</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label class="text-raleway">Apellido Paterno</mat-label>
+                    <input type="text" formControlName="apellidoPaterno" matInput>
+                </mat-form-field>
+                <!-- Errors -->
+                <div *ngIf="showErrors(apellidoPaterno)">
+                    <p class="text-semibold text-danger" *ngIf="apellidoPaterno.errors.pattern">Formato inválido</p>
+                </div>
+            </div>
+            <div class="col-6">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label class="text-raleway">Apellido Materno</mat-label>
+                    <input type="text" formControlName="apellidoMaterno" matInput>
+                </mat-form-field>
+                <!-- Errors -->
+                <div *ngIf="showErrors(apellidoMaterno)">
+                    <p class="text-semibold text-danger" *ngIf="apellidoMaterno.errors.pattern">Formato inválido</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label class="text-raleway">Calle</mat-label>
+                    <input type="text" formControlName="calle" matInput>
+                </mat-form-field>
+            </div>
+            <div class="col-6">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label class="text-raleway">Colonia</mat-label>
+                    <input type="text" formControlName="colonia" matInput>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label class="text-raleway">Número Exterior</mat-label>
+                    <input type="text" formControlName="numeroExterior" matInput>
+                </mat-form-field>
+            </div>
+            <div class="col-6">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label class="text-raleway">Número Interior</mat-label>
+                    <input type="text" formControlName="numeroInterior" matInput>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label class="text-raleway">Municipio</mat-label>
+                    <input type="text" formControlName="municipio" matInput>
+                </mat-form-field>
+            </div>
+            <div class="col-6">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label class="text-raleway">Codigo Postal</mat-label>
+                    <input type="text" formControlName="codigoPostal" matInput>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label class="text-raleway">Telefono fijo</mat-label>
+                    <input type="text" formControlName="telefonoFijo" matInput>
+                </mat-form-field>
+            </div>
+            <div class="col-6">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label class="text-raleway">Telefono celular</mat-label>
+                    <input type="text" formControlName="telefonoCelular" matInput>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <button type="submit" [disabled]="!capturistaForm.valid" class="btn btn-primary">{{data.accion == 'editar' ? 'Editar' : 'Crear'}}</button>
+            </div>
+        </div>
+    </form>
+</div>

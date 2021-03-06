@@ -1,13 +1,13 @@
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a routerLink="/dashboard">Inicio</a></li>
-        <li class="breadcrumb-item"><a routerLink="/dashboard/terrenos/mis-terrenos">Mis Terrenos</a></li>
+        <li class="breadcrumb-item"><a routerLink="/dashboard/terrenos">Terrenos</a></li>
         <li class="breadcrumb-item active" aria-current="page">Mensualidades</li>
     </ol>
 </nav>
 <div class="card p-4">
 
-    <div style="display: flex; justify-content: flex-start;">
+    <div style="display: flex; justify-content: space-between;">
         <div>
             <h2 class="text-gray text-semibold text-raleway title">Mensualidades</h2>
             <h4 class="text-gray text-raleway no-margin" *ngIf="terreno">Fraccionamiento:
@@ -15,6 +15,15 @@
             </h4>
             <h4 class="text-gray text-raleway no-margin" *ngIf="terreno">Manzana: <span class="text-gray text-semibold text-raleway">{{terreno.noManzana}}</span></h4>
             <h4 class="text-gray text-raleway no-margin" *ngIf="terreno">Lote: <span class="text-gray text-semibold text-raleway">{{terreno.noLote}}</span></h4>
+            <h4 class="text-gray text-raleway no-margin" *ngIf="terreno">Cliente: <span class="text-gray text-semibold text-raleway">{{terreno.usuario.nombre}}
+                    {{terreno.usuario.apellidoPaterno}} {{terreno.usuario.apellidoMaterno}}</span></h4>
+        </div>
+        <div style="display: flex; flex-direction: column;">
+            <ng-container *ngIf="mensualidades">
+                <!-- <ng-container *ngIf="mensualidades.length > 0"> -->
+                <button class="btn btn-info" (click)="generarReporte()">Generar Estado de cuenta</button>
+                <!-- </ng-container> -->
+            </ng-container>
         </div>
     </div>
 
@@ -27,7 +36,7 @@
 
             <!-- Numero Mensualidad -->
             <ng-container matColumnDef="numeroMensualidad" style="background-color: #fff !important;">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Numero de Mensualidad </th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> # Mensualidad </th>
                 <td mat-cell *matCellDef="let row"> {{row.numeroMensualidad}} </td>
             </ng-container>
 
@@ -37,6 +46,7 @@
                 <td mat-cell *matCellDef="let row"> {{row.fechaPago}} </td>
             </ng-container>
 
+            <!-- Monto -->
             <!-- Monto -->
             <ng-container matColumnDef="monto">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Monto </th>
@@ -50,9 +60,23 @@
                 <td mat-cell *matCellDef="let row"> {{row.mes}} </td>
             </ng-container>
 
-            <!-- Mes -->
-            <ng-container matColumnDef="estatus">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Estatus </th>
+            <!-- Interes -->
+            <ng-container matColumnDef="interes">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Interés </th>
+                <td mat-cell *matCellDef="let row">
+
+                    <span class="text-semibold" [ngClass]="{
+                    'text-secondary': (row.estatusInteres == 'PAGADO' || row.interes == null),
+                    'text-danger': row.estatusInteres == 'NO PAGADO'
+                   }">{{getInteresTable(row)}}</span>
+
+
+                </td>
+            </ng-container>
+
+            <!-- Estatus Mensualidad -->
+            <ng-container matColumnDef="estatusMensualidad">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> Estatus Mensualidad </th>
                 <td mat-cell *matCellDef="let row">
                     <span class="badge text-white" [ngClass]="{
                         'bg-primary': row.estatusPago === 'PAGADA',
@@ -66,7 +90,7 @@
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
                 <td mat-cell *matCellDef="let row">
                     <button class="deleteButtonStyle cursorPointer" (click)="onViewMensualidad(row)">
-                        <mat-icon class="btnEdit">remove_red_eye</mat-icon>
+                        <mat-icon class="btnView">remove_red_eye</mat-icon>
                     </button>
                 </td>
             </ng-container>

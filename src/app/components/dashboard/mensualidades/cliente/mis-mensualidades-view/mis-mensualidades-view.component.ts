@@ -12,6 +12,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { UiActionsService } from 'src/app/services/ui-actions.service';
 import { Modal, ModalType, ModalResponse } from 'src/app/models/modal';
 import { PreviewMensualidadModalComponent } from '../../preview-mensualidad-modal/preview-mensualidad-modal.component';
+import { DownloadService } from 'src/app/services/download.service';
+import { CurrencyPipe } from '@angular/common';
 
 
 @Component({
@@ -23,8 +25,9 @@ export class MisMensualidadesViewComponent implements OnInit {
 
   state$: Observable<object>;
   terreno: Terreno;
+  mensualidades: Mensualidad[];
 
-  displayedColumns: string[] = ['numeroMensualidad', 'fechaPago', 'monto', 'mes', 'estatus', 'acciones'];
+  displayedColumns: string[] = ['numeroMensualidad', 'fechaPago', 'monto', 'mes', 'interes', 'estatusMensualidad', 'acciones'];
   dataSource: MatTableDataSource<Mensualidad>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -35,7 +38,9 @@ export class MisMensualidadesViewComponent implements OnInit {
     public route: ActivatedRoute,
     private _mensualidadesService: MensualidadesService,
     public dialog: MatDialog,
-    private _uiActionsService: UiActionsService
+    private _uiActionsService: UiActionsService,
+    private _downloadService: DownloadService,
+    private currencyPipe: CurrencyPipe
   ) { }
 
   ngOnInit(): void {
@@ -63,10 +68,13 @@ export class MisMensualidadesViewComponent implements OnInit {
   getMensualidades(): void {
     this._mensualidadesService.getMensualidadesFromTerreno(this.terreno.idTerreno).subscribe(
       (response: Mensualidad[]) => {
-        console.warn(response);
-        this.dataSource = new MatTableDataSource(response);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        if (response) {
+          console.warn(response);
+          this.dataSource = new MatTableDataSource(response);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+          this.mensualidades = response;
+        }
       },
       (error) => {
         const modalInformation: Modal = {
@@ -80,13 +88,29 @@ export class MisMensualidadesViewComponent implements OnInit {
     );
   }
 
+  getInteresTable(mensualidad: Mensualidad) {
+    if (mensualidad.interes == null) {
+      return this.currencyPipe.transform(0);
+    } else {
+      if (mensualidad.estatusInteres == 'PAGADO') {
+        return `${this.currencyPipe.transform(mensualidad.interes)}`
+      } else if (mensualidad.estatusInteres == 'NO PAGADO') {
+        return `${this.currencyPipe.transform(mensualidad.interes)}`
+      }
+    }
+  }
+
   onViewMensualidad(row: Mensualidad): void {
     this.dialog.open(PreviewMensualidadModalComponent, {
       width: '600px',
       data: {
         row: row
       }
-    })
+    });
+  }
+
+  generarReporte() {
+    this._downloadService.generateEstadoCuentaPdf(this.mensualidades, this.terreno);
   }
 
   applyFilter(event: Event): void {

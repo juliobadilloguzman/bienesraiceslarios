@@ -7,7 +7,7 @@ import { SharedModule } from '../shared/shared.module';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { UiActionsService } from 'src/app/services/ui-actions.service';
-
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [CotizadorViewComponent],
@@ -17,7 +17,8 @@ import { UiActionsService } from 'src/app/services/ui-actions.service';
     SharedModule,
     MaterialModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    
   ],
   providers: [UiActionsService, CurrencyPipe]
 })

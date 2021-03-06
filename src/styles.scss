@@ -161,7 +161,7 @@ body {
 }
 
 .text-arel {
-    color: #00debb !important;
+    color: #00a482 !important;
 }
 
 .text-white {
@@ -2010,4 +2010,25 @@ th.mat-header-cell {
 table {
     -webkit-box-shadow: 1px 5px 28px -3px rgba(0, 0, 0, 0.22);
     box-shadow: 1px 5px 28px -3px rgba(0, 0, 0, 0.22);
+}
+
+//Mat-stepper
+.mat-stepper-horizontal, .mat-stepper-vertical{
+    background: #fff !important;
+}
+
+.mat-step-header .mat-step-label.mat-step-label-active {
+    color: #000 !important;
+}
+
+.mat-step-header .mat-step-label, .mat-step-header .mat-step-optional{
+    color: #000 !important;
+}
+
+.mat-horizontal-stepper-header::before, .mat-horizontal-stepper-header::after, .mat-stepper-horizontal-line{
+    border-top-color: rgb(119, 119, 119) !important;
+}
+
+.mat-progress-spinner circle, .mat-spinner circle {
+    stroke: #00a482 !important;
 }

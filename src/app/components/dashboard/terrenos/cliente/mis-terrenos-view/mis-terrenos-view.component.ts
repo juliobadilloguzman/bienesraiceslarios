@@ -79,35 +79,6 @@ export class MisTerrenosViewComponent implements OnInit {
 
       });
 
-    // this._terrenosService.getTerrenosFromUsuario(this.account.idUsuario).subscribe(
-    //   (response: Terreno[]) => {
-    //     console.warn(response);
-    //     if (response) {
-    //       console.warn(response);
-    //       this.dataSource = new MatTableDataSource(response);
-    //       this.dataSource.paginator = this.paginator;
-    //       this.dataSource.sort = this.sort;
-    //     } else {
-    //       const modalInformation: Modal = {
-    //         title: "Error",
-    //         message: "Error al cargar la informacion, verifique su conexion a internet o póngase en contacto con nosotros.",
-    //         type: ModalType.confirmation,
-    //         response: ModalResponse.failed
-    //       }
-    //       this._uiActionsService.openConfirmationDialog(modalInformation);
-    //     }
-    //   },
-    //   (error) => {
-    //     const modalInformation: Modal = {
-    //       title: "Error",
-    //       message: "Error al cargar la informacion, verifique su conexion a internet e inténtelo de nuevo",
-    //       type: ModalType.confirmation,
-    //       response: ModalResponse.failed
-    //     }
-    //     this._uiActionsService.openConfirmationDialog(modalInformation);
-    //   }
-    // );
-
   }
 
   onViewTerreno(row: Terreno): void {

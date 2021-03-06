@@ -43,12 +43,34 @@ export class DownloadService {
 
   getUserNameLogged() {
     const userLogged = JSON.parse(localStorage.getItem('authData'));
-    this._usersService.getUsuario(userLogged['idUsuario']).subscribe(
-      (response: Usuario) => {
-        this.userNamelogged = `${response.nombre} ${response.apellidoPaterno}`;
-      },
-      (error) => { }
-    );
+
+    if(userLogged){
+      this._usersService.getUsuario(userLogged['idUsuario']).subscribe(
+        (response: Usuario) => {
+          this.userNamelogged = `${response.nombre} ${response.apellidoPaterno}`;
+        },
+        (error) => { }
+      );
+    }
+  
+  }
+
+  generateCostoTotalCotizacion(content: any[], planPago: any){
+
+    let costoTotal = 0;
+
+    for(let terreno of content){
+
+      if(planPago.plan == 'contado'){
+        costoTotal += ((terreno.metros*terreno.costoM2)-((terreno.metros*terreno.costoM2)*.10));
+      }else{
+        costoTotal += (terreno.metros*terreno.costoM2);
+      }
+
+    }
+
+    return costoTotal;
+
   }
 
   generateMensualidades(content: Mensualidad[]) {
@@ -159,6 +181,112 @@ export class DownloadService {
     return generatedMensualidades;
   }
 
+  generateCotizacionTerrenos(content: any[], planPago: any) {
+
+    const generateTerrenos: any = [
+      [
+        {
+          text: 'Numero de Terreno',
+          fillColor: '#1e2642',
+          fontSize: 9,
+          color: '#ffffff',
+          border: [false, false, false, false],
+          margin: [0, 5, 0, 5],
+        },
+        {
+          text: 'Numero de Manzana',
+          border: [false, false, false, false],
+          alignment: 'right',
+          fillColor: '#1e2642',
+          fontSize: 9,
+          color: '#ffffff',
+          margin: [0, 5, 0, 5],
+          textTransform: 'uppercase',
+        },
+        {
+          text: 'Medida',
+          border: [false, false, false, false],
+          alignment: 'right',
+          fillColor: '#1e2642',
+          fontSize: 9,
+          color: '#ffffff',
+          margin: [0, 5, 0, 5],
+          textTransform: 'uppercase',
+        },
+        {
+          text: 'Costo x m2',
+          border: [false, false, false, false],
+          alignment: 'right',
+          fillColor: '#1e2642',
+          fontSize: 9,
+          color: '#ffffff',
+          margin: [0, 5, 0, 5],
+          textTransform: 'uppercase',
+        },
+        {
+          text: 'Costo Total',
+          fontSize: 9,
+          border: [false, false, false, false],
+          alignment: 'right',
+          fillColor: '#1e2642',
+          color: '#ffffff',
+          margin: [0, 5, 0, 5],
+          textTransform: 'uppercase',
+        }
+      ]
+    ];
+
+    content.forEach((terreno) => {
+      let requestTerrenos = [
+        {
+          text: `${terreno.noTerreno}`,
+          fontSize: 9,
+          border: [false, false, false, true],
+          margin: [0, 5, 0, 5],
+          alignment: 'left',
+        },
+        {
+          border: [false, false, false, true],
+          fontSize: 9,
+          text: `${terreno.manzana}`,
+          fillColor: '#f5f5f5',
+          alignment: 'right',
+          margin: [0, 5, 0, 5],
+        },
+        {
+          border: [false, false, false, true],
+          fontSize: 9,
+          text: `${terreno.metros}m2`,
+          bold: true,
+          fillColor: '#f5f5f5',
+          alignment: 'right',
+          margin: [0, 5, 0, 5],
+        },
+        {
+          border: [false, false, false, true],
+          fontSize: 9,
+          text: (planPago.plan == 'financiamiento') ? `${this.currencyPipe.transform(terreno.costoM2)}` : `${this.currencyPipe.transform(terreno.costoM2-(terreno.costoM2*.10))}`,
+          fillColor: '#f5f5f5',
+          alignment: 'right',
+          margin: [0, 5, 0, 5],
+        },
+        {
+          border: [false, false, false, true],
+          fontSize: 9,
+          text: (planPago.plan == 'contado') ? `MXN ${this.currencyPipe.transform((terreno.metros*terreno.costoM2)-((terreno.metros*terreno.costoM2)*.10))}` : `MXN ${this.currencyPipe.transform((terreno.metros*terreno.costoM2))}`,
+          fillColor: '#80d26d',
+          alignment: 'right',
+          margin: [0, 5, 0, 5],
+        },
+      ];
+
+      generateTerrenos.push(requestTerrenos);
+
+    });
+
+    return generateTerrenos;
+  }
+
   getColorInteres(mensualidad: Mensualidad): string {
     if (mensualidad.estatusInteres == null) {
       return '#000000';
@@ -213,7 +341,7 @@ export class DownloadService {
 
   }
 
-  generateEstadoCuentaPdf(content: Mensualidad[]): void {
+  generateEstadoCuentaPdf(content: Mensualidad[], terreno?: Terreno): void {
 
     const userLogged = JSON.parse(localStorage.getItem('authData'));
 
@@ -248,7 +376,7 @@ export class DownloadService {
                         alignment: 'right',
                       },
                       {
-                        text: `${content[0].terreno.usuario.nombre} ${(content[0].terreno.usuario.apellidoPaterno == null) ? '' : content[0].terreno.usuario.apellidoPaterno} ${(content[0].terreno.usuario.apellidoMaterno == null) ? '' : content[0].terreno.usuario.apellidoMaterno}`,
+                        text: `${terreno.usuario.nombre} ${(terreno.usuario.apellidoPaterno == null) ? '' : terreno.usuario.apellidoPaterno} ${(terreno.usuario.apellidoMaterno == null) ? '' : terreno.usuario.apellidoMaterno}`,
                         bold: true,
                         color: '#555555',
                         width: '*',
@@ -262,7 +390,7 @@ export class DownloadService {
                   {
                     columns: [
                       {
-                        text: `Manzana: ${content[0].terreno.noManzana}`,
+                        text: `Manzana: ${terreno.noManzana}`,
                         color: '#1e2642',
                         width: '*',
                         fontSize: 10,
@@ -284,7 +412,7 @@ export class DownloadService {
                         margin: [0, 0, 0, 3]
                       },
                       {
-                        text: `Lote: ${content[0].terreno.noLote}`,
+                        text: `Lote: ${terreno.noLote}`,
                         bold: true,
                         color: '#333333',
                         fontSize: 10,
@@ -305,7 +433,7 @@ export class DownloadService {
                         width: '*',
                       },
                       {
-                        text: `Fraccionamiento ${content[0].terreno.fraccionamiento.nombre}`,
+                        text: `Fraccionamiento ${terreno.fraccionamiento.nombre}`,
                         bold: true,
                         fontSize: 10,
                         alignment: 'right',
@@ -423,7 +551,7 @@ export class DownloadService {
         {
           width: '100%',
           alignment: 'center',
-          text: 'Mensualidades hasta hasta la fecha',
+          text: 'Mensualidades hasta la fecha',
           bold: true,
           margin: [0, 10, 0, 10],
           fontSize: 12,
@@ -480,6 +608,18 @@ export class DownloadService {
             body: this.generateMensualidades(content),
           },
         },
+        {
+          columns: [
+            {
+              width: '100%',
+              alignment: 'center',
+              text: (terreno.saldo == 0) ? 'El terreno ha sido liquidado' : '',
+              bold: true,
+              margin: [0, 10, 0, 10],
+              fontSize: 12,
+            }
+          ]
+        },
         '\n',
         '\n\n',
         {
@@ -532,7 +672,7 @@ export class DownloadService {
                   margin: [0, 3, 0, 5],
                 },
                 {
-                  text: `${this.currencyPipe.transform(content[0].terreno.costoTotal)}`,
+                  text: `${this.currencyPipe.transform(terreno.costoTotal)}`,
                   border: [false, false, false, true],
                   fillColor: '#f5f5f5',
                   alignment: 'right',
@@ -549,7 +689,7 @@ export class DownloadService {
                   margin: [0, 3, 0, 5],
                 },
                 {
-                  text: `${this.currencyPipe.transform(content[0].terreno.enganche)}`,
+                  text: (!terreno.enganche) ? 'N/A' : `${this.currencyPipe.transform(terreno.enganche)}`,
                   border: [false, false, false, true],
                   fillColor: '#f5f5f5',
                   alignment: 'right',
@@ -559,7 +699,7 @@ export class DownloadService {
               ],
               [
                 {
-                  text: 'Total pagado de mensualidades',
+                  text: 'Total pagado hasta la fecha',
                   border: [false, true, false, true],
                   fontSize: 9,
                   alignment: 'right',
@@ -568,6 +708,7 @@ export class DownloadService {
                 {
                   border: [false, true, false, true],
                   text: `${this.currencyPipe.transform(this.getTotalPagadoMensualidades(content))}`,
+                  //text: 'PRUEBABRO',
                   alignment: 'right',
                   fontSize: 9,
                   fillColor: '#f5f5f5',
@@ -585,6 +726,7 @@ export class DownloadService {
                 {
                   border: [false, true, false, true],
                   text: `${this.currencyPipe.transform(this.getTotalIntereses(content))}`,
+                  //text: 'PRUEBA BRO',
                   alignment: 'right',
                   color: '#ffffff',
                   fontSize: 9,
@@ -602,7 +744,8 @@ export class DownloadService {
                 },
                 {
                   border: [false, true, false, true],
-                  text: `${this.currencyPipe.transform(content[0].terreno.saldo)}`,
+                  //text: 'PRUEBA BRO',
+                  text: `${this.currencyPipe.transform(terreno.saldo - this.getTotalIntereses(content))}`,
                   alignment: 'right',
                   fontSize: 9,
                   fillColor: '#f5f5f5',
@@ -619,7 +762,7 @@ export class DownloadService {
                   margin: [0, 3, 0, 5],
                 },
                 {
-                  text: `${this.currencyPipe.transform(content[0].terreno.saldo + this.getTotalIntereses(content))}`,
+                  text: `${this.currencyPipe.transform(terreno.saldo)}`,
                   bold: true,
                   alignment: 'right',
                   fontSize: 9,
@@ -699,8 +842,409 @@ export class DownloadService {
     };
 
     this.pdfObj = pdfMake.createPdf(documentDefinition);
-    console.log(this.pdfObj)
     this.openPdf();
+
+  }
+
+  generateCotizacion(content: any[], planPago: any): void {
+
+    const userLogged = JSON.parse(localStorage.getItem('authData'));
+
+    const documentDefinition = {
+      content: [
+        {
+          columns: [
+            {
+              image: this.logoData,
+              width: 150,
+            },
+            [
+              {
+                text: 'Cotización',
+                color: '#1e2642',
+                width: '*',
+                fontSize: 18,
+                bold: true,
+                alignment: 'right',
+                margin: [0, 0, 0, 2],
+              },
+              {
+                stack: [
+                  {
+                    columns: [
+                      {
+                        text: '',
+                        color: '#aaaaab',
+                        bold: true,
+                        width: '*',
+                        fontSize: 10,
+                        alignment: 'right',
+                      },
+                      {
+                        text: `Fraccionamiento Residencial Campestre`,
+                        bold: true,
+                        color: 'green',
+                        width: '*',
+                        fontSize: 10,
+                        alignment: 'right',
+                        margin: [0, 0, 0, 2],
+                      },
+                    ],
+                  },
+                  '\n'
+                ],
+              },
+            ],
+          ],
+        },
+        {
+          columns: [
+            {
+              text: 'Cotización generada por:',
+              color: '#1e2642',
+              bold: true,
+              fontSize: 9,
+              alignment: 'left',
+              margin: [0, 30, 0, 3],
+            },
+            {
+              text: 'Fecha de generación:',
+              color: '#1e2642',
+              bold: true,
+              fontSize: 9,
+              alignment: 'left',
+              margin: [0, 30, 0, 3],
+            },
+            {
+              text: '',
+              color: '#1e2642',
+              bold: true,
+              fontSize: 9,
+              alignment: 'left',
+              margin: [0, 20, 0, 3],
+            },
+          ],
+        },
+        {
+          columns: [
+            {
+              text: (userLogged) ? `${this.userNamelogged} \n ${userLogged.email}` : 'Usuario no registrado',
+              bold: false,
+              fontSize: 9,
+              color: '#333333',
+              alignment: 'left',
+            },
+            {
+              text: moment().locale('es').format('LLLL'),
+              bold: false,
+              fontSize: 9,
+              color: '#333333',
+              alignment: 'left',
+            },
+            {
+              text: '',
+              bold: false,
+              fontSize: 9,
+              color: '#333333',
+              alignment: 'left',
+            },
+          ],
+        },
+        // {
+        //   columns: [
+        //     {
+        //       text: 'Enviado el',
+        //       color: '#1e2642',
+        //       bold: true,
+        //       fontSize: 9,
+        //       margin: [0, 10, 0, 3],
+        //     },
+        //     {
+        //       text: 'Periodo del informe',
+        //       color: '#1e2642',
+        //       bold: true,
+        //       fontSize: 9,
+        //       margin: [0, 10, 0, 3],
+        //     },
+        //     {
+        //       text: '',
+        //       color: '#1e2642',
+        //       bold: true,
+        //       fontSize: 9,
+        //       margin: [0, 10, 0, 3],
+        //     },
+        //   ],
+        // },
+        // {
+        //   columns: [
+        //     {
+        //       text: `TEMPORAL`,
+        //       bold: false,
+        //       fontSize: 9,
+        //       color: '#333333',
+        //     },
+        //     {
+        //       text: 'TEMPORAL',
+        //       bold: false,
+        //       fontSize: 9,
+        //       color: '#333333',
+        //     },
+        //     {
+        //       text: '',
+        //       bold: false,
+        //       fontSize: 9,
+        //       color: '#333333',
+        //     },
+        //   ],
+        // },
+        '\n\n',
+        {
+          width: '100%',
+          alignment: 'center',
+          text: (planPago.plan == 'contado') ? 'Plan al contado' : `Plan financiamiento a ${planPago.numeroMensualidades} mensualidades`,
+          bold: true,
+          margin: [0, 10, 0, 10],
+          fontSize: 12,
+        },
+        // {
+        //   text: ['TEMPORAL'],
+        //   alignment: 'left',
+        //   fontSize: 9,
+        //   margin: [0, 5, 0, 20]
+        // },
+        {
+          layout: {
+            defaultBorder: false,
+            hLineWidth: function (i, node) {
+              return 1;
+            },
+            vLineWidth: function (i, node) {
+              return 1;
+            },
+            hLineColor: function (i, node) {
+              if (i === 1 || i === 0) {
+                return '#bfdde8';
+              }
+              return '#eaeaea';
+            },
+            vLineColor: function (i, node) {
+              return '#eaeaea';
+            },
+            hLineStyle: function (i, node) {
+              // if (i === 0 || i === node.table.body.length) {
+              return null;
+              //}
+            },
+            // vLineStyle: function (i, node) { return {dash: { length: 10, space: 4 }}; },
+            paddingLeft: function (i, node) {
+              return 5;
+            },
+            paddingRight: function (i, node) {
+              return 5;
+            },
+            paddingTop: function (i, node) {
+              return 2;
+            },
+            paddingBottom: function (i, node) {
+              return 2;
+            },
+            fillColor: function (rowIndex, node, columnIndex) {
+              return '#fff';
+            },
+          },
+          table: {
+            headerRows: 1,
+            widths: [80, 90, 90, 100, 100],
+            body: this.generateCotizacionTerrenos(content, planPago),
+          },
+        },
+        '\n',
+        '\n\n',
+        {
+          layout: {
+            defaultBorder: false,
+            hLineWidth: function (i, node) {
+              return 1;
+            },
+            vLineWidth: function (i, node) {
+              return 1;
+            },
+            hLineColor: function (i, node) {
+              return '#eaeaea';
+            },
+            vLineColor: function (i, node) {
+              return '#eaeaea';
+            },
+            hLineStyle: function (i, node) {
+              // if (i === 0 || i === node.table.body.length) {
+              return null;
+              //}
+            },
+            // vLineStyle: function (i, node) { return {dash: { length: 10, space: 4 }}; },
+            paddingLeft: function (i, node) {
+              return 10;
+            },
+            paddingRight: function (i, node) {
+              return 10;
+            },
+            paddingTop: function (i, node) {
+              return 3;
+            },
+            paddingBottom: function (i, node) {
+              return 3;
+            },
+            fillColor: function (rowIndex, node, columnIndex) {
+              return '#fff';
+            },
+          },
+          table: {
+            headerRows: 1,
+            widths: ['*', 'auto'],
+            body: [
+              [
+                {
+                  text: (planPago.plan == 'contado') ? 'Total a pagar en una sola exhibicación' : 'Total a pagar',
+                  bold: true,
+                  alignment: 'right',
+                  fontSize: 9,
+                  border: [false, false, false, true],
+                  margin: [0, 3, 0, 5],
+                },
+                {
+                  text: `${this.currencyPipe.transform(this.generateCostoTotalCotizacion(content, planPago))}`,
+                  bold: true,
+                  alignment: 'right',
+                  fontSize: 9,
+                  border: [false, false, false, true],
+                  fillColor: '#f5f5f5',
+                  margin: [0, 3, 0, 5],
+                },
+              ],
+              [
+
+                (planPago.plan == 'financiamiento') ?  
+                  {
+                    text: `Enganche del 10%`,
+                    border: [false, false, false, true],
+                    alignment: 'right',
+                    fontSize: 9,
+                    margin: [0, 3, 0, 5],
+                  }
+                :
+                  ''
+                ,
+
+                (planPago.plan == 'financiamiento') ? 
+                  {
+                    text: `${this.currencyPipe.transform(this.generateCostoTotalCotizacion(content, planPago)*0.10)}`,
+                    border: [false, false, false, true],
+                    fillColor: '#f5f5f5',
+                    alignment: 'right',
+                    fontSize: 9,
+                    margin: [0, 3, 0, 5],
+                  }
+                :
+                  '',
+              ],
+              [
+
+                (planPago.plan == 'financiamiento') ? 
+                  {
+                    text: `${planPago.numeroMensualidades} mensualidades de`,
+                    border: [false, true, false, true],
+                    fontSize: 9,
+                    alignment: 'right',
+                    margin: [0, 3, 0, 5],
+                  }
+                :
+                  '',
+
+                (planPago.plan == 'financiamiento') ? 
+                  {
+                    border: [false, true, false, true],
+                    text: `${this.currencyPipe.transform(this.generateCostoTotalCotizacion(content, planPago)/planPago.numeroMensualidades)}`,
+                    //text: 'PRUEBABRO',
+                    alignment: 'right',
+                    fontSize: 9,
+                    fillColor: '#f5f5f5',
+                    margin: [0, 3, 0, 0],
+                  }
+                :
+                  '',
+              ],            
+            ],
+          },
+        },
+        '\n\n',
+        /*{
+          table: {
+            // headers are automatically repeated if the table spans over multiple pages
+            // you can declare how many rows should be treated as headers
+            headerRows: 1,
+            widths: [180],
+            body: [
+              [{ text: '', border: [false, false, false, true], margin: [0, 0, 0, 15] }],
+              [{ text: '', border: [false, false, false, false] }]
+            ]
+          },
+          layout: {
+            hLineWidth: function (i, node) {
+              return 0.50;
+            },
+            vLineWidth: function (i, node) {
+              return 0.50;
+            }
+          }
+        },*/
+        /*{
+          columns: [
+            {
+              text: 'Enviado por',
+              color: '#1e2642',
+              bold: true,
+              fontSize: 9,
+              border: [true, false, false, true],
+              alignment: 'left',
+              margin: [0, 0, 0, 3],
+            },
+            {
+              text: '',
+              color: '#1e2642',
+              bold: true,
+              fontSize: 9,
+              alignment: 'left',
+              margin: [0, 0, 0, 3],
+            },
+            {
+              text: '',
+              color: '#1e2642',
+              bold: true,
+              fontSize: 9,
+              alignment: 'left',
+              margin: [0, 0, 0, 3],
+            },
+          ],
+        }*/
+
+      ],
+      styles: {
+        notesTitle: {
+          fontSize: 10,
+          bold: true,
+          margin: [0, 50, 0, 3],
+        },
+        notesText: {
+          fontSize: 10,
+        },
+      },
+      defaultStyle: {
+        columnGap: 20,
+      },
+    };
+
+    this.pdfObj = pdfMake.createPdf(documentDefinition);
+    this.openPdf();
+    this.downloadPdf();
 
   }
 

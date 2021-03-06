@@ -34,7 +34,7 @@
                     </tr>
                     <tr>
                         <th scope="row">Fraccionamiento</th>
-                        <td><span *ngIf="fraccionamiento" class="text-secondary">{{fraccionamiento.nombre}}</span></td>
+                        <td><span *ngIf="fraccionamiento" class="text-semibold">{{fraccionamiento.nombre}}</span></td>
                     </tr>
                     <tr>
                         <th scope="row">Fecha de venta</th>
@@ -51,7 +51,8 @@
                     </tr>
                     <tr>
                         <th scope="row">Forma de pago</th>
-                        <td>{{(data.form.pagoAlContado == 0) ? 'Financiamiento a' : 'Contado'}} <span class="text-semibold" *ngIf="data.form.pagoAlContado == 0">{{data.form.noMensualidades}}
+                        <td>{{(data.form.pagoAlContado == 0) ? 'Financiamiento a' : 'Contado'}} <span
+                                class="text-semibold" *ngIf="data.form.pagoAlContado == 0">{{data.form.noMensualidades}}
                                 mensualidades</span>
                         </td>
                     </tr>
@@ -66,7 +67,8 @@
                         </tr>
                         <tr>
                             <th scope="row">Fechas de pago</th>
-                            <td>Del <span class="text-semibold">{{data.form.diaPagoDel}}</span> al <span class="text-semibold">{{data.form.diaPagoAl}}</span> de cada mes</td>
+                            <td>Del <span class="text-semibold">{{data.form.diaPagoDel}}</span> al <span
+                                    class="text-semibold">{{data.form.diaPagoAl}}</span> de cada mes</td>
                         </tr>
                         <tr>
                             <th scope="row">Fecha de la primera mensualidad</th>
@@ -81,33 +83,40 @@
                            }">{{(data.form.pagoDeslinde == 1) ? 'Pagado' : 'NO Pagado'}}
                             </span>
                             <span *ngIf="data.form.pagoDeslinde == 1"> la fecha </span>
-                            <span class="text-semibold">{{data.form.fechaPagoDeslinde}}
-                            </span> con un monto de <span class="text-semibold text-secondary">{{data.form.montoDeslinde | currency}}</span>
+                            <span class="text-semibold"
+                                *ngIf="data.form.pagoDeslinde == 1">{{data.form.fechaPagoDeslinde}}</span>
+                            <span *ngIf="data.form.pagoDeslinde == 1">con un monto de</span>
+                            <span class="text-semibold text-secondary">{{data.form.montoDeslinde | currency}}</span>
                         </td>
                     </tr>
                 </tbody>
             </table>
             <div class="box-saldo">
-                <p class="text-semibold no-margin">Saldo a pagar: <span class="text-secondary">{{data.form.saldo | currency}}</span></p>
-                <p style="margin-top: 0.1rem !important;">Saldo calculado automaticamente, si es necesario modificarlo
-                    <span class="cursorPointer text-underline" (click)="modifySaldo()">da click
-                        aquí</span></p>
-                <ng-container *ngIf="showSaldoInput">
-                    <mat-form-field appearance="fill">
-                        <mat-label>Introduce el nuevo saldo</mat-label>
-                        <input matInput aria-label="Vendedores" [formControl]="saldoCtrl">
-                    </mat-form-field>
-                    <div>
-                        <button class="btn btn-danger" (click)="cancelNewSaldo()">Cancelar modificación de
-                            saldo</button>
-                    </div>
+                <p class="text-semibold no-margin">Saldo a pagar: <span
+                        class="text-secondary">{{data.form.saldo | currency}}</span></p>
+                <ng-container *ngIf="data.form.pagoAlContado != 1">
+                    <p style="margin-top: 0.1rem !important;">Saldo calculado automaticamente, si es necesario
+                        modificarlo
+                        <span class="cursorPointer text-underline" (click)="modifySaldo()">da click
+                            aquí</span></p>
+                    <ng-container *ngIf="showSaldoInput">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Introduce el nuevo saldo</mat-label>
+                            <input matInput aria-label="Vendedores" [formControl]="saldoCtrl">
+                        </mat-form-field>
+                        <div>
+                            <button class="btn btn-danger" (click)="cancelNewSaldo()">Cancelar modificación de
+                                saldo</button>
+                        </div>
+                    </ng-container>
                 </ng-container>
             </div>
         </div>
     </div>
     <div class="row mt-1">
         <div class="col-12 flex-center">
-            <button type="button" class="btn btn-primary" style="margin-right: 0.3rem !important;" (click)="closeDialog('proceed')">
+            <button type="button" class="btn btn-primary" style="margin-right: 0.3rem !important;"
+                (click)="closeDialog('proceed')">
                 La información es correcta
             </button>
             <button type="button" class="btn btn-danger" (click)="closeDialog('backToEdit')">

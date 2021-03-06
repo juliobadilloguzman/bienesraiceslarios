@@ -2,43 +2,167 @@
 
 <header #top>
     <div class="container">
-        <button mat-raised-button (click)="isLinear = !isLinear" id="toggle-linear">
-            {{!isLinear ? 'Enable linear mode' : 'Disable linear mode'}}
-        </button>
-        <mat-vertical-stepper [linear]="isLinear" #stepper>
-            <mat-step [stepControl]="firstFormGroup">
-                <form [formGroup]="firstFormGroup">
-                    <ng-template matStepLabel>Selecciona el fraccionamiento</ng-template>
-                    <mat-form-field appearence="fill">
-                        <mat-label>Name</mat-label>
-                        <input matInput placeholder="Last name, First name" formControlName="firstCtrl" required>
-                    </mat-form-field>
-                    <div>
-                        <button mat-button matStepperNext>Next</button>
-                    </div>
-                </form>
-            </mat-step>
-            <mat-step [stepControl]="secondFormGroup">
-                <form [formGroup]="secondFormGroup">
-                    <ng-template matStepLabel>Escoge tu plan de pagos</ng-template>
-                    <mat-form-field>
-                        <mat-label>Address</mat-label>
-                        <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY" required>
-                    </mat-form-field>
-                    <div>
-                        <button mat-button matStepperPrevious>Back</button>
-                        <button mat-button matStepperNext>Next</button>
-                    </div>
-                </form>
-            </mat-step>
-            <mat-step>
-                <ng-template matStepLabel>Done</ng-template>
-                <p>You are now done.</p>
-                <div>
-                    <button mat-button matStepperPrevious>Back</button>
-                    <button mat-button (click)="stepper.reset()">Reset</button>
+        <h1 class="text-white text-bold text-raleway text-center"
+            style="font-size: 2.4rem; text-shadow: 1px 2px 6px rgba(0,0,0,0.50);">Fraccionamiento Residencial Campestre
+        </h1>
+        <h3 
+            class="text-white text-semibold text-raleway text-center mb-3"
+            style="font-size: 1.5rem; text-shadow: 1px 2px 6px rgba(0,0,0,0.43);">
+            Cotizador de terrenos
+        </h3>
+
+        <mat-horizontal-stepper linear="true" #stepper style="max-height: 70vh !important; overflow: scroll !important;">
+
+            <!-- STEP 1 -->
+
+            <mat-step [stepControl]="terrenosForm">
+
+                <div style="margin-top: 3rem; margin-bottom: 2rem;">
+                    <p class="text-gray text-semibold text-raleway text-center">Navega por el plano para ver las ubicaciones disponibles, posteriormente agrega los terrenos deseados y presiona siguiente.</p>
+                    <p class="text-secondary text-center text-bold" style="text-decoration: underline; cursor: pointer;" (click)="openPlano()">Ver plano</p>
                 </div>
+
+                <form [formGroup]="terrenosForm" class="mt-2">
+
+                    <ng-template matStepLabel>Escoge tus terrenos</ng-template>
+
+                    <div class="row">
+
+                        <!-- Manzana -->
+                        <div class="col-12">
+                            <mat-form-field appearance="fill" class="full-width no-margin">
+                                <mat-label>Selecciona una manzana</mat-label>
+                                <mat-select formControlName="manzana" [value]="manzana">
+                                    <mat-option *ngFor="let manzana of [1,2,3,4]" [value]="manzana">
+                                        {{manzana}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+
+                       <!-- Terreno -->
+                    <div class="row" *ngIf="filteredTerrenos.length > 0">
+                    
+                        <div class="col-10 full-width">
+                            <mat-form-field appearance="fill" class="full-width">
+                                <mat-label>Seleccione el numero de terreno</mat-label>
+                                <mat-select formControlName="terreno" [value]="terreno">
+                                    <mat-option *ngFor="let terreno of filteredTerrenos" [value]="terreno">
+                                        Terreno: {{terreno.noTerreno}} - {{terreno.metros}}m2
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-2 full-width">
+                            <button class="btn btn-info no-margin full-width" [disabled]="!terreno.value"
+                                (click)="onAddTerreno()">Añadir</button>
+                        </div>
+
+                    </div>
+
+                </form>
+
+                <div class="row" style="margin-bottom: 2rem;" *ngIf="terrenosSelected.length > 0">
+                    <div class="col-12">
+                        <h6 class="text-arel text-raleway text-semibold text-center" style="font-size: 1rem;">Terrenos agregados: </h6>
+                        <mat-list class="no-margin">
+                            <mat-list-item *ngFor="let terreno of terrenosSelected; let i = index">
+                                <div mat-line class="text-gray"> Terreno: {{terreno.noTerreno}} - Manzana:
+                                    {{terreno.manzana}}</div>
+                                <div mat-line class="text-gray"> {{terreno.metros}}m2 </div>
+                                <mat-divider></mat-divider>
+                                <button class="btn btn-danger" (click)="deleteTerreno(i)">Eliminar</button>
+                            </mat-list-item>
+                        </mat-list>
+
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <button class="btn btn-primary" [disabled]="!terrenosForm.valid || terrenosSelected.length == 0" matStepperNext>Siguiente</button>
+                    </div>
+                </div>
+
             </mat-step>
-        </mat-vertical-stepper>
+
+            <!-- STEP 2 -->
+            <mat-step [stepControl]="planPagoForm">
+
+                <form [formGroup]="planPagoForm" class="p-2">
+
+                    <ng-template matStepLabel>Escoge tu plan de pagos</ng-template>
+
+                    <div class="row">
+                        <div class="col-12">
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-12">
+                            <mat-form-field appearance="fill" class="full-width no-margin">
+                                <mat-label>Selecciona un plan de pago</mat-label>
+                                <mat-select formControlName="plan" [value]="plan">
+                                    <mat-option value="financiamiento">Financiamiento</mat-option>
+                                    <mat-option value="contado">Contado</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="row" *ngIf="plan.value == 'financiamiento'">
+                        <div class="col-12">
+                            <mat-form-field appearance="fill" class="full-width no-margin">
+                                <mat-label>Selecciona el numero de mensualidades</mat-label>
+                                <mat-select formControlName="numeroMensualidades" [value]="numeroMensualidades">
+                                    <mat-option *ngFor="let numero of range(2, 60);" [value]="numero">{{numero}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <button matStepperPrevious class="btn btn-info" style="margin-right: 0.3rem;">Anterior</button>
+                            <button matStepperNext class="btn btn-primary" [disabled]="!planPagoForm.valid || (plan.value == 'financiamiento' && !numeroMensualidades.value)" (click)="generateCotizacion()">Siguiente</button>
+                        </div>
+                    </div>
+
+                </form>
+
+            </mat-step>
+
+            <!-- STEP 3 -->
+            <mat-step>
+                <ng-template matStepLabel>Ve tu cotización</ng-template>
+
+                <div style="display: flex; justify-content: center;" class="mb-2 mt-2" *ngIf="showLoading">
+                    <mat-spinner></mat-spinner>
+                </div>
+
+                <div style="display: flex; justify-content: center;" class="mb-2 mt-2" *ngIf="showLoading">
+                    <p class="text-raleway text-gray text-semibold">Generando cotización</p>
+                </div>
+
+                <div style="display: flex; justify-content: center;" class="mb-2" *ngIf="!showLoading">
+                    <button class="btn btn-primary" (click)="reloadPage()">Volver a empezar</button>
+                </div>
+
+            </mat-step>
+
+        </mat-horizontal-stepper>
+
+        <div class="row mt-2">
+            <div class="col-12 text-center">
+                <a routerLink="/" style="text-decoration: underline; font-size: 1.1rem;" class="text-white text-raleway">Regresar al inicio</a>
+            </div>
+        </div>
+
     </div>
 </header>

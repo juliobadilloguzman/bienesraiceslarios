@@ -168,7 +168,7 @@
         </div>
         <div class="row mb-1">
             <div class="col-12">
-                <input type="checkbox" (change)="onSetInteres($event.target.checked)"><span style="margin-left: 0.2rem !important;" class="text-gray">Tiene intereses</span>
+                <input type="checkbox" [checked]="tieneInteres" (change)="onSetInteres($event.target.checked)"><span style="margin-left: 0.2rem !important;" class="text-gray">Tiene intereses</span>
             </div>
         </div>
         <div class="row mb-1" *ngIf="tieneInteres">
@@ -196,8 +196,11 @@
             </div>
         </div>
         <div class="row">
+            <p class="text-gray">{{mensualidadForm.errors | json}}</p>
+        </div>
+        <div class="row">
             <div class="col-12">
-                <button type="submit" class="btn btn-primary">{{data.accion == 'editar' ? 'Editar' : 'Crear'}}</button>
+                <button type="submit" [disabled]="!mensualidadForm.valid" class="btn btn-primary">{{data.accion == 'editar' ? 'Editar' : 'Crear'}}</button>
             </div>
         </div>
     </form>
