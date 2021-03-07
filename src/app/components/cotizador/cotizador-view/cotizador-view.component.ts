@@ -105,8 +105,6 @@ export class CotizadorViewComponent implements OnInit {
       this.terrenosSelected.push(this.terreno.value);
     }
 
-    console.warn('terrenos want', this.terrenosSelected);
-
   }
 
   generateCotizacion(){

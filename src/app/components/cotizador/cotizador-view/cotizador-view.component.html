@@ -45,7 +45,7 @@
                        <!-- Terreno -->
                     <div class="row" *ngIf="filteredTerrenos.length > 0">
                     
-                        <div class="col-10 full-width">
+                        <div class="col-xxl-10 col-xl-10 col-lg-12 col-md-12 col-sm-12 full-width">
                             <mat-form-field appearance="fill" class="full-width">
                                 <mat-label>Seleccione el numero de terreno</mat-label>
                                 <mat-select formControlName="terreno" [value]="terreno">
@@ -56,8 +56,8 @@
                             </mat-form-field>
                         </div>
 
-                        <div class="col-2 full-width">
-                            <button class="btn btn-info no-margin full-width" [disabled]="!terreno.value"
+                        <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2 full-width text-center">
+                            <button class="btn btn-info no-margin full-width text-center" [disabled]="!terreno.value"
                                 (click)="onAddTerreno()">Añadir</button>
                         </div>
 
@@ -65,7 +65,7 @@
 
                 </form>
 
-                <div class="row" style="margin-bottom: 2rem;" *ngIf="terrenosSelected.length > 0">
+                <div class="row mt-2" style="margin-bottom: 2rem;" *ngIf="terrenosSelected.length > 0">
                     <div class="col-12">
                         <h6 class="text-arel text-raleway text-semibold text-center" style="font-size: 1rem;">Terrenos agregados: </h6>
                         <mat-list class="no-margin">
@@ -81,7 +81,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row mt-2">
                     <div class="col-12 text-center">
                         <button class="btn btn-primary" [disabled]="!terrenosForm.valid || terrenosSelected.length == 0" matStepperNext>Siguiente</button>
                     </div>
@@ -94,7 +94,7 @@
 
                 <form [formGroup]="planPagoForm" class="p-2">
 
-                    <ng-template matStepLabel>Escoge tu plan de pagos</ng-template>
+                    <ng-template matStepLabel>Escoge tu plan de pago</ng-template>
 
                     <div class="row">
                         <div class="col-12">

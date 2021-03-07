@@ -1162,7 +1162,7 @@ export class DownloadService {
                 (planPago.plan == 'financiamiento') ? 
                   {
                     border: [false, true, false, true],
-                    text: `${this.currencyPipe.transform(this.generateCostoTotalCotizacion(content, planPago)/planPago.numeroMensualidades)}`,
+                    text: `${this.currencyPipe.transform((this.generateCostoTotalCotizacion(content, planPago)-(this.generateCostoTotalCotizacion(content, planPago)*.10))/planPago.numeroMensualidades)}`,
                     //text: 'PRUEBABRO',
                     alignment: 'right',
                     fontSize: 9,
