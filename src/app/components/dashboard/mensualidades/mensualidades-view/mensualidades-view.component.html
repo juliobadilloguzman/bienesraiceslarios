@@ -45,7 +45,7 @@
             <!-- Fecha Pago -->
             <ng-container matColumnDef="fechaPago">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha pago </th>
-                <td mat-cell *matCellDef="let row"> {{row.fechaPago}} </td>
+                <td mat-cell *matCellDef="let row"> {{row.fechaPago | date: 'dd/MM/yyyy'}} </td>
             </ng-container>
 
             <!-- Monto -->

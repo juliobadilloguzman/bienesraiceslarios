@@ -160,14 +160,32 @@ export class CreateUpdateMensualidadModalComponent implements OnInit {
     return dirty && touched && !!errors;
   }
 
+  onSetInteres(checked: boolean) {
+    if (checked) {
+      this.tieneInteres = true;
+
+      //Update validators
+      this.interes.setValidators([Validators.required]);
+      this.interes.updateValueAndValidity();
+
+      this.estatusInteres.setValidators([Validators.required]);
+      this.estatusInteres.updateValueAndValidity();
+
+    } else {
+      this.tieneInteres = false;
+
+      this.interes.clearValidators()
+      this.interes.updateValueAndValidity();
+
+      this.estatusInteres.clearValidators()
+      this.estatusInteres.updateValueAndValidity();
+
+    }
+  }
+
   onSubmitForm(): void {
 
     console.log('MENSUALIDAD TO INSERT', this.mensualidadForm.value);
-
-    //Patch fechas
-    if (this.fechaPago.value != null) {
-      this.fechaPago.patchValue(moment(this.fechaPago.value).format("DD/MM/YYYY"));
-    }
 
     if (!this.tieneInteres) {
       this.interes.patchValue(null);
@@ -257,29 +275,6 @@ export class CreateUpdateMensualidadModalComponent implements OnInit {
 
     }
 
-  }
-
-  onSetInteres(checked: boolean) {
-    if (checked) {
-      this.tieneInteres = true;
-
-      //Update validators
-      this.interes.setValidators([Validators.required]);
-      this.interes.updateValueAndValidity();
-
-      this.estatusInteres.setValidators([Validators.required]);
-      this.estatusInteres.updateValueAndValidity();
-
-    } else {
-      this.tieneInteres = false;
-
-      this.interes.clearValidators()
-      this.interes.updateValueAndValidity();
-
-      this.estatusInteres.clearValidators()
-      this.estatusInteres.updateValueAndValidity();
-
-    }
   }
 
   closeDialog() {

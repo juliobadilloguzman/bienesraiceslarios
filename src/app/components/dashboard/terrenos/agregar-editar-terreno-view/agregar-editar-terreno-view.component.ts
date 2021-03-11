@@ -19,6 +19,7 @@ import { Usuario } from 'src/app/models/usuario'
 import { CreateUpdateClienteModalComponent } from '../../usuarios/clientes-view/create-update-cliente-modal/create-update-cliente-modal.component';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Terreno } from 'src/app/models/terreno';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-agregar-editar-terreno-view',
@@ -206,6 +207,7 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
     this.state$ = this.route.paramMap.pipe(map(() => window.history.state));
     this.state$.subscribe(response => {
       this.accion = response['accion'];
+      console.warn(this.accion);
       if (response['row']) {
         this.terreno = response['row'];
         console.warn('TERRENO TO EDIT', this.terreno);
@@ -230,7 +232,6 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
         this.terrenoForm.patchValue(this.terreno);
         this.fraccionamientoIdFraccionamiento.setValue(this.terreno.fraccionamiento.idFraccionamiento);
         this.usuarioIdUsuario.setValue(this.terreno.usuario.idUsuario);
-        this.fechaVenta.patchValue(new Date(this.terreno.fechaVenta));
         this.vendedoresTemp = this.terreno.vendedores;
         this.clienteTemp = this.terreno.usuario;
 
@@ -242,7 +243,7 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
         //Patch Pago deslinde
         if (this.terreno.pagoDeslinde == 1) {
           this.deslindePagado = true;
-          this.fechaPagoDeslinde.patchValue(new Date(this.terreno.fechaPagoDeslinde));
+          //this.fechaPagoDeslinde.patchValue(new Date(this.terreno.fechaPagoDeslinde));
           this.montoDeslinde.patchValue(this.terreno.montoDeslinde);
         }
       }
@@ -482,7 +483,7 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
     this.costoTotal.patchValue(this.costoTotalTemp);
 
     //Patch fechas
-    this.fechaVenta.patchValue(moment(this.fechaVenta.value).format("DD/MM/YYYY"));
+    //this.fechaVenta.patchValue(moment(this.fechaVenta.value).format("YYYY-MM-DD"));
 
     //Patch temp values
     if (!this.pagoDeContado) {
@@ -496,7 +497,7 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
       this.enganche.patchValue(parseFloat(this.enganche.value));
 
       //Patch fechas
-      this.fechaPrimeraMensualidad.patchValue(moment(this.fechaPrimeraMensualidad.value).format("DD/MM/YYYY"));
+      this.fechaPrimeraMensualidad.patchValue(moment(this.fechaPrimeraMensualidad.value).format("YYYY-MM-DD"));
 
     } else {
       //Reset values
@@ -511,7 +512,7 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
 
     if (this.deslindePagado) {
       this.montoDeslinde.patchValue(parseInt(this.montoDeslinde.value));
-      this.fechaPagoDeslinde.patchValue(moment(this.fechaPagoDeslinde.value).format("DD/MM/YYYY"));
+      this.fechaPagoDeslinde.patchValue(moment(this.fechaPagoDeslinde.value).format("YYYY-MM-DD"));
     } else {
       this.montoDeslinde.patchValue(null);
       this.fechaPagoDeslinde.patchValue(null);
@@ -549,27 +550,39 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(data => {
       if (data.action == 'proceed') {
+
         console.warn('DATA FORM', data.form);
-        this._terrenosService.createTerreno(data.form).subscribe(
-          (response: any) => {
-            console.warn(response);
-            if (response) {
-              const modalInformation: Modal = {
-                title: "Creado",
-                message: "El terreno se creo correctamente",
-                type: ModalType.confirmation,
-                response: ModalResponse.success
+
+        if (this.accion == 'agregar') {
+
+          this._terrenosService.createTerreno(data.form).subscribe(
+            (response: any) => {
+              console.warn(response);
+              if (response) {
+                const modalInformation: Modal = {
+                  title: "Creado",
+                  message: "El terreno se creo correctamente",
+                  type: ModalType.confirmation,
+                  response: ModalResponse.success
+                }
+                const dialogRef = this._uiActionsService.openConfirmationDialog(modalInformation);
+                dialogRef.afterClosed().subscribe(() => {
+                  this.router.navigateByUrl('/dashboard/terrenos');
+                });
               }
-              const dialogRef = this._uiActionsService.openConfirmationDialog(modalInformation);
-              dialogRef.afterClosed().subscribe(() => {
-                this.router.navigateByUrl('/dashboard/terrenos');
-              });
+            },
+            (error) => {
+              console.error(error);
             }
-          },
-          (error) => {
-            console.error(error);
-          }
-        );
+          );
+
+
+        } else if (this.accion == 'editar') {
+
+          console.warn('voy a editar');
+
+        }
+
       }
     });
 

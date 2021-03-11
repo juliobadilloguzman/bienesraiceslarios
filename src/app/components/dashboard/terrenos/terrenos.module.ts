@@ -7,7 +7,6 @@ import { MaterialModule } from 'src/app/shared/material.module';
 import { SharedModule } from '../../shared/shared.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { AgregarTerrenoViewComponent } from './agregar-terreno-view/agregar-terreno-view.component';
 import { YesNoModalComponent } from '../../shared/yes-no-modal/yes-no-modal.component';
 import { ModalConfirmationComponent } from '../../shared/modal-confirmation/modal-confirmation.component';
 import { UiActionsService } from 'src/app/services/ui-actions.service';
@@ -21,7 +20,7 @@ import { AgregarEditarTerrenoViewComponent } from './agregar-editar-terreno-view
 
 @NgModule({
   entryComponents: [ModalConfirmationComponent, YesNoModalComponent, CreateUpdateVendedorModalComponent, ConfirmAgregarTerrenoModalComponent, CreateUpdateClienteModalComponent, PreviewTerrenoModalComponent],
-  declarations: [TerrenosViewComponent, AgregarTerrenoViewComponent, ConfirmAgregarTerrenoModalComponent, MisTerrenosViewComponent, PreviewTerrenoModalComponent, AgregarEditarTerrenoViewComponent],
+  declarations: [TerrenosViewComponent, ConfirmAgregarTerrenoModalComponent, MisTerrenosViewComponent, PreviewTerrenoModalComponent, AgregarEditarTerrenoViewComponent],
   imports: [
     CommonModule,
     TerrenosRoutingModule,

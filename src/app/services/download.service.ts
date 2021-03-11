@@ -140,7 +140,7 @@ export class DownloadService {
         {
           border: [false, false, false, true],
           fontSize: 9,
-          text: (mensualidad.fechaPago == null) ? 'No pagada aún' : mensualidad.fechaPago,
+          text: (mensualidad.fechaPago == null) ? 'No pagada aún' : moment(mensualidad.fechaPago).format("DD-MM-YYYY"),
           bold: (mensualidad.fechaPago == null) ? true : false,
           fillColor: (mensualidad.fechaPago == null) ? '#ff8383' : '#f5f5f5',
           alignment: 'right',
