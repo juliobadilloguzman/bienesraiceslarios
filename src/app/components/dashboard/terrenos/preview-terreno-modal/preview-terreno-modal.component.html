@@ -38,7 +38,7 @@
                     </tr>
                     <tr>
                         <th scope="row">Fecha de venta</th>
-                        <td>{{terreno.fechaVenta}}</td>
+                        <td>{{terreno.fechaVenta | date: 'dd/MM/yyyy'}}</td>
                     </tr>
                     <tr>
                         <th scope="row">Vendedores</th>
@@ -71,7 +71,7 @@
                         </tr>
                         <tr>
                             <th scope="row">Fecha de la primera mensualidad</th>
-                            <td>{{terreno.fechaPrimeraMensualidad}}</td>
+                            <td>{{terreno.fechaPrimeraMensualidad | date: 'dd/MM/yyyy'}}</td>
                         </tr>
                     </ng-container>
                     <tr>
@@ -82,7 +82,7 @@
                            }">{{(terreno.pagoDeslinde == 1) ? 'Pagado' : 'NO Pagado'}}
                             </span>
                             <span *ngIf="terreno.pagoDeslinde == 1"> la fecha </span>
-                            <span class="text-semibold" *ngIf="terreno.pagoDeslinde == 1">{{terreno.fechaPagoDeslinde}}</span>
+                            <span class="text-semibold" *ngIf="terreno.pagoDeslinde == 1">{{terreno.fechaPagoDeslinde | date: 'dd/MM/yyyy'}}</span>
                             <span *ngIf="terreno.pagoDeslinde == 1">con un monto de</span>
                             <span class="text-semibold text-secondary">{{terreno.montoDeslinde | currency}}</span>
                         </td>

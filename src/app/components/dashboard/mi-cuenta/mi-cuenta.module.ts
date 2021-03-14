@@ -7,6 +7,8 @@ import { SharedModule } from '../../shared/shared.module';
 import { MaterialModule } from 'src/app/shared/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UiActionsService } from 'src/app/services/ui-actions.service';
+import { ModalConfirmationComponent } from '../../shared/modal-confirmation/modal-confirmation.component';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 @NgModule({
@@ -17,8 +19,10 @@ import { UiActionsService } from 'src/app/services/ui-actions.service';
     SharedModule,
     MaterialModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxSpinnerModule
   ],
+  entryComponents: [ModalConfirmationComponent],
   providers: [UiActionsService]
 })
 export class MiCuentaModule { }

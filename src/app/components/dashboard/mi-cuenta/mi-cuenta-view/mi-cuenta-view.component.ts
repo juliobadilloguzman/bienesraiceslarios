@@ -5,6 +5,9 @@ import { AuthService } from 'src/app/services/auth.service';
 import { take } from 'rxjs/operators';
 import { Usuario } from 'src/app/models/usuario';
 import { MatchPassword } from 'src/app/validators/match-password';
+import { Modal, ModalType, ModalResponse } from 'src/app/models/modal';
+import { UiActionsService } from 'src/app/services/ui-actions.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'app-mi-cuenta-view',
@@ -19,7 +22,9 @@ export class MiCuentaViewComponent implements OnInit {
     private fb: FormBuilder,
     private _usersService: UsuariosService,
     private _authService: AuthService,
-    private matchPasswordValidator: MatchPassword
+    private matchPasswordValidator: MatchPassword,
+    private _uiActionsService: UiActionsService,
+    private spinner: NgxSpinnerService
   ) {
     this.cuentaForm = this.fb.group({
       email: [],
@@ -114,9 +119,10 @@ export class MiCuentaViewComponent implements OnInit {
     this._authService.userId.pipe(take(1)).subscribe(
       (idUsuario: number) => {
 
+        this._uiActionsService.showSpinner();
+
         this._usersService.getUsuario(idUsuario).subscribe(
           (response: Usuario) => {
-            console.log(response);
 
             //Patch values
             this.email.patchValue(response.correo);
@@ -131,6 +137,8 @@ export class MiCuentaViewComponent implements OnInit {
             this.telefonoFijo.patchValue(response.telefonoFijo);
             this.telefonoCelular.patchValue(response.telefonoCelular);
 
+            this._uiActionsService.hideSpinner();
+
           }
         );
 
@@ -144,15 +152,44 @@ export class MiCuentaViewComponent implements OnInit {
   }
 
   onSubmitForm(): void {
+
+    this._uiActionsService.showSpinner();
+
     this._authService.accountId.pipe(take(1)).subscribe(
+
       (idCuenta: number) => {
+
         this._authService.changePassword(idCuenta, this.password.value).subscribe(
           (response) => {
+
             if (response) {
-              console.warn('res', response);
+
+              this._uiActionsService.hideSpinner();
+
+              const modalInformation: Modal = {
+                title: "Editado",
+                message: "La contraseña se cambió correctamente",
+                type: ModalType.confirmation,
+                response: ModalResponse.success
+              }
+              this._uiActionsService.openConfirmationDialog(modalInformation);
+    
             }
+
           },
+          
           (error) => {
+
+            this._uiActionsService.hideSpinner();
+
+            const modalInformation: Modal = {
+              title: "Error",
+              message: "Hubo un error al editar la contraseña, inténtelo de nuevo o contacte a soporte.",
+              type: ModalType.confirmation,
+              response: ModalResponse.failed
+            }
+  
+            this._uiActionsService.openConfirmationDialog(modalInformation);
 
           }
         );

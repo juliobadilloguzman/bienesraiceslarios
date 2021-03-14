@@ -30,34 +30,50 @@ export class VendedoresViewComponent implements OnInit {
   }
 
   getVendedores(): void {
+
+    this._uiActionsService.showSpinner();
+
     this._vendedoresService.getVendedores().subscribe(
+
       (response: Vendedor[]) => {
+
         this.dataSource = new MatTableDataSource(response);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+
+        this._uiActionsService.hideSpinner();
+
       },
       (error) => {
+
+        this._uiActionsService.hideSpinner();
+
         const modalInformation: Modal = {
           title: "Error",
           message: "Error al cargar la informacion, verifique su conexion a internet e inténtelo de nuevo",
           type: ModalType.confirmation,
           response: ModalResponse.failed
         }
+
         this._uiActionsService.openConfirmationDialog(modalInformation);
+
       }
     );
   }
 
   onViewVendedor(row: Vendedor): void {
+
     this.dialog.open(PreviewVendedorModalComponent, {
       width: '600px',
       data: {
         row: row
       }
-    })
+    });
+
   }
 
   onAgregarEditarVendedor(accion: string, row?: Vendedor): void {
+
     const dialogRef = this.dialog.open(CreateUpdateVendedorModalComponent, {
       width: '600px',
       data: {
@@ -65,14 +81,16 @@ export class VendedoresViewComponent implements OnInit {
         row: row
       }
     });
+
     dialogRef.afterClosed().subscribe(() => this.getVendedores());
+
   }
 
   onDeleteVendedor(vendedor: Vendedor) {
 
     const modalInformation: Modal = {
       title: "¿Estás seguro?",
-      message: `Borrarás al vendedor "${vendedor.nombre} ${vendedor.apellidoPaterno}" permamente, deseas continuar?`,
+      message: `Borrarás al vendedor "${vendedor.nombre} ${vendedor.apellidoPaterno}" permamentemente, deseas continuar?`,
       type: ModalType.yesno,
       response: ModalResponse.warning
     }
@@ -82,25 +100,40 @@ export class VendedoresViewComponent implements OnInit {
     dialogRef.afterClosed().subscribe((response) => {
 
       if (response && response == 'confirm') {
+
+        this._uiActionsService.showSpinner();
+
         this._vendedoresService.deleteVendedor(vendedor.idVendedor).subscribe(
+
           (response: any) => {
+
+            this._uiActionsService.hideSpinner();
+
             const modalInformation: Modal = {
               title: "Eliminado",
               message: `El vendedor "${vendedor.nombre} ${vendedor.apellidoPaterno}" fue eliminado correctamente`,
               type: ModalType.confirmation,
               response: ModalResponse.success
             }
+
             const dialogRef = this._uiActionsService.openConfirmationDialog(modalInformation);
             dialogRef.afterClosed().subscribe(() => this.getVendedores());
+
           },
+
           (error) => {
+
+            this._uiActionsService.hideSpinner();
+
             const modalInformation: Modal = {
               title: "Error",
               message: "Hubo un error al eliminar el vendedor, inténtelo de nuevo.",
               type: ModalType.confirmation,
               response: ModalResponse.failed
             }
+
             this._uiActionsService.openConfirmationDialog(modalInformation);
+            
           }
         )
       }

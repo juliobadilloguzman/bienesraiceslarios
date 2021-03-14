@@ -115,42 +115,58 @@ export class CreateUpdateAdministradorModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     if (this.data.accion == 'editar') {
+
+      this._uiActionsService.showSpinner();
+
       this._usuariosService.getUsuario(this.data.row.idUsuario).subscribe(
         (response: Usuario) => {
 
-          this.administrador = response;
+          if (response) {
 
-          this.idUsuario.patchValue(this.administrador.idUsuario);
-          this.oldEmail.patchValue(this.administrador.correo);
-          this.email.patchValue(this.administrador.correo);
-          this.nombre.patchValue(this.administrador.nombre);
-          this.apellidoPaterno.patchValue(this.administrador.apellidoPaterno);
-          this.apellidoMaterno.patchValue(this.administrador.apellidoMaterno);
-          this.calle.patchValue(this.administrador.calle);
-          this.colonia.patchValue(this.administrador.colonia);
-          this.numeroExterior.patchValue(this.administrador.numeroExterior);
-          this.numeroInterior.patchValue(this.administrador.numeroInterior);
-          this.municipio.patchValue(this.administrador.municipio);
-          this.codigoPostal.patchValue(this.administrador.codigoPostal);
-          this.telefonoFijo.patchValue(this.administrador.telefonoFijo);
-          this.telefonoCelular.patchValue(this.administrador.telefonoCelular);
+            this._uiActionsService.hideSpinner();
 
-          //Remove validator from password
-          this.password.clearValidators();
-          this.password.updateValueAndValidity();
-          this.password.setValidators([Validators.pattern(/^[a-zA-Z0-9]*$/), Validators.minLength(6)]);
-          this.password.updateValueAndValidity();
+            this.administrador = response;
+
+            this.idUsuario.patchValue(this.administrador.idUsuario);
+            this.oldEmail.patchValue(this.administrador.correo);
+            this.email.patchValue(this.administrador.correo);
+            this.nombre.patchValue(this.administrador.nombre);
+            this.apellidoPaterno.patchValue(this.administrador.apellidoPaterno);
+            this.apellidoMaterno.patchValue(this.administrador.apellidoMaterno);
+            this.calle.patchValue(this.administrador.calle);
+            this.colonia.patchValue(this.administrador.colonia);
+            this.numeroExterior.patchValue(this.administrador.numeroExterior);
+            this.numeroInterior.patchValue(this.administrador.numeroInterior);
+            this.municipio.patchValue(this.administrador.municipio);
+            this.codigoPostal.patchValue(this.administrador.codigoPostal);
+            this.telefonoFijo.patchValue(this.administrador.telefonoFijo);
+            this.telefonoCelular.patchValue(this.administrador.telefonoCelular);
+
+            //Remove validator from password
+            this.password.clearValidators();
+            this.password.updateValueAndValidity();
+            this.password.setValidators([Validators.pattern(/^[a-zA-Z0-9]*$/), Validators.minLength(6)]);
+            this.password.updateValueAndValidity();
+
+          }
 
         },
+
         (error) => {
+
+          this._uiActionsService.hideSpinner();
+
           const modalInformation: Modal = {
             title: "Error",
             message: "Error al cargar la informacion, verifique su conexion a internet e inténtelo de nuevo",
             type: ModalType.confirmation,
             response: ModalResponse.failed
           }
+
           this._uiActionsService.openConfirmationDialog(modalInformation);
+
         });
     }
   }
@@ -167,6 +183,8 @@ export class CreateUpdateAdministradorModalComponent implements OnInit {
 
     if (this.data.accion == 'crear') {
 
+      this._uiActionsService.showSpinner();
+
       //Remove controls
       this.administradorForm.removeControl('idUsuario');
       this.administradorForm.removeControl('correo');
@@ -174,38 +192,55 @@ export class CreateUpdateAdministradorModalComponent implements OnInit {
 
       this._authService.signUp(this.administradorForm.value).subscribe(
         (response) => {
+
           if (response) {
+
+            this._uiActionsService.hideSpinner();
+
             const modalInformation: Modal = {
               title: "Creado",
               message: "El administrador se creó correctamente",
               type: ModalType.confirmation,
               response: ModalResponse.success
             }
+
             this._uiActionsService.openConfirmationDialog(modalInformation);
             this.dialogRef.close();
             this.administradorForm.reset();
+
           } else {
+
+            this._uiActionsService.hideSpinner();
+
             const modalInformation: Modal = {
               title: "Error",
               message: "Hubo un error al crear el administrador, inténtelo de nuevo.",
               type: ModalType.confirmation,
               response: ModalResponse.failed
             }
+
             this._uiActionsService.openConfirmationDialog(modalInformation);
+
           }
         },
         (error) => {
+
+          this._uiActionsService.hideSpinner();
+
           const modalInformation: Modal = {
             title: "Error",
             message: "Hubo un error al crear el administrador, inténtelo de nuevo.",
             type: ModalType.confirmation,
             response: ModalResponse.failed
           }
+
           this._uiActionsService.openConfirmationDialog(modalInformation);
         }
       );
 
     } else {
+
+      this._uiActionsService.showSpinner();
 
       if (this.password.value == null || this.password.value == "") {
         this.password.setValue(null);
@@ -213,27 +248,37 @@ export class CreateUpdateAdministradorModalComponent implements OnInit {
 
       this._authService.updateAccount(this.administradorForm.value).subscribe(
         (response) => {
+
           if (response) {
-            console.warn(response);
+
+            this._uiActionsService.hideSpinner();
             this.dialogRef.close();
+
             const modalInformation: Modal = {
               title: "Editado",
               message: "El administrador se editó correctamente",
               type: ModalType.confirmation,
               response: ModalResponse.success
             }
+
             this._uiActionsService.openConfirmationDialog(modalInformation);
             this.administradorForm.reset();
+
           }
         },
         (error) => {
+
+          this._uiActionsService.hideSpinner();
+
           const modalInformation: Modal = {
             title: "Error",
             message: "Hubo un error al editar el administrador, inténtelo de nuevo.",
             type: ModalType.confirmation,
             response: ModalResponse.failed
           }
+
           this._uiActionsService.openConfirmationDialog(modalInformation);
+
         }
       );
 

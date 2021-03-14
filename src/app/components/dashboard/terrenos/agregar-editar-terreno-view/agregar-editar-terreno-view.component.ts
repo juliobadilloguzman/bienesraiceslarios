@@ -84,22 +84,22 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
       superficie: [null, [Validators.required, Validators.pattern(/^-?\d+\.?\d*$/), Validators.min(1)]],
       costoM2: [null, [Validators.required, Validators.pattern(/^-?\d+\.?\d*$/), Validators.min(1)]],
       enganche: [null],
-      formaPagoEnganche: [''],
+      formaPagoEnganche: [null, [Validators.required]],
       pagoAlContado: [0, [Validators.required]],
       costoTotal: [0, [Validators.required]],
       saldo: [],
-      fechaVenta: [moment().format('L')],
-      noMensualidades: [],
+      fechaVenta: [moment().format('L'), [Validators.required]],
+      noMensualidades: [null, [Validators.required]],
       montoMensualidad: [],
-      diaPagoDel: [],
-      diaPagoAl: [],
+      diaPagoDel: [null, [Validators.required]],
+      diaPagoAl: [null, [Validators.required]],
       pagoDeslinde: [0],
       fechaPagoDeslinde: [],
       montoDeslinde: [null],
-      fechaPrimeraMensualidad: [],
+      fechaPrimeraMensualidad: [null, [Validators.required]],
       comentariosAdicionales: [],
-      fraccionamientoIdFraccionamiento: [],
-      usuarioIdUsuario: [],
+      fraccionamientoIdFraccionamiento: [null, [Validators.required]],
+      usuarioIdUsuario: [null, [Validators.required]],
       vendedores: this.fb.array([])
     });
 
@@ -206,27 +206,36 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
     //Get the action and the terreno
     this.state$ = this.route.paramMap.pipe(map(() => window.history.state));
     this.state$.subscribe(response => {
+
       this.accion = response['accion'];
-      console.warn(this.accion);
+
       if (response['row']) {
         this.terreno = response['row'];
-        console.warn('TERRENO TO EDIT', this.terreno);
       }
+
     });
+
+    if(!this.accion){
+      this.router.navigateByUrl('/dashboard/terrenos');
+      return;
+    }
 
     if (this.accion == 'editar') {
 
       if (!this.terreno) {
+
         const modalInformation: Modal = {
           title: "Error",
           message: "Debe de seleccionar el terreno a editar desde la tabla de terrenos",
           type: ModalType.confirmation,
           response: ModalResponse.failed
         }
+
         const dialogRef = this._uiActionsService.openConfirmationDialog(modalInformation);
         dialogRef.afterClosed().subscribe(() => {
           this.router.navigateByUrl('/dashboard/terrenos');
         });
+
       } else {
 
         this.terrenoForm.patchValue(this.terreno);
@@ -314,72 +323,119 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
   }
 
   getFraccionamientos() {
+
+    this._uiActionsService.showSpinner();
+
     this._fraccionamientosService.getFraccionamientos().subscribe(
       (response: Fraccionamiento[]) => {
+
         if (response) {
+
           this.fraccionamientos = response;
+          this._uiActionsService.hideSpinner();
+
         } else {
+
+          this._uiActionsService.hideSpinner();
+
           const modalInformation: Modal = {
             title: "Error",
             message: "Error al cargar la informacion, verifique su conexion a internet e inténtelo de nuevo",
             type: ModalType.confirmation,
             response: ModalResponse.failed
           }
+
           this._uiActionsService.openConfirmationDialog(modalInformation);
+
         }
+
       },
       (error) => {
+
+        this._uiActionsService.hideSpinner();
+
         const modalInformation: Modal = {
           title: "Error",
           message: "Error al cargar la informacion, verifique su conexion a internet e inténtelo de nuevo",
           type: ModalType.confirmation,
           response: ModalResponse.failed
         }
+
         this._uiActionsService.openConfirmationDialog(modalInformation);
+
       }
     )
   }
 
   getVendedores(): void {
+
+    this._uiActionsService.showSpinner();
+
     this._vendedoresService.getVendedores().subscribe(
       (response: Vendedor[]) => {
+
         this.vendedoresList = response;
+
+        this._uiActionsService.hideSpinner();
+
         this.filteredVendedores = this.vendedoresCtrl.valueChanges.pipe(
           startWith(''),
           map(vendedor => vendedor ? this._filterVendedores(vendedor) : this.vendedoresList.slice())
         );
+
       },
       (error) => {
+
+        this._uiActionsService.hideSpinner();
+
         const modalInformation: Modal = {
           title: "Error",
           message: "Error al cargar la informacion, verifique su conexion a internet e inténtelo de nuevo",
           type: ModalType.confirmation,
           response: ModalResponse.failed
         }
+
         this._uiActionsService.openConfirmationDialog(modalInformation);
+
       }
     )
   }
 
   getClientes(): void {
+
+    this._uiActionsService.showSpinner();
+
     this._usuariosService.getClientes().subscribe(
+
       (response: Usuario[]) => {
+
         this.clientesList = response;
+
+        this._uiActionsService.hideSpinner();
+
         this.filteredClientes = this.clientesCtrl.valueChanges.pipe(
           startWith(''),
           map(cliente => cliente ? this._filterClientes(cliente) : this.clientesList.slice())
         );
+
       },
+
       (error) => {
+
+        this._uiActionsService.hideSpinner();
+
         const modalInformation: Modal = {
           title: "Error",
           message: "Error al cargar la informacion, verifique su conexion a internet e inténtelo de nuevo",
           type: ModalType.confirmation,
           response: ModalResponse.failed
         }
+
         this._uiActionsService.openConfirmationDialog(modalInformation);
+
       }
-    )
+    );
+
   }
 
   getCostoTotal(): number {
@@ -392,6 +448,7 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
     this.costoTotalTemp = costoTotal;
 
     return parseFloat(this.costoTotalTemp.toFixed(2));
+
   }
 
   getEnganche(): number {
@@ -403,8 +460,9 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
 
     if (!this.enganche.dirty)
       this.engancheTemp = enganche;
-    else
+    else{
       this.engancheTemp = this.enganche.value;
+    }
 
     return this.engancheTemp;
 
@@ -440,12 +498,56 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
   onSetPago(checked: boolean) {
 
     if (checked) {
+
       this.pagoAlContado.patchValue(1);
       this.pagoDeContado = true;
+
+      //Remove validators
+      this.enganche.clearValidators()
+      this.enganche.updateValueAndValidity();
+
+      this.formaPagoEnganche.clearValidators()
+      this.formaPagoEnganche.updateValueAndValidity();
+
+      this.noMensualidades.clearValidators()
+      this.noMensualidades.updateValueAndValidity();
+
+      this.montoMensualidad.clearValidators()
+      this.montoMensualidad.updateValueAndValidity();
+
+      this.diaPagoDel.clearValidators()
+      this.diaPagoDel.updateValueAndValidity();
+
+      this.diaPagoAl.clearValidators()
+      this.diaPagoAl.updateValueAndValidity();
+
+      this.fechaPrimeraMensualidad.clearValidators();
+      this.fechaPrimeraMensualidad.updateValueAndValidity();
+      
     }
     else {
+
       this.pagoAlContado.patchValue(0);
       this.pagoDeContado = false;
+
+      //Update validators
+
+      this.formaPagoEnganche.setValidators([Validators.required]);
+      this.formaPagoEnganche.updateValueAndValidity();
+
+      this.noMensualidades.setValidators([Validators.required]);
+      this.noMensualidades.updateValueAndValidity();
+    
+
+      this.diaPagoDel.setValidators([Validators.required]);
+      this.diaPagoDel.updateValueAndValidity();
+
+      this.diaPagoAl.setValidators([Validators.required]);
+      this.diaPagoAl.updateValueAndValidity();
+
+      this.fechaPrimeraMensualidad.setValidators([Validators.required]);
+      this.fechaPrimeraMensualidad.updateValueAndValidity();
+
     }
 
   }
@@ -477,13 +579,17 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
     }
   }
 
+  setMontoMensualidad(event: any){
+
+    this.montoMensualidadTemp = event.target.value;
+    this.montoMensualidad.patchValue(event.target.value);
+
+  }
+
   onSubmitForm() {
 
     //Costo total
     this.costoTotal.patchValue(this.costoTotalTemp);
-
-    //Patch fechas
-    //this.fechaVenta.patchValue(moment(this.fechaVenta.value).format("YYYY-MM-DD"));
 
     //Patch temp values
     if (!this.pagoDeContado) {
@@ -500,6 +606,7 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
       this.fechaPrimeraMensualidad.patchValue(moment(this.fechaPrimeraMensualidad.value).format("YYYY-MM-DD"));
 
     } else {
+
       //Reset values
       this.enganche.patchValue(null);
       this.formaPagoEnganche.patchValue(null);
@@ -508,6 +615,7 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
       this.diaPagoDel.patchValue(null);
       this.diaPagoAl.patchValue(null);
       this.fechaPrimeraMensualidad.patchValue(null);
+
     }
 
     if (this.deslindePagado) {
@@ -543,50 +651,106 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
 
     const dialogRef = this.dialog.open(ConfirmAgregarTerrenoModalComponent, {
       width: '650px',
+      disableClose: true,
       data: {
         form: this.terrenoForm.value
       }
     });
 
     dialogRef.afterClosed().subscribe(data => {
+
       if (data.action == 'proceed') {
 
-        console.warn('DATA FORM', data.form);
+        this._uiActionsService.showSpinner();
 
         if (this.accion == 'agregar') {
 
           this._terrenosService.createTerreno(data.form).subscribe(
             (response: any) => {
-              console.warn(response);
+
               if (response) {
+
+                this._uiActionsService.hideSpinner();
+
                 const modalInformation: Modal = {
                   title: "Creado",
                   message: "El terreno se creo correctamente",
                   type: ModalType.confirmation,
                   response: ModalResponse.success
                 }
+
                 const dialogRef = this._uiActionsService.openConfirmationDialog(modalInformation);
+                
                 dialogRef.afterClosed().subscribe(() => {
                   this.router.navigateByUrl('/dashboard/terrenos');
                 });
+
               }
+
             },
             (error) => {
-              console.error(error);
+
+              this._uiActionsService.hideSpinner();
+              
+              const modalInformation: Modal = {
+                title: "Error",
+                message: "Hubo un error al crear el terreno, inténtelo de nuevo o contacte a soporte.",
+                type: ModalType.confirmation,
+                response: ModalResponse.failed
+              }
+    
+              this._uiActionsService.openConfirmationDialog(modalInformation);
+              
             }
           );
 
 
         } else if (this.accion == 'editar') {
 
-          console.warn('voy a editar');
+          this._terrenosService.updateTerreno(data.form.idTerreno, data.form).subscribe(
+            (response: any) => {
+
+              if (response) {
+
+                this._uiActionsService.hideSpinner();
+
+                const modalInformation: Modal = {
+                  title: "Editado",
+                  message: "El terreno se editó correctamente",
+                  type: ModalType.confirmation,
+                  response: ModalResponse.success
+                }
+
+                const dialogRef = this._uiActionsService.openConfirmationDialog(modalInformation);
+                dialogRef.afterClosed().subscribe(() => {
+                  this.router.navigateByUrl('/dashboard/terrenos');
+                });
+
+              }
+
+            },
+            (error) => {
+              
+              this._uiActionsService.hideSpinner();
+              
+              const modalInformation: Modal = {
+                title: "Error",
+                message: "Hubo un error al editar el terreno, inténtelo de nuevo o contacte a soporte.",
+                type: ModalType.confirmation,
+                response: ModalResponse.failed
+              }
+    
+              this._uiActionsService.openConfirmationDialog(modalInformation);
+              
+            }
+          );
 
         }
 
       }
     });
 
-    console.log(this.terrenoForm.value);
+
   }
 
 }

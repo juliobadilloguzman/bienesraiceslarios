@@ -36,21 +36,33 @@ export class ClientesViewComponent implements OnInit {
   }
 
   getClientes(): void {
+
+    this._uiActionsService.showSpinner();
+
     this._usuariosService.getClientes().subscribe(
+
       (response: Usuario[]) => {
+
         this.dataSource = new MatTableDataSource(response);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-        console.warn(response);
+        
+        this._uiActionsService.hideSpinner();
+
       },
       (error) => {
+
+        this._uiActionsService.hideSpinner();
+
         const modalInformation: Modal = {
           title: "Error",
           message: "Error al cargar la informacion, verifique su conexion a internet e inténtelo de nuevo",
           type: ModalType.confirmation,
           response: ModalResponse.failed
         }
+
         this._uiActionsService.openConfirmationDialog(modalInformation);
+
       }
     );
   }
@@ -89,25 +101,39 @@ export class ClientesViewComponent implements OnInit {
     dialogRef.afterClosed().subscribe((response) => {
 
       if (response && response == 'confirm') {
+
+        this._uiActionsService.showSpinner();
+
         this._authService.deleteAccount(cliente.idUsuario).subscribe(
+          
           (response: any) => {
+
+            this._uiActionsService.hideSpinner();
+
             const modalInformation: Modal = {
               title: "Eliminado",
               message: `El cliente "${cliente.nombre} ${cliente.apellidoPaterno}" fue eliminado correctamente`,
               type: ModalType.confirmation,
               response: ModalResponse.success
             }
+
             const dialogRef = this._uiActionsService.openConfirmationDialog(modalInformation);
             dialogRef.afterClosed().subscribe(() => this.getClientes());
+
           },
           (error) => {
+
+            this._uiActionsService.showSpinner();
+
             const modalInformation: Modal = {
               title: "Error",
               message: "Hubo un error al eliminar el cliente, inténtelo de nuevo.",
               type: ModalType.confirmation,
               response: ModalResponse.failed
             }
+
             this._uiActionsService.openConfirmationDialog(modalInformation);
+
           }
         )
       }

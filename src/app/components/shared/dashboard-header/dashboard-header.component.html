@@ -10,9 +10,8 @@
             <ul class="navbar-nav ml-auto">
                 <!-- Dropdown Menu  -->
                 <li class="dropdown show-for-medium" (click)="!isDropdownOpen">
-
-                    <div class="user-info-image" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" [ngStyle]="{'background': 'url(' + userImage + ') no-repeat center center', 'background-size': 'cover'}">
-                    </div>
+                    <!-- <div class="user-info-image" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" [ngStyle]="{'background': 'url(' + userImage + ') no-repeat center center', 'background-size': 'cover'}">
+                    </div> -->
                     <div [ngbCollapse]="isDropdownOpen" class="dropdown-menu">
                         <div class="arrow-up"></div>
                         <a class="ft-12 bold night-text nav-link cursor-pointer pd-5 pd-t-10" routerLinkActive="active" (click)="logOut()">

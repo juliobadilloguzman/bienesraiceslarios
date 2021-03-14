@@ -8,7 +8,7 @@ import { FraccionamientoLanding } from 'src/app/models/LandingPage/fraccionamien
 import { VideoModalComponent } from '../modals/video-modal/video-modal.component';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
-import { take } from 'rxjs/operators';
+import { take, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-landing-view',
@@ -76,6 +76,10 @@ export class LandingViewComponent implements OnInit {
 
   click(event: google.maps.MouseEvent) {
     console.log(event)
+  }
+
+  goToCotizador() {
+    this.router.navigateByUrl('/cotizador');
   }
 
   openServiceModal(service: string): void {

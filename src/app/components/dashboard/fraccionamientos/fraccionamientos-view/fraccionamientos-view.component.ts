@@ -39,20 +39,32 @@ export class FraccionamientosViewComponent implements OnInit {
   }
 
   getFraccionamientos(): void {
+
+    this._uiActionsService.showSpinner();
+
     this._fraccionamientoService.getFraccionamientos().subscribe(
       (response: Fraccionamiento[]) => {
+
         this.dataSource = new MatTableDataSource(response);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+
+        this._uiActionsService.hideSpinner();
+
       },
       (error) => {
+
+        this._uiActionsService.hideSpinner();
+
         const modalInformation: Modal = {
           title: "Error",
           message: "Error al cargar la informacion, verifique su conexion a internet e inténtelo de nuevo",
           type: ModalType.confirmation,
           response: ModalResponse.failed
         }
+
         this._uiActionsService.openConfirmationDialog(modalInformation);
+
       }
     );
   }

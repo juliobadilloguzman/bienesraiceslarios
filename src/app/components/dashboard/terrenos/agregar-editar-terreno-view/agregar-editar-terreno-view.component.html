@@ -2,7 +2,7 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a routerLink="/dashboard">Inicio</a></li>
         <li class="breadcrumb-item"><a routerLink="/dashboard/terrenos">Terrenos</a></li>
-        <li class="breadcrumb-item active" aria-current="page">Agregar Terreno</li>
+        <li class="breadcrumb-item active" aria-current="page">{{ (accion == 'agregar') ? 'Agregar Terreno' : 'Editar Terreno' }}</li>
     </ol>
 </nav>
 
@@ -219,7 +219,7 @@
                 <div class="col-6">
                     <mat-form-field appearance="fill" class="full-width">
                         <mat-label>Monto de cada mensualidad</mat-label>
-                        <input autocomplete="off" formControlName="montoMensualidad" matInput [value]="getMontoMensualidad()">
+                        <input autocomplete="off" formControlName="montoMensualidad" matInput (input)="setMontoMensualidad($event)" [value]="getMontoMensualidad()">
                         <mat-hint class="text-hint">Monto de mensualidad calculado automaticamente, cámbielo si es necesario.
                         </mat-hint>
                     </mat-form-field>
@@ -281,7 +281,7 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <button type="submit" class="btn btn-primary" *ngIf="accion">{{ (accion == 'agregar') ? 'Agregar Terreno' : 'Editar Terreno' }}</button>
+                <button type="submit" class="btn btn-primary" [disabled]="!terrenoForm.valid || vendedoresTemp.length <= 0" *ngIf="accion">{{ (accion == 'agregar') ? 'Agregar Terreno' : 'Editar Terreno' }}</button>
             </div>
         </div>
     </form>

@@ -44,60 +44,89 @@ export class MisMensualidadesViewComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
     this.state$ = this.route.paramMap.pipe(map(() => window.history.state));
+
     this.state$.subscribe(response => {
       this.terreno = response['terreno'];
-      console.log('terreno', this.terreno);
     });
+
     if (!this.terreno) {
+
       const modalInformation: Modal = {
         title: "Error",
         message: "Debe de seleccionar las mensualidades desde la tabla de terrenos",
         type: ModalType.confirmation,
         response: ModalResponse.failed
       }
+
       const dialogRef = this._uiActionsService.openConfirmationDialog(modalInformation);
+
       dialogRef.afterClosed().subscribe(() => {
         this.router.navigateByUrl('/dashboard/terrenos/mis-terrenos');
       });
+
     } else {
       this.getMensualidades();
     }
   }
 
   getMensualidades(): void {
+
+    this._uiActionsService.showSpinner();
+
     this._mensualidadesService.getMensualidadesFromTerreno(this.terreno.idTerreno).subscribe(
       (response: Mensualidad[]) => {
+
         if (response) {
-          console.warn(response);
+     
           this.dataSource = new MatTableDataSource(response);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
           this.mensualidades = response;
+
+          this._uiActionsService.hideSpinner();
+
         }
+
       },
       (error) => {
+
+        this._uiActionsService.hideSpinner();
+
         const modalInformation: Modal = {
           title: "Error",
           message: "Error al cargar la información, verifique su conexión a internet e inténtelo de nuevo",
           type: ModalType.confirmation,
           response: ModalResponse.failed
         }
+
         this._uiActionsService.openConfirmationDialog(modalInformation);
+
       }
     );
+
   }
 
   getInteresTable(mensualidad: Mensualidad) {
+
     if (mensualidad.interes == null) {
+
       return this.currencyPipe.transform(0);
+
     } else {
+
       if (mensualidad.estatusInteres == 'PAGADO') {
-        return `${this.currencyPipe.transform(mensualidad.interes)}`
+
+        return `${this.currencyPipe.transform(mensualidad.interes)}`;
+
       } else if (mensualidad.estatusInteres == 'NO PAGADO') {
-        return `${this.currencyPipe.transform(mensualidad.interes)}`
+
+        return `${this.currencyPipe.transform(mensualidad.interes)}`;
       }
+
     }
+
   }
 
   onViewMensualidad(row: Mensualidad): void {
@@ -114,12 +143,14 @@ export class MisMensualidadesViewComponent implements OnInit {
   }
 
   applyFilter(event: Event): void {
+
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+
   }
 
 }

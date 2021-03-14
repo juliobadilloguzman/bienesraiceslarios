@@ -34,44 +34,66 @@ export class AdministradoresViewComponent implements OnInit {
   }
 
   getAdministradores(): void {
+
+    this._uiActionsService.showSpinner();
+
     this._usuariosService.getAdministradores().subscribe(
+
       (response: Usuario[]) => {
+
         if (response) {
+
+          this._uiActionsService.hideSpinner();
+
           this.dataSource = new MatTableDataSource(response);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
+
         } else {
+
           const modalInformation: Modal = {
             title: "Error",
             message: "Error al cargar la informacion, verifique su conexion a internet e inténtelo de nuevo",
             type: ModalType.confirmation,
             response: ModalResponse.failed
           }
+
           this._uiActionsService.openConfirmationDialog(modalInformation);
+
         }
+
       },
+
       (error) => {
+
+        this._uiActionsService.hideSpinner();
+
         const modalInformation: Modal = {
           title: "Error",
           message: "Error al cargar la informacion, verifique su conexion a internet e inténtelo de nuevo",
           type: ModalType.confirmation,
           response: ModalResponse.failed
         }
+
         this._uiActionsService.openConfirmationDialog(modalInformation);
+        
       }
     );
   }
 
   onViewAdministrador(row: Usuario): void {
+
     this.dialog.open(PreviewAdministradorModalComponent, {
       width: '600px',
       data: {
         row: row
       }
     });
+
   }
 
   onAgregarEditarAdministrador(accion: string, row?: Usuario): void {
+
     const dialogRef = this.dialog.open(CreateUpdateAdministradorModalComponent, {
       width: '600px',
       data: {
@@ -79,7 +101,9 @@ export class AdministradoresViewComponent implements OnInit {
         row: row
       }
     });
+
     dialogRef.afterClosed().subscribe(() => this.getAdministradores());
+
   }
 
   onDeleteAdministrador(administrador: Usuario) {

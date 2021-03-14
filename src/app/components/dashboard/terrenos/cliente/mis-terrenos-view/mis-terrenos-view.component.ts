@@ -35,14 +35,19 @@ export class MisTerrenosViewComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
     this.account = JSON.parse(localStorage.getItem('authData'));
+
     this.getTerrenos();
-    console.warn(this.account);
+
   }
 
   getTerrenos(): void {
 
+    this._uiActionsService.showSpinner();
+
     this._authService.userId.pipe(take(1)).subscribe(
+
       (idUsuario) => {
 
         if (!idUsuario)
@@ -50,30 +55,42 @@ export class MisTerrenosViewComponent implements OnInit {
 
         this._terrenosService.getTerrenosFromUsuario(idUsuario).subscribe(
           (response: Terreno[]) => {
-            console.warn(response);
+   
             if (response) {
-              console.warn(response);
+
               this.dataSource = new MatTableDataSource(response);
               this.dataSource.paginator = this.paginator;
               this.dataSource.sort = this.sort;
+
+              this._uiActionsService.hideSpinner();
+
             } else {
+
+              this._uiActionsService.hideSpinner();
+
               const modalInformation: Modal = {
                 title: "Error",
                 message: "Error al cargar la informacion, verifique su conexion a internet o póngase en contacto con nosotros.",
                 type: ModalType.confirmation,
                 response: ModalResponse.failed
               }
+
               this._uiActionsService.openConfirmationDialog(modalInformation);
             }
           },
           (error) => {
+
+            this._uiActionsService.hideSpinner();
+
             const modalInformation: Modal = {
               title: "Error",
               message: "Error al cargar la informacion, verifique su conexion a internet e inténtelo de nuevo",
               type: ModalType.confirmation,
               response: ModalResponse.failed
             }
+
             this._uiActionsService.openConfirmationDialog(modalInformation);
+            
           }
         );
 
@@ -81,15 +98,17 @@ export class MisTerrenosViewComponent implements OnInit {
 
   }
 
-  onViewTerreno(row: Terreno): void {
-
+  onViewTerreno(terreno: Terreno){
+    
   }
+
 
   onViewMensualidades(terreno: Terreno) {
     this.router.navigateByUrl('/dashboard/mensualidades/mis-mensualidades', { state: { terreno: terreno } });
   }
 
   applyFilter(event: Event): void {
+
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
 

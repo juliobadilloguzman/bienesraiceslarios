@@ -94,62 +94,97 @@ export class CreateUpdateFraccionamientoModalComponent implements OnInit {
 
   onSubmitForm(): void {
 
+    this._uiActionsService.showSpinner();
+
     if (this.data.accion == 'crear') {
+
       this.fraccionamientoForm.removeControl('idFraccionamiento');
       this._fraccionamientosService.createFraccionamiento(this.fraccionamientoForm.value).subscribe(
+
         (response: Fraccionamiento) => {
+
           if (response) {
+
+            this._uiActionsService.hideSpinner();
+
             const modalInformation: Modal = {
               title: "Creado",
               message: "El fraccionamiento se creo correctamente",
               type: ModalType.confirmation,
               response: ModalResponse.success
             }
+
             this._uiActionsService.openConfirmationDialog(modalInformation);
             this.dialogRef.close();
             this.fraccionamientoForm.reset();
+
           } else {
+
+            this._uiActionsService.hideSpinner();
+
             const modalInformation: Modal = {
               title: "Error",
               message: "Hubo un error al crear el fraccionamiento, inténtelo de nuevo.",
               type: ModalType.confirmation,
               response: ModalResponse.failed
             }
+
             this._uiActionsService.openConfirmationDialog(modalInformation);
+
           }
         },
         (error) => {
+
+          this._uiActionsService.hideSpinner();
+
           const modalInformation: Modal = {
             title: "Error",
             message: "Hubo un error al crear el fraccionamiento, inténtelo de nuevo.",
             type: ModalType.confirmation,
             response: ModalResponse.failed
           }
+
           this._uiActionsService.openConfirmationDialog(modalInformation);
+
         }
-      )
+      );
+      
     } else {
+
       this._fraccionamientosService.updateFraccionamiento(this.fraccionamientoForm.value).subscribe(
         (response: Fraccionamiento) => {
+
           if (response) {
+
+            this._uiActionsService.hideSpinner();
+
             const modalInformation: Modal = {
               title: "Editado",
               message: "El fraccionamiento se editó correctamente",
               type: ModalType.confirmation,
               response: ModalResponse.success
             }
+
             this._uiActionsService.openConfirmationDialog(modalInformation);
+
             this.dialogRef.close();
+
           }
+
         },
         (error) => {
+
+          this._uiActionsService.hideSpinner();
+
           const modalInformation: Modal = {
             title: "Error",
             message: "Hubo un error al editar el fraccionamiento, inténtelo de nuevo.",
             type: ModalType.confirmation,
             response: ModalResponse.failed
           }
+
           this._uiActionsService.openConfirmationDialog(modalInformation);
+
         }
       );
     }

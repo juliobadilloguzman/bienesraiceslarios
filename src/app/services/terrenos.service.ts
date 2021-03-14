@@ -8,7 +8,7 @@ import { Terreno } from '../models/terreno';
 })
 export class TerrenosService {
 
-  API_URI = 'http://localhost:8000/api';
+  API_URI = 'http://bienesraiceslarios.com:8000/api';
 
   constructor(private http: HttpClient) { }
 
@@ -26,6 +26,14 @@ export class TerrenosService {
 
   createTerreno(terreno: Terreno): Observable<Terreno> {
     return this.http.post<Terreno>(this.API_URI + '/terrenos', terreno);
+  }
+
+  updateTerreno(idTerreno: number, terreno: Terreno): Observable<Terreno> {
+    return this.http.patch<Terreno>(this.API_URI + '/terrenos/' + idTerreno, terreno);
+  }
+  
+  deleteTerreno(idTerreno: number): Observable<any>{
+    return this.http.delete<any>(this.API_URI + '/terrenos/' + idTerreno);
   }
 
 }

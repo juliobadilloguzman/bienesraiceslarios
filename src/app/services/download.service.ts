@@ -289,7 +289,7 @@ export class DownloadService {
 
   getColorInteres(mensualidad: Mensualidad): string {
     if (mensualidad.estatusInteres == null) {
-      return '#000000';
+      return '#33891c';
     } else if (mensualidad.estatusInteres == 'PAGADO') {
       return '#33891c';
     } else if (mensualidad.estatusInteres == "NO PAGADO") {
@@ -551,7 +551,7 @@ export class DownloadService {
         {
           width: '100%',
           alignment: 'center',
-          text: 'Mensualidades hasta la fecha',
+          text: 'Pagos hasta la fecha',
           bold: true,
           margin: [0, 10, 0, 10],
           fontSize: 12,

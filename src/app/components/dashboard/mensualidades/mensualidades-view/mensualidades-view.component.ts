@@ -44,55 +44,78 @@ export class MensualidadesViewComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
     this.state$ = this.route.paramMap.pipe(map(() => window.history.state));
+
     this.state$.subscribe(response => {
       this.terreno = response['terreno'];
-      console.log('terreno', this.terreno);
     });
+
     if (!this.terreno) {
+
       const modalInformation: Modal = {
         title: "Error",
         message: "Debe de seleccionar las mensualidades desde la tabla de terrenos",
         type: ModalType.confirmation,
         response: ModalResponse.failed
       }
+
       const dialogRef = this._uiActionsService.openConfirmationDialog(modalInformation);
+
       dialogRef.afterClosed().subscribe(() => {
         this.router.navigateByUrl('/dashboard/terrenos');
       });
+
     } else {
       this.getMensualidades();
     }
   }
 
   getMensualidades(): void {
+
+    this._uiActionsService.showSpinner();
+
     this._mensualidadesService.getMensualidadesFromTerreno(this.terreno.idTerreno).subscribe(
+
       (response: Mensualidad[]) => {
+
         if (response) {
+
           this.dataSource = new MatTableDataSource(response);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
           this.mensualidades = response;
-          console.warn('mensualidades', this.mensualidades);
+
+          this._uiActionsService.hideSpinner();
 
         } else {
+
+          this._uiActionsService.hideSpinner();
+
           const modalInformation: Modal = {
             title: "Error",
             message: "Error al cargar la información, verifique su conexión a internet e inténtelo de nuevo",
             type: ModalType.confirmation,
             response: ModalResponse.failed
           }
+
           this._uiActionsService.openConfirmationDialog(modalInformation);
+
         }
       },
       (error) => {
+
+        this._uiActionsService.hideSpinner();
+
         const modalInformation: Modal = {
           title: "Error",
           message: "Error al cargar la información, verifique su conexión a internet e inténtelo de nuevo",
           type: ModalType.confirmation,
           response: ModalResponse.failed
         }
+
         this._uiActionsService.openConfirmationDialog(modalInformation);
+
       }
     );
   }
@@ -119,6 +142,7 @@ export class MensualidadesViewComponent implements OnInit {
   }
 
   onAgregarEditarMensualidad(accion: string, row?: Mensualidad): void {
+
     const dialogRef = this.dialog.open(CreateUpdateMensualidadModalComponent, {
       width: '600px',
       data: {
@@ -128,7 +152,9 @@ export class MensualidadesViewComponent implements OnInit {
         montoMensualidad: this.terreno.montoMensualidad
       }
     });
+
     dialogRef.afterClosed().subscribe(() => this.getMensualidades());
+    
   }
 
   onDeleteMensualidad(mensualidad: Mensualidad) {

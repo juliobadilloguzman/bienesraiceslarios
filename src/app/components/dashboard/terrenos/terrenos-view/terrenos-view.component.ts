@@ -35,53 +35,132 @@ export class TerrenosViewComponent implements OnInit {
   }
 
   getTerrenos(): void {
+
+    this._uiActionsService.showSpinner();
+
     this._terrenosService.getTerrenos().subscribe(
+
       (response: Terreno[]) => {
+
         if (response) {
-          console.warn(response);
+
+          this._uiActionsService.hideSpinner();
+
           this.dataSource = new MatTableDataSource(response);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
+
+
         } else {
+
+          this._uiActionsService.hideSpinner();
+
           const modalInformation: Modal = {
             title: "Error",
             message: "Error al cargar la informacion, verifique su conexion a internet e inténtelo de nuevo",
             type: ModalType.confirmation,
             response: ModalResponse.failed
           }
+
           this._uiActionsService.openConfirmationDialog(modalInformation);
+
         }
+
       },
       (error) => {
+
+        this._uiActionsService.hideSpinner();
+
         const modalInformation: Modal = {
           title: "Error",
           message: "Error al cargar la informacion, verifique su conexion a internet e inténtelo de nuevo",
           type: ModalType.confirmation,
           response: ModalResponse.failed
         }
+
         this._uiActionsService.openConfirmationDialog(modalInformation);
+
       }
     );
   }
 
   onViewTerreno(row: Terreno): void {
+
     this.dialog.open(PreviewTerrenoModalComponent, {
       width: '600px',
       data: {
         row: row
       }
     });
+
   }
 
   onAgregarEditarTerreno(accion: string, row?: Terreno): void {
-    if(accion == 'agregar'){
+
+    if (accion == 'agregar') {
       this.router.navigateByUrl('/dashboard/terrenos/agregar', { state: { accion: 'agregar' } });
-    }else if(accion == 'editar'){
+    } else if (accion == 'editar') {
       this.router.navigateByUrl('/dashboard/terrenos/editar', { state: { accion: 'editar', row: row } });
     }
+
   }
 
   onDeleteTerreno(terreno: Terreno) {
+
+    const modalInformation: Modal = {
+      title: "¿Estás seguro?",
+      message: `Borrarás el terreno #${terreno.noLote} Manzana ${terreno.noManzana} permamentemente, deseas continuar?`,
+      type: ModalType.yesno,
+      response: ModalResponse.warning
+    }
+
+    const dialogRef = this._uiActionsService.openYesNoDialog(modalInformation);
+
+    dialogRef.afterClosed().subscribe(
+
+      (response) => {
+
+        if (response && response == 'confirm') {
+
+          this._uiActionsService.showSpinner();
+
+          this._terrenosService.deleteTerreno(terreno.idTerreno).subscribe(
+
+            (response: any) => {
+
+              this._uiActionsService.hideSpinner();
+
+              const modalInformation: Modal = {
+                title: "Eliminado",
+                message: `El terreno fue eliminado correctamente`,
+                type: ModalType.confirmation,
+                response: ModalResponse.success
+              }
+
+              const dialogRef = this._uiActionsService.openConfirmationDialog(modalInformation);
+              dialogRef.afterClosed().subscribe(() => this.getTerrenos());
+
+            },
+
+            (error) => {
+
+              this._uiActionsService.hideSpinner();
+
+              const modalInformation: Modal = {
+                title: "Error",
+                message: "Hubo un error al eliminar el terreno, inténtelo de nuevo.",
+                type: ModalType.confirmation,
+                response: ModalResponse.failed
+              }
+
+              this._uiActionsService.openConfirmationDialog(modalInformation);
+
+            }
+          )
+        }
+
+      },
+    );
 
   }
 
@@ -91,12 +170,14 @@ export class TerrenosViewComponent implements OnInit {
   }
 
   applyFilter(event: Event): void {
+
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+
   }
 
 }

@@ -3,6 +3,7 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ModalConfirmationComponent } from '../components/shared/modal-confirmation/modal-confirmation.component';
 import { YesNoModalComponent } from '../components/shared/yes-no-modal/yes-no-modal.component';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Injectable({
   providedIn: 'root'
@@ -12,14 +13,20 @@ export class UiActionsService {
   horizontalPosition: MatSnackBarHorizontalPosition = 'center';
   verticalPosition: MatSnackBarVerticalPosition = 'top';
 
-  constructor(private _snackBar: MatSnackBar, private dialog: MatDialog) { }
+  constructor(
+    private _snackBar: MatSnackBar,
+    private dialog: MatDialog,
+    private spinner: NgxSpinnerService
+    ) { }
 
   presentSnackBar(message: string, action: string, duration?: number) {
+
     this._snackBar.open(message, action, {
       duration: 2000,
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition
     });
+    
   }
 
   openConfirmationDialog(modalInformation: any): MatDialogRef<ModalConfirmationComponent> {
@@ -48,6 +55,14 @@ export class UiActionsService {
 
     return dialog_ref;
 
+  }
+
+  showSpinner(){
+    this.spinner.show();
+  }
+
+  hideSpinner(){
+    this.spinner.hide();
   }
 
 }

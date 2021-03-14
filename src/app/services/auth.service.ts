@@ -16,7 +16,7 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
 
-  API_URI = 'http://localhost:8000/api';
+  API_URI = 'http://bienesraiceslarios.com:8000/api';
 
   private _account = new BehaviorSubject<Account>(null);
   private activeLogoutTimer: any;

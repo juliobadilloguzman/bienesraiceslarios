@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+import { UiActionsService } from 'src/app/services/ui-actions.service';
 
 @Component({
   selector: 'app-login-view',
@@ -20,7 +21,8 @@ export class LoginViewComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private _authService: AuthService,
-    private router: Router
+    private router: Router,
+    private _uiActionsService: UiActionsService
   ) { }
 
   ngOnInit(): void {
@@ -45,18 +47,27 @@ export class LoginViewComponent implements OnInit {
 
   logIn(): void {
 
+    this._uiActionsService.showSpinner();
+
     this.accountNotFoundError = false;
     this.notValidCredentials = false;
     this.invalidFormat = false;
 
     this._authService.logIn(this.email.value, this.password.value).subscribe(
       (response) => {
+
         if (response) {
-          //Navigate to the dashboard
+
+          this._uiActionsService.hideSpinner();
           this.router.navigateByUrl('/dashboard');
+
         }
+
       },
       (error) => {
+
+        this._uiActionsService.hideSpinner();
+
         switch (error.error.statusCode) {
           case 404:
             this.accountNotFoundError = true;
@@ -69,7 +80,7 @@ export class LoginViewComponent implements OnInit {
             break;
         }
       }
-    )
+    );
   }
 
 }

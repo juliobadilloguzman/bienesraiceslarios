@@ -11,8 +11,9 @@
                 <li class="cursorPointer"><a (click)="scrollTo(services)" class="text-white text-raleway no-underline cursorPointer">Servicios</a></li>
                 <li class="cursorPointer"><a (click)="scrollTo(terrenos)" class="text-white text-raleway no-underline cursorPointer">Terrenos</a></li>
                 <li class="cursorPointer"><a (click)="scrollTo(contact)" class="text-white text-raleway no-underline cursorPointer">Contacto</a></li>
+                <li class="cursorPointer"><a (click)="goToCotizador()" class="text-white text-raleway no-underline cursorPointer">Cotizador</a></li>
                 <li class="cursorPointer" *ngIf="!isAuthenticated"><a routerLink="/login" class="btn-white no-underline">Iniciar Sesión</a></li>
-                <li class="cursorPointer" *ngIf="isAuthenticated"><button (click)="goToDashoard()" class="btn-white no-underline">Dashboard</button></li>
+                <li class="cursorPointer" *ngIf="isAuthenticated"><button (click)="goToDashoard()" class="btn-white no-underline">Panel</button></li>
                 <li class="cursorPointer" *ngIf="isAuthenticated"><button (click)="logOut()" class="btn-danger no-underline">Cerrar
                         Sesión</button></li>
             </ul>
@@ -44,6 +45,18 @@
             </a>
             <a (click)="scrollTo(contact)">
                 <li class="text-raleway">Contacto</li>
+            </a>
+            <a (click)="goToCotizador()">
+                <li class="text-raleway">Cotizador</li>
+            </a>
+            <a *ngIf="!isAuthenticated" routerLink="/login">
+                <li class="text-raleway text-primary">Iniciar Sesión</li>
+            </a>
+            <a *ngIf="isAuthenticated" (click)="goToDashoard()">
+                <li class="text-raleway text-primary">Panel</li>
+            </a>
+            <a *ngIf="isAuthenticated" (click)="logOut()">
+                <li class="text-raleway text-danger">Cerrar Sesión</li>
             </a>
         </ul>
     </div>

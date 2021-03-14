@@ -38,7 +38,7 @@
                     </tr>
                     <tr>
                         <th scope="row">Fecha de venta</th>
-                        <td>{{data.form.fechaVenta}}</td>
+                        <td>{{data.form.fechaVenta | date: 'dd/MM/yyyy'}}</td>
                     </tr>
                     <tr>
                         <th scope="row">Vendedores</th>
@@ -72,7 +72,7 @@
                         </tr>
                         <tr>
                             <th scope="row">Fecha de la primera mensualidad</th>
-                            <td>{{data.form.fechaPrimeraMensualidad}}</td>
+                            <td>{{data.form.fechaPrimeraMensualidad | date: 'dd/MM/yyyy'}}</td>
                         </tr>
                     </ng-container>
                     <tr>
@@ -84,8 +84,8 @@
                             </span>
                             <span *ngIf="data.form.pagoDeslinde == 1"> la fecha </span>
                             <span class="text-semibold"
-                                *ngIf="data.form.pagoDeslinde == 1">{{data.form.fechaPagoDeslinde}}</span>
-                            <span *ngIf="data.form.pagoDeslinde == 1">con un monto de</span>
+                                *ngIf="data.form.pagoDeslinde == 1">{{data.form.fechaPagoDeslinde | date: 'dd/MM/yyyy' }}</span>
+                            <span *ngIf="data.form.pagoDeslinde == 1"> con un monto de </span>
                             <span class="text-semibold text-secondary">{{data.form.montoDeslinde | currency}}</span>
                         </td>
                     </tr>
