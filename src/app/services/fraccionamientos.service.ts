@@ -8,7 +8,7 @@ import { Fraccionamiento } from '../models/fraccionamiento';
 })
 export class FraccionamientosService {
 
-  API_URI = 'http://bienesraiceslarios.com:8000/api';
+  API_URI = 'https://bienesraiceslarios.com/api';
 
   constructor(private http: HttpClient) { }
 

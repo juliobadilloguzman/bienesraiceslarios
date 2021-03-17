@@ -130,13 +130,16 @@ export class MisMensualidadesViewComponent implements OnInit {
   }
 
   onViewMensualidad(row: Mensualidad): void {
+
     this.dialog.open(PreviewMensualidadModalComponent, {
       width: '600px',
       data: {
         row: row
       }
     });
+    
   }
+  
 
   generarReporte() {
     this._downloadService.generateEstadoCuentaPdf(this.mensualidades, this.terreno);

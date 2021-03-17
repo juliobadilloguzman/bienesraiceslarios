@@ -586,8 +586,10 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
 
   }
 
-  onSubmitForm() {
+  async onSubmitForm() {
 
+    const isDuplicated = await this._terrenosService.isDuplicated({noManzana: this.noManzana.value, noLote: this.noLote.value , idFraccionamiento: this.fraccionamientoIdFraccionamiento.value});
+  
     //Costo total
     this.costoTotal.patchValue(this.costoTotalTemp);
 
@@ -664,6 +666,22 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
         this._uiActionsService.showSpinner();
 
         if (this.accion == 'agregar') {
+
+          if(isDuplicated){
+
+            this._uiActionsService.hideSpinner();
+
+            const modalInformation: Modal = {
+              title: "TERRENO DUPLICADO",
+              message: "El terreno que intentas agregar ya esta vendido, primero debes de cancelar el anterior antes de volverlo a vender. ",
+              type: ModalType.confirmation,
+              response: ModalResponse.failed
+            }
+
+            this._uiActionsService.openConfirmationDialog(modalInformation);
+
+            return;
+          }
 
           this._terrenosService.createTerreno(data.form).subscribe(
             (response: any) => {

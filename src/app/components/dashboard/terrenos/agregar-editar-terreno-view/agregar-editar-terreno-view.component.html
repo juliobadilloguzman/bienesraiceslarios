@@ -15,7 +15,7 @@
             <div class="col-4">
                 <mat-form-field appearance="fill" class="full-width">
                     <mat-label>No Manzana</mat-label>
-                    <input autocomplete="off" formControlName="noManzana" required matInput>
+                    <input type="number" autocomplete="off" formControlName="noManzana" required matInput>
                 </mat-form-field>
                 <!-- Errors -->
                 <div *ngIf="showErrors(noManzana)">
@@ -33,7 +33,7 @@
             <div class="col-4">
                 <mat-form-field appearance="fill" class="full-width">
                     <mat-label>No Lote</mat-label>
-                    <input autocomplete="off" formControlName="noLote" required matInput>
+                    <input type="number" autocomplete="off" formControlName="noLote" required matInput>
                 </mat-form-field>
                 <!-- Errors -->
                 <div *ngIf="showErrors(noLote)">
@@ -51,7 +51,7 @@
             <div class="col-4">
                 <mat-form-field appearance="fill" class="full-width">
                     <mat-label>Superficie</mat-label>
-                    <input autocomplete="off" formControlName="superficie" required matInput>
+                    <input type="number" autocomplete="off" formControlName="superficie" required matInput>
                 </mat-form-field>
                 <!-- Errors -->
                 <div *ngIf="showErrors(superficie)">
@@ -186,7 +186,7 @@
                 <div class="col-6">
                     <mat-form-field appearance="fill" class="full-width">
                         <mat-label>Monto del Enganche</mat-label>
-                        <input formControlName="enganche" matInput [value]="getEnganche()">
+                        <input type="number" formControlName="enganche" matInput [value]="getEnganche()">
                         <mat-hint class="text-hint">Enganche del 10% calculado automaticamente, cámbielo si es necesario.
                         </mat-hint>
                     </mat-form-field>
@@ -213,13 +213,13 @@
                 <div class="col-6">
                     <mat-form-field appearance="fill" class="full-width">
                         <mat-label>Numero de mensualidades</mat-label>
-                        <input autocomplete="off" formControlName="noMensualidades" [value]="getNoMensualidades()" matInput>
+                        <input type="number" autocomplete="off" formControlName="noMensualidades" [value]="getNoMensualidades()" matInput>
                     </mat-form-field>
                 </div>
                 <div class="col-6">
                     <mat-form-field appearance="fill" class="full-width">
                         <mat-label>Monto de cada mensualidad</mat-label>
-                        <input autocomplete="off" formControlName="montoMensualidad" matInput (input)="setMontoMensualidad($event)" [value]="getMontoMensualidad()">
+                        <input type="number" autocomplete="off" formControlName="montoMensualidad" matInput (input)="setMontoMensualidad($event)" [value]="(accion != 'editar') ? getMontoMensualidad() : terreno.montoMensualidad">
                         <mat-hint class="text-hint">Monto de mensualidad calculado automaticamente, cámbielo si es necesario.
                         </mat-hint>
                     </mat-form-field>
@@ -229,13 +229,13 @@
                 <div class="col-4">
                     <mat-form-field appearance="fill" class="full-width">
                         <mat-label>Dia de pago del (de cada mes)</mat-label>
-                        <input autocomplete="off" formControlName="diaPagoDel" matInput>
+                        <input type="number" autocomplete="off" formControlName="diaPagoDel" matInput>
                     </mat-form-field>
                 </div>
                 <div class="col-4">
                     <mat-form-field appearance="fill" class="full-width">
                         <mat-label>Dia de pago al (de cada mes)</mat-label>
-                        <input autocomplete="off" formControlName="diaPagoAl" matInput>
+                        <input type="number" autocomplete="off" formControlName="diaPagoAl" matInput>
                     </mat-form-field>
                 </div>
                 <div class="col-4">
@@ -275,13 +275,13 @@
             <div class="col-6">
                 <mat-form-field appearance="fill" class="full-width">
                     <mat-label>Monto del deslinde</mat-label>
-                    <input autocomplete="off" formControlName="montoDeslinde" matInput>
+                    <input type="number" autocomplete="off" formControlName="montoDeslinde" matInput>
                 </mat-form-field>
             </div>
         </div>
         <div class="row">
             <div class="col-12">
-                <button type="submit" class="btn btn-primary" [disabled]="!terrenoForm.valid || vendedoresTemp.length <= 0" *ngIf="accion">{{ (accion == 'agregar') ? 'Agregar Terreno' : 'Editar Terreno' }}</button>
+                <button type="submit" class="btn btn-primary"  *ngIf="accion">{{ (accion == 'agregar') ? 'Agregar Terreno' : 'Editar Terreno' }}</button>
             </div>
         </div>
     </form>

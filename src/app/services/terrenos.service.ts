@@ -8,7 +8,7 @@ import { Terreno } from '../models/terreno';
 })
 export class TerrenosService {
 
-  API_URI = 'http://bienesraiceslarios.com:8000/api';
+  API_URI = 'https://bienesraiceslarios.com/api';
 
   constructor(private http: HttpClient) { }
 
@@ -34,6 +34,10 @@ export class TerrenosService {
   
   deleteTerreno(idTerreno: number): Observable<any>{
     return this.http.delete<any>(this.API_URI + '/terrenos/' + idTerreno);
+  }
+
+  async isDuplicated(information: any): Promise<any>{
+    return await this.http.post<any>(this.API_URI + '/terrenos/isDuplicated', information).toPromise();
   }
 
 }

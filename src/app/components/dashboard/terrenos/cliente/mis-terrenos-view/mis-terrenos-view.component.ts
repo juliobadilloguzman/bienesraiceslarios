@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { take } from 'rxjs/operators';
 import { Account } from 'src/app/models/account';
+import { PreviewTerrenoModalComponent } from '../../preview-terreno-modal/preview-terreno-modal.component';
 
 @Component({
   selector: 'app-mis-terrenos-view',
@@ -98,8 +99,15 @@ export class MisTerrenosViewComponent implements OnInit {
 
   }
 
-  onViewTerreno(terreno: Terreno){
-    
+  onViewTerreno(row: Terreno): void {
+
+    this.dialog.open(PreviewTerrenoModalComponent, {
+      width: '600px',
+      data: {
+        row: row
+      }
+    });
+
   }
 
 

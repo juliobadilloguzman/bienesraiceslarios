@@ -118,8 +118,6 @@ export class CreateUpdateMensualidadModalComponent implements OnInit {
     //Patch interes
     this.interes.patchValue(this.data.montoMensualidad * .10);
 
-    console.warn('DATA', this.data);
-
     if (this.data.accion == 'editar') {
 
       this._mensualidadService.getMensualidad(this.data.row.idMensualidad).subscribe(
@@ -129,7 +127,6 @@ export class CreateUpdateMensualidadModalComponent implements OnInit {
           this.mensualidad = response;
           delete this.mensualidad.terreno;
           delete this.mensualidad.usuario;
-          console.log('mensualidad', this.mensualidad);
 
           //Patch interes
           if(this.mensualidad.estatusInteres == 'NO PAGADO'){
@@ -156,6 +153,21 @@ export class CreateUpdateMensualidadModalComponent implements OnInit {
         }
       );
     }
+
+
+    //Look for changes in NO PAGADA estatus
+    this.estatusPago.valueChanges.subscribe(
+      (estatus) => {
+        
+        if(estatus == 'NO PAGADA'){
+          this.tieneInteres = true;
+        }else{
+          this.tieneInteres = false;
+        }
+
+      }
+    );
+
   }
 
   showErrors(control: FormControl): boolean {

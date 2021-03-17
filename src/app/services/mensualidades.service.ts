@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class MensualidadesService {
 
-  API_URI = 'http://bienesraiceslarios.com:8000/api';
+  API_URI = 'https://bienesraiceslarios.com/api';
 
   constructor(private http: HttpClient) { }
 
