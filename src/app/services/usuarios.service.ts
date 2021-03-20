@@ -47,4 +47,8 @@ export class UsuariosService {
     return this.http.get<Usuario>(this.API_URI + '/usuarios/' + idUsuario);
   }
 
+  async getUsuarioP(idUsuario: number): Promise<any> {
+    return await this.http.get<Usuario>(this.API_URI + '/usuarios/' + idUsuario).toPromise();
+  }
+
 }

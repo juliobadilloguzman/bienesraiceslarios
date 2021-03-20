@@ -31,7 +31,6 @@ export class ConfirmAgregarTerrenoModalComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.warn(this.data);
     this.getFraccionamiento();
     this.getCliente();
   }

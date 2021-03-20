@@ -16,11 +16,12 @@ import { CreateUpdateClienteModalComponent } from '../usuarios/clientes-view/cre
 import { MisTerrenosViewComponent } from './cliente/mis-terrenos-view/mis-terrenos-view.component';
 import { PreviewTerrenoModalComponent } from './preview-terreno-modal/preview-terreno-modal.component';
 import { AgregarEditarTerrenoViewComponent } from './agregar-editar-terreno-view/agregar-editar-terreno-view.component';
+import { CambiarEstatusModalComponent } from './cambiar-estatus-modal/cambiar-estatus-modal.component';
 
 
 @NgModule({
-  entryComponents: [ModalConfirmationComponent, YesNoModalComponent, CreateUpdateVendedorModalComponent, ConfirmAgregarTerrenoModalComponent, CreateUpdateClienteModalComponent, PreviewTerrenoModalComponent],
-  declarations: [TerrenosViewComponent, ConfirmAgregarTerrenoModalComponent, MisTerrenosViewComponent, PreviewTerrenoModalComponent, AgregarEditarTerrenoViewComponent],
+  entryComponents: [ModalConfirmationComponent, YesNoModalComponent, CreateUpdateVendedorModalComponent, ConfirmAgregarTerrenoModalComponent, CreateUpdateClienteModalComponent, PreviewTerrenoModalComponent, CambiarEstatusModalComponent],
+  declarations: [TerrenosViewComponent, ConfirmAgregarTerrenoModalComponent, MisTerrenosViewComponent, PreviewTerrenoModalComponent, AgregarEditarTerrenoViewComponent, CambiarEstatusModalComponent],
   imports: [
     CommonModule,
     TerrenosRoutingModule,

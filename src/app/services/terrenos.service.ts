@@ -40,4 +40,8 @@ export class TerrenosService {
     return await this.http.post<any>(this.API_URI + '/terrenos/isDuplicated', information).toPromise();
   }
 
+  changeStatus(idTerreno: number, estatusTerreno: any): Observable<any>{
+    return this.http.patch(this.API_URI + '/terrenos/changeStatus/' + idTerreno, estatusTerreno);
+  }
+
 }

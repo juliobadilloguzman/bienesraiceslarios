@@ -41,16 +41,15 @@ export class DownloadService {
     });
   }
 
-  getUserNameLogged() {
+  async getUserNameLogged() {
+
     const userLogged = JSON.parse(localStorage.getItem('authData'));
 
     if(userLogged){
-      this._usersService.getUsuario(userLogged['idUsuario']).subscribe(
-        (response: Usuario) => {
-          this.userNamelogged = `${response.nombre} ${response.apellidoPaterno}`;
-        },
-        (error) => { }
-      );
+
+      const user = await this._usersService.getUsuarioP(userLogged['idUsuario']);
+      this.userNamelogged = `${user.nombre} ${user.apellidoPaterno}`;
+
     }
   
   }
@@ -140,9 +139,9 @@ export class DownloadService {
         {
           border: [false, false, false, true],
           fontSize: 9,
-          text: (mensualidad.fechaPago == null) ? 'No pagada aún' : moment(mensualidad.fechaPago).format("DD-MM-YYYY"),
-          bold: (mensualidad.fechaPago == null) ? true : false,
-          fillColor: (mensualidad.fechaPago == null) ? '#ff8383' : '#f5f5f5',
+          text: (mensualidad.estatusPago == 'NO PAGADA') ? 'No pagada aún' : moment(mensualidad.fechaPago).format("DD-MM-YYYY"),
+          bold: (mensualidad.estatusPago == 'NO PAGADA') ? true : false,
+          fillColor: (mensualidad.estatusPago == 'NO PAGADA') ? '#ff8383' : '#f5f5f5',
           alignment: 'right',
           margin: [0, 5, 0, 5],
         },

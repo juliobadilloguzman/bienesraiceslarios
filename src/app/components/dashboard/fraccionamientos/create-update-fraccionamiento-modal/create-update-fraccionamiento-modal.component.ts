@@ -67,22 +67,28 @@ export class CreateUpdateFraccionamientoModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     if (this.data.accion == 'editar') {
+
       this._fraccionamientosService.getFraccionamiento(this.data.row.idFraccionamiento).subscribe(
         (response: Fraccionamiento) => {
+
           if (response) {
-            console.log(response);
             this.fraccionamientoForm.setValue(response);
           }
+
         },
         (error) => {
+
           const modalInformation: Modal = {
             title: "Error",
             message: "Error al cargar la informacion, verifique su conexion a internet e inténtelo de nuevo",
             type: ModalType.confirmation,
             response: ModalResponse.failed
           }
+
           this._uiActionsService.openConfirmationDialog(modalInformation);
+          
         });
     }
   }

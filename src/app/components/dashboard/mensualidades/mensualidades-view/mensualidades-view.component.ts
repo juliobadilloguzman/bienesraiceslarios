@@ -81,6 +81,8 @@ export class MensualidadesViewComponent implements OnInit {
 
         if (response) {
 
+          console.warn(response);
+
           this.dataSource = new MatTableDataSource(response);
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
@@ -158,6 +160,58 @@ export class MensualidadesViewComponent implements OnInit {
   }
 
   onDeleteMensualidad(mensualidad: Mensualidad) {
+
+    const modalInformation: Modal = {
+      title: "¿Estás seguro?",
+      message: `El monto de la mensualidad y el interes se sumarán al saldo del terreno, deseas continuar?`,
+      type: ModalType.yesno,
+      response: ModalResponse.warning
+    }
+
+    const dialogRef = this._uiActionsService.openYesNoDialog(modalInformation);
+
+    dialogRef.afterClosed().subscribe((response) => {
+
+      if (response && response == 'confirm') {
+
+        this._uiActionsService.showSpinner();
+
+        this._mensualidadesService.deleteMensualidad(mensualidad.idMensualidad).subscribe(
+
+          (response: any) => {
+
+            this._uiActionsService.hideSpinner();
+
+            const modalInformation: Modal = {
+              title: "Eliminada",
+              message: `La mensualidad se ha eliminado correctamente`,
+              type: ModalType.confirmation,
+              response: ModalResponse.success
+            }
+
+            const dialogRef = this._uiActionsService.openConfirmationDialog(modalInformation);
+            dialogRef.afterClosed().subscribe(() => this.getMensualidades());
+
+          },
+
+          (error) => {
+
+            this._uiActionsService.hideSpinner();
+
+            const modalInformation: Modal = {
+              title: "Error",
+              message: "Hubo un error al eliminar la mensualidad, inténtelo de nuevo.",
+              type: ModalType.confirmation,
+              response: ModalResponse.failed
+            }
+
+            this._uiActionsService.openConfirmationDialog(modalInformation);
+            
+          }
+        )
+      }
+
+    });
 
   }
 

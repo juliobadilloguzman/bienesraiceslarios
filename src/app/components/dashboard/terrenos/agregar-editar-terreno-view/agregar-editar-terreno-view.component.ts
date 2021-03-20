@@ -72,7 +72,7 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
     public dialog: MatDialog,
     private dateAdapter: DateAdapter<Date>,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {
 
     this.dateAdapter.setLocale('en-GB'); //dd/MM/yyyy
@@ -94,9 +94,9 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
       diaPagoDel: [null, [Validators.required]],
       diaPagoAl: [null, [Validators.required]],
       pagoDeslinde: [0],
-      fechaPagoDeslinde: [],
+      fechaPagoDeslinde: [moment().format('L')],
       montoDeslinde: [null],
-      fechaPrimeraMensualidad: [null, [Validators.required]],
+      fechaPrimeraMensualidad: [moment().format('L'), [Validators.required]],
       comentariosAdicionales: [],
       fraccionamientoIdFraccionamiento: [null, [Validators.required]],
       usuarioIdUsuario: [null, [Validators.required]],
@@ -215,7 +215,7 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
 
     });
 
-    if(!this.accion){
+    if (!this.accion) {
       this.router.navigateByUrl('/dashboard/terrenos');
       return;
     }
@@ -458,15 +458,40 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
     if (isNaN(enganche))
       enganche = 0;
 
-    if (!this.enganche.dirty)
-      this.engancheTemp = enganche;
-    else{
+
+    // if (this.accion == 'editar') {
+    //   this.engancheTemp = this.terreno.enganche;
+    // } else {
+
+    //   if (!this.enganche.dirty)
+    //     this.engancheTemp = enganche;
+    //   else {
+    //     this.engancheTemp = this.enganche.value;
+    //   }
+
+    // }
+
+    if (this.accion == 'editar') {
       this.engancheTemp = this.enganche.value;
+    } else {
+
+      if (!this.enganche.dirty)
+        this.engancheTemp = enganche;
+      else {
+        this.engancheTemp = this.enganche.value;
+      }
+
     }
 
     return this.engancheTemp;
 
   }
+
+  setEngancheManually(event: any) {
+    this.engancheTemp = event.target.value;
+    this.enganche.patchValue(event.target.value);
+  }
+
 
   getNoMensualidades(): number {
 
@@ -489,9 +514,19 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
     if (isNaN(montoMensualidad) || !isFinite(montoMensualidad))
       montoMensualidad = 0;
 
-    this.montoMensualidadTemp = parseFloat(montoMensualidad.toFixed(2));
+    if (this.accion == 'editar') {
+      this.montoMensualidadTemp = this.montoMensualidad.value;
+    } else {
 
-    return parseFloat(montoMensualidad.toFixed(2));
+      if (!this.montoMensualidad.dirty)
+        this.montoMensualidadTemp = parseFloat(montoMensualidad.toFixed(2));
+      else {
+        this.montoMensualidadTemp = this.montoMensualidad.value;
+      }
+
+    }
+
+    return parseFloat(this.montoMensualidadTemp.toFixed(2));
 
   }
 
@@ -523,7 +558,7 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
 
       this.fechaPrimeraMensualidad.clearValidators();
       this.fechaPrimeraMensualidad.updateValueAndValidity();
-      
+
     }
     else {
 
@@ -537,7 +572,7 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
 
       this.noMensualidades.setValidators([Validators.required]);
       this.noMensualidades.updateValueAndValidity();
-    
+
 
       this.diaPagoDel.setValidators([Validators.required]);
       this.diaPagoDel.updateValueAndValidity();
@@ -579,7 +614,7 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
     }
   }
 
-  setMontoMensualidad(event: any){
+  setMontoMensualidad(event: any) {
 
     this.montoMensualidadTemp = event.target.value;
     this.montoMensualidad.patchValue(event.target.value);
@@ -588,8 +623,8 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
 
   async onSubmitForm() {
 
-    const isDuplicated = await this._terrenosService.isDuplicated({noManzana: this.noManzana.value, noLote: this.noLote.value , idFraccionamiento: this.fraccionamientoIdFraccionamiento.value});
-  
+    const isDuplicated = await this._terrenosService.isDuplicated({ noManzana: this.noManzana.value, noLote: this.noLote.value, idFraccionamiento: this.fraccionamientoIdFraccionamiento.value });
+
     //Costo total
     this.costoTotal.patchValue(this.costoTotalTemp);
 
@@ -653,6 +688,7 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
 
     const dialogRef = this.dialog.open(ConfirmAgregarTerrenoModalComponent, {
       width: '650px',
+      height: '70vh',
       disableClose: true,
       data: {
         form: this.terrenoForm.value
@@ -667,7 +703,7 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
 
         if (this.accion == 'agregar') {
 
-          if(isDuplicated){
+          if (isDuplicated) {
 
             this._uiActionsService.hideSpinner();
 
@@ -681,6 +717,7 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
             this._uiActionsService.openConfirmationDialog(modalInformation);
 
             return;
+
           }
 
           this._terrenosService.createTerreno(data.form).subscribe(
@@ -698,7 +735,7 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
                 }
 
                 const dialogRef = this._uiActionsService.openConfirmationDialog(modalInformation);
-                
+
                 dialogRef.afterClosed().subscribe(() => {
                   this.router.navigateByUrl('/dashboard/terrenos');
                 });
@@ -709,21 +746,23 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
             (error) => {
 
               this._uiActionsService.hideSpinner();
-              
+
               const modalInformation: Modal = {
                 title: "Error",
                 message: "Hubo un error al crear el terreno, inténtelo de nuevo o contacte a soporte.",
                 type: ModalType.confirmation,
                 response: ModalResponse.failed
               }
-    
+
               this._uiActionsService.openConfirmationDialog(modalInformation);
-              
+
             }
           );
 
 
         } else if (this.accion == 'editar') {
+
+
 
           this._terrenosService.updateTerreno(data.form.idTerreno, data.form).subscribe(
             (response: any) => {
@@ -748,18 +787,18 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
 
             },
             (error) => {
-              
+
               this._uiActionsService.hideSpinner();
-              
+
               const modalInformation: Modal = {
                 title: "Error",
                 message: "Hubo un error al editar el terreno, inténtelo de nuevo o contacte a soporte.",
                 type: ModalType.confirmation,
                 response: ModalResponse.failed
               }
-    
+
               this._uiActionsService.openConfirmationDialog(modalInformation);
-              
+
             }
           );
 

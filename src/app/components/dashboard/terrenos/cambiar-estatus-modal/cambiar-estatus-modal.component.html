@@ -1,0 +1,28 @@
+<div class="container">
+
+
+    <div class="justify-space-between" style="margin-bottom: 0.2rem;" >
+        <h2 class="text-raleway text-semibold text-center">Cambiar el estatus del terreno</h2>
+        <span class="material-icons icon-close" (click)="closeDialog()">cancel</span>
+    </div>
+
+    <form [formGroup]="estatusForm" (ngSubmit)="onSubmitForm()">
+        <div class="col-12">
+            <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Estatus del terreno</mat-label>
+                <mat-select formControlName="estatusTerreno">
+                    <mat-option value="AL CORRIENTE">
+                        AL CORRIENTE
+                    </mat-option>
+                    <mat-option value="CON INTERESES">
+                        CON INTERESES
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-12">
+            <button class="btn btn-primary">Cambiar estatus</button>
+        </div>
+    </form>
+
+</div>

@@ -105,9 +105,9 @@ export class CreateUpdateMensualidadModalComponent implements OnInit {
   ngOnInit(): void {
 
     //Disable Estatus si la mensalidad esta pagada
-    if (this.data.accion == 'editar' && this.data.row.estatusPago == 'PAGADA') {
-      this.estatusPago.disable();
-    }
+    // if (this.data.accion == 'editar' && this.data.row.estatusPago == 'PAGADA') {
+    //   this.estatusPago.disable();
+    // }
 
     //Patch id Terreno value
     this.terrenoIdTerreno.patchValue(this.data.idTerreno);
@@ -160,9 +160,50 @@ export class CreateUpdateMensualidadModalComponent implements OnInit {
       (estatus) => {
         
         if(estatus == 'NO PAGADA'){
+
           this.tieneInteres = true;
+          this.monto.patchValue(0);
+
+          this.interes.setValidators([Validators.required]);
+          this.interes.updateValueAndValidity();
+
+          this.estatusInteres.setValidators([Validators.required]);
+          this.estatusInteres.updateValueAndValidity();
+
+          //Remove validators
+          this.numeroRecibo.clearValidators();
+          this.numeroRecibo.updateValueAndValidity();
+
+          this.fechaPago.clearValidators();
+          this.fechaPago.updateValueAndValidity();
+
+          this.monto.clearValidators();
+          this.monto.updateValueAndValidity();
+
+          this.formaPago.clearValidators();
+          this.formaPago.updateValueAndValidity();
+
+          this.estatusInteres.patchValue("NO PAGADO");
+
         }else{
+
           this.tieneInteres = false;
+
+          this.estatusInteres.patchValue("PAGADO");
+
+          //Set validators
+          this.numeroRecibo.setValidators([Validators.required]);
+          this.numeroRecibo.updateValueAndValidity();
+
+          this.fechaPago.setValidators([Validators.required]);
+          this.fechaPago.updateValueAndValidity();
+
+          this.monto.setValidators([Validators.required]);
+          this.monto.updateValueAndValidity();
+
+          this.formaPago.setValidators([Validators.required]);
+          this.formaPago.updateValueAndValidity();
+
         }
 
       }
@@ -179,6 +220,9 @@ export class CreateUpdateMensualidadModalComponent implements OnInit {
     if (checked) {
       this.tieneInteres = true;
 
+      this.estatusInteres.patchValue("NO PAGADO");
+      this.monto.patchValue(0);
+
       //Update validators
       this.interes.setValidators([Validators.required]);
       this.interes.updateValueAndValidity();
@@ -186,8 +230,13 @@ export class CreateUpdateMensualidadModalComponent implements OnInit {
       this.estatusInteres.setValidators([Validators.required]);
       this.estatusInteres.updateValueAndValidity();
 
+      
+
     } else {
+
       this.tieneInteres = false;
+
+      this.estatusInteres.patchValue("PAGADO");
 
       this.interes.clearValidators()
       this.interes.updateValueAndValidity();
@@ -212,6 +261,14 @@ export class CreateUpdateMensualidadModalComponent implements OnInit {
       this.numeroRecibo.patchValue(null);
       this.cantidadConLetra.patchValue(null);
       this.formaPago.patchValue(null);
+    }else if (this.estatusPago.value == 'PAGADA'){
+
+      if(parseInt(this.monto.value) == 0){
+        alert('El monto no puede ser 0 si ya la pago');
+        this._uiActionsService.hideSpinner();
+        return;
+      }
+
     }
 
 

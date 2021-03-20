@@ -9,6 +9,7 @@ import { UiActionsService } from 'src/app/services/ui-actions.service';
 import { Modal, ModalType, ModalResponse } from 'src/app/models/modal';
 import { Router } from '@angular/router';
 import { PreviewTerrenoModalComponent } from '../preview-terreno-modal/preview-terreno-modal.component';
+import { CambiarEstatusModalComponent } from '../cambiar-estatus-modal/cambiar-estatus-modal.component';
 
 @Component({
   selector: 'app-terrenos-view',
@@ -94,6 +95,26 @@ export class TerrenosViewComponent implements OnInit {
     });
 
   }
+
+  onChangeStatus(row: Terreno): void {
+
+    const dialogRef = this.dialog.open(CambiarEstatusModalComponent, {
+      width: '500px',
+      data: {
+        row: row
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((response) => {
+
+      if(response){
+        this.getTerrenos();
+      }
+
+    });
+
+  }
+
 
   onAgregarEditarTerreno(accion: string, row?: Terreno): void {
 
