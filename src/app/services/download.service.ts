@@ -45,25 +45,25 @@ export class DownloadService {
 
     const userLogged = JSON.parse(localStorage.getItem('authData'));
 
-    if(userLogged){
+    if (userLogged) {
 
       const user = await this._usersService.getUsuarioP(userLogged['idUsuario']);
       this.userNamelogged = `${user.nombre} ${user.apellidoPaterno}`;
 
     }
-  
+
   }
 
-  generateCostoTotalCotizacion(content: any[], planPago: any){
+  generateCostoTotalCotizacion(content: any[], planPago: any) {
 
     let costoTotal = 0;
 
-    for(let terreno of content){
+    for (let terreno of content) {
 
-      if(planPago.plan == 'contado'){
-        costoTotal += ((terreno.metros*terreno.costoM2)-((terreno.metros*terreno.costoM2)*.10));
-      }else{
-        costoTotal += (terreno.metros*terreno.costoM2);
+      if (planPago.plan == 'contado') {
+        costoTotal += ((terreno.metros * terreno.costoM2) - ((terreno.metros * terreno.costoM2) * .10));
+      } else {
+        costoTotal += (terreno.metros * terreno.costoM2);
       }
 
     }
@@ -264,7 +264,7 @@ export class DownloadService {
         {
           border: [false, false, false, true],
           fontSize: 9,
-          text: (planPago.plan == 'financiamiento') ? `${this.currencyPipe.transform(terreno.costoM2)}` : `${this.currencyPipe.transform(terreno.costoM2-(terreno.costoM2*.10))}`,
+          text: (planPago.plan == 'financiamiento') ? `${this.currencyPipe.transform(terreno.costoM2)}` : `${this.currencyPipe.transform(terreno.costoM2 - (terreno.costoM2 * .10))}`,
           fillColor: '#f5f5f5',
           alignment: 'right',
           margin: [0, 5, 0, 5],
@@ -272,7 +272,7 @@ export class DownloadService {
         {
           border: [false, false, false, true],
           fontSize: 9,
-          text: (planPago.plan == 'contado') ? `MXN ${this.currencyPipe.transform((terreno.metros*terreno.costoM2)-((terreno.metros*terreno.costoM2)*.10))}` : `MXN ${this.currencyPipe.transform((terreno.metros*terreno.costoM2))}`,
+          text: (planPago.plan == 'contado') ? `MXN ${this.currencyPipe.transform((terreno.metros * terreno.costoM2) - ((terreno.metros * terreno.costoM2) * .10))}` : `MXN ${this.currencyPipe.transform((terreno.metros * terreno.costoM2))}`,
           fillColor: '#80d26d',
           alignment: 'right',
           margin: [0, 5, 0, 5],
@@ -1121,7 +1121,7 @@ export class DownloadService {
               ],
               [
 
-                (planPago.plan == 'financiamiento') ?  
+                (planPago.plan == 'financiamiento') ?
                   {
                     text: `Enganche del 10%`,
                     border: [false, false, false, true],
@@ -1129,25 +1129,51 @@ export class DownloadService {
                     fontSize: 9,
                     margin: [0, 3, 0, 5],
                   }
-                :
+                  :
                   ''
                 ,
 
-                (planPago.plan == 'financiamiento') ? 
+                (planPago.plan == 'financiamiento') ?
                   {
-                    text: `${this.currencyPipe.transform(this.generateCostoTotalCotizacion(content, planPago)*0.10)}`,
+                    text: `${this.currencyPipe.transform(this.generateCostoTotalCotizacion(content, planPago) * 0.10)}`,
                     border: [false, false, false, true],
                     fillColor: '#f5f5f5',
                     alignment: 'right',
                     fontSize: 9,
                     margin: [0, 3, 0, 5],
                   }
-                :
+                  :
                   '',
               ],
               [
 
-                (planPago.plan == 'financiamiento') ? 
+                (planPago.plan == 'financiamiento') ?
+                  {
+                    text: `Saldo a pagar`,
+                    border: [false, false, false, true],
+                    alignment: 'right',
+                    fontSize: 9,
+                    margin: [0, 3, 0, 5],
+                  }
+                  :
+                  ''
+                ,
+
+                (planPago.plan == 'financiamiento') ?
+                  {
+                    text: `${this.currencyPipe.transform(this.generateCostoTotalCotizacion(content, planPago) - (this.generateCostoTotalCotizacion(content, planPago) * 0.10))}`,
+                    border: [false, false, false, true],
+                    fillColor: '#f5f5f5',
+                    alignment: 'right',
+                    fontSize: 9,
+                    margin: [0, 3, 0, 5],
+                  }
+                  :
+                  '',
+              ],
+              [
+
+                (planPago.plan == 'financiamiento') ?
                   {
                     text: `${planPago.numeroMensualidades} mensualidades de`,
                     border: [false, true, false, true],
@@ -1155,22 +1181,22 @@ export class DownloadService {
                     alignment: 'right',
                     margin: [0, 3, 0, 5],
                   }
-                :
+                  :
                   '',
 
-                (planPago.plan == 'financiamiento') ? 
+                (planPago.plan == 'financiamiento') ?
                   {
                     border: [false, true, false, true],
-                    text: `${this.currencyPipe.transform((this.generateCostoTotalCotizacion(content, planPago)-(this.generateCostoTotalCotizacion(content, planPago)*.10))/planPago.numeroMensualidades)}`,
+                    text: `${this.currencyPipe.transform((this.generateCostoTotalCotizacion(content, planPago) - (this.generateCostoTotalCotizacion(content, planPago) * .10)) / planPago.numeroMensualidades)}`,
                     //text: 'PRUEBABRO',
                     alignment: 'right',
                     fontSize: 9,
                     fillColor: '#f5f5f5',
                     margin: [0, 3, 0, 0],
                   }
-                :
+                  :
                   '',
-              ],            
+              ],
             ],
           },
         },
@@ -1242,8 +1268,31 @@ export class DownloadService {
     };
 
     this.pdfObj = pdfMake.createPdf(documentDefinition);
-    this.openPdf();
-    this.downloadPdf();
+    console.log(this.pdfObj);
+
+    /*this.pdfObj.open();*/
+
+    //Open PDF
+    var base64data = null;
+
+    this.pdfObj.getBase64(function (encodedString) {
+
+      base64data = encodedString;
+
+      var byteCharacters = atob(base64data);
+      var byteNumbers = new Array(byteCharacters.length);
+      for (var i = 0; i < byteCharacters.length; i++) {
+        byteNumbers[i] = byteCharacters.charCodeAt(i);
+      }
+      var byteArray = new Uint8Array(byteNumbers);
+      var file = new Blob([byteArray], { type: 'application/pdf;base64' });
+      var fileURL = URL.createObjectURL(file);
+
+      window.open(fileURL, '_blank', 'height=500,width=500,status=no, toolbar=no,menubar=no,location=no');
+
+    });
+
+    this.pdfObj.download();
 
   }
 
