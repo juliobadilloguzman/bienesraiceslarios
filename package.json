@@ -27,7 +27,7 @@
     "@ng-bootstrap/ng-bootstrap": "^6.2.0",
     "animate.css": "^4.1.0",
     "bootstrap": "^4.4.0",
-    "moment": "^2.29.1",
+    "moment": "^2.29.2",
     "ngx-owl-carousel-o": "^4.0.0",
     "ngx-spinner": "^9.0.2",
     "ngx-useful-swiper": "^9.0.3",
