@@ -1,60 +1,108 @@
 import { Injectable } from '@angular/core';
-
 import * as pdfMake from "pdfmake/build/pdfmake";
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 (<any>pdfMake).vfs = pdfFonts.pdfMake.vfs;
 import * as moment from 'moment';
-
 import { HttpClient } from '@angular/common/http';
 import { Mensualidad } from '../models/mensualidad';
 import { Terreno } from '../models/terreno';
 import { UsuariosService } from './usuarios.service';
-import { Usuario } from '../models/usuario';
 import { CurrencyPipe } from '@angular/common';
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class DownloadService {
 
-  logoData = null;
-  pdfObj = null;
+  /**
+   * Logo of bienes raices.
+   *
+   * @memberof DownloadService
+   */
+  bienesRaicesLogo = null;
+
+  /**
+   * Generated PDF.
+   *
+   * @memberof DownloadService
+   */
+  pdfGenerated = null;
+
+  /**
+   *
+   *
+   * @type {string}
+   * @memberof DownloadService
+   */
   userNamelogged: string;
 
-  constructor(
-    private http: HttpClient,
-    private _usersService: UsuariosService,
-    private currencyPipe: CurrencyPipe,
+  /**
+   * Creates an instance of DownloadService.
+   * 
+   * @param {HttpClient} http
+   * @param {UsuariosService} _usersService
+   * @param {CurrencyPipe} currencyPipe
+   * @memberof DownloadService
+   */
+  constructor(private http: HttpClient,
+              private _usersService: UsuariosService,
+              private currencyPipe: CurrencyPipe,
   ) {
-    this.loadLocalAssetToBase64();
+
+    this.convertBienesRaicesLogoToBase64();
     this.getUserNameLogged();
+
   }
 
-  loadLocalAssetToBase64(): void {
+  /**
+   * Converts Bienes Raices Logo to base64.
+   *
+   * @memberof DownloadService
+   */
+  convertBienesRaicesLogoToBase64(): void {
+
     this.http.get('/assets/img/logos/logo.png', { responseType: 'blob' }).subscribe((response: any) => {
+
       const reader = new FileReader();
+
       reader.onloadend = () => {
-        this.logoData = reader.result;
+        this.bienesRaicesLogo = reader.result;
       };
+
       reader.readAsDataURL(response);
+
     });
+
   }
 
-  async getUserNameLogged() {
+  /**
+   * Returns the name of the logged user.
+   *
+   * @return {*}  {Promise<void>}
+   * @memberof DownloadService
+   */
+  async getUserNameLogged(): Promise<void>{
 
     const userLogged = JSON.parse(localStorage.getItem('authData'));
 
     if (userLogged) {
 
-      const user = await this._usersService.getUsuarioP(userLogged['idUsuario']);
+      const user = await this._usersService.getUsuario(userLogged['idUsuario']).toPromise();
       this.userNamelogged = `${user.nombre} ${user.apellidoPaterno}`;
 
     }
 
   }
 
-  generateCostoTotalCotizacion(content: any[], planPago: any) {
+  /**
+   * Generates the costo total of the cotizacion.
+   *
+   * @param {any[]} content
+   * @param {*} planPago
+   * @return {*}  {number}
+   * @memberof DownloadService
+   */
+  generateCostoTotalCotizacion(content: any[], planPago: any): number{
 
     let costoTotal = 0;
 
@@ -72,7 +120,14 @@ export class DownloadService {
 
   }
 
-  generateMensualidades(content: Mensualidad[]) {
+  /**
+   * Generates the table of the mensualidades.
+   *
+   * @param {Mensualidad[]} content
+   * @return {*}  {*}
+   * @memberof DownloadService
+   */
+  generateMensualidades(content: Mensualidad[]): any{
 
     const generatedMensualidades: any = [
       [
@@ -128,6 +183,7 @@ export class DownloadService {
     ];
 
     content.forEach((mensualidad) => {
+
       let requestMensualidades = [
         {
           text: mensualidad.numeroMensualidad,
@@ -179,8 +235,16 @@ export class DownloadService {
 
     return generatedMensualidades;
   }
-
-  generateCotizacionTerrenos(content: any[], planPago: any) {
+  
+  /**
+   * Generates the cotización.
+   *
+   * @param {any[]} content
+   * @param {*} planPago
+   * @return {*}  {*}
+   * @memberof DownloadService
+   */
+  generateCotizacionTerrenos(content: any[], planPago: any): any{
 
     const generateTerrenos: any = [
       [
@@ -286,7 +350,15 @@ export class DownloadService {
     return generateTerrenos;
   }
 
+  /**
+   * Returns the hexadecimal of the interes depdends of its type.
+   *
+   * @param {Mensualidad} mensualidad
+   * @return {*}  {string}
+   * @memberof DownloadService
+   */
   getColorInteres(mensualidad: Mensualidad): string {
+
     if (mensualidad.estatusInteres == null) {
       return '#33891c';
     } else if (mensualidad.estatusInteres == 'PAGADO') {
@@ -294,9 +366,17 @@ export class DownloadService {
     } else if (mensualidad.estatusInteres == "NO PAGADO") {
       return '#dc3545';
     }
+
   }
 
-  getInteres(mensualidad: Mensualidad) {
+  /**
+   * Gets the interes as number string.
+   *
+   * @param {Mensualidad} mensualidad
+   * @return {*}  {*}
+   * @memberof DownloadService
+   */
+  getInteres(mensualidad: Mensualidad): any{
 
     if (mensualidad.interes == null) {
       return this.currencyPipe.transform(0);
@@ -310,6 +390,13 @@ export class DownloadService {
 
   }
 
+  /**
+   * Gets the number of the total pagado mensualidades.
+   *
+   * @param {Mensualidad[]} mensualidades
+   * @return {*}  {number}
+   * @memberof DownloadService
+   */
   getTotalPagadoMensualidades(mensualidades: Mensualidad[]): number {
 
     let total: number = 0;
@@ -324,6 +411,13 @@ export class DownloadService {
 
   }
 
+  /**
+   * Returns the intereses.
+   *
+   * @param {Mensualidad[]} mensualidades
+   * @return {*}  {number}
+   * @memberof DownloadService
+   */
   getTotalIntereses(mensualidades: Mensualidad[]): number {
 
     let total: number = 0;
@@ -334,12 +428,17 @@ export class DownloadService {
       }
     }
 
-    console.log(total);
-
     return total;
 
   }
 
+  /**
+   * Generates the PDF of the estado de cuenta.
+   *
+   * @param {Mensualidad[]} content
+   * @param {Terreno} [terreno]
+   * @memberof DownloadService
+   */
   generateEstadoCuentaPdf(content: Mensualidad[], terreno?: Terreno): void {
 
     const userLogged = JSON.parse(localStorage.getItem('authData'));
@@ -349,7 +448,7 @@ export class DownloadService {
         {
           columns: [
             {
-              image: this.logoData,
+              image: this.bienesRaicesLogo,
               width: 150,
             },
             [
@@ -840,11 +939,18 @@ export class DownloadService {
       },
     };
 
-    this.pdfObj = pdfMake.createPdf(documentDefinition);
+    this.pdfGenerated = pdfMake.createPdf(documentDefinition);
     this.openPdf();
 
   }
 
+  /**
+   * Generates the PDF of the cotizacion.
+   *
+   * @param {any[]} content
+   * @param {*} planPago
+   * @memberof DownloadService
+   */
   generateCotizacion(content: any[], planPago: any): void {
 
     const userLogged = JSON.parse(localStorage.getItem('authData'));
@@ -854,7 +960,7 @@ export class DownloadService {
         {
           columns: [
             {
-              image: this.logoData,
+              image: this.bienesRaicesLogo,
               width: 150,
             },
             [
@@ -1267,15 +1373,15 @@ export class DownloadService {
       },
     };
 
-    this.pdfObj = pdfMake.createPdf(documentDefinition);
-    console.log(this.pdfObj);
+    this.pdfGenerated = pdfMake.createPdf(documentDefinition);
+    console.log(this.pdfGenerated);
 
     /*this.pdfObj.open();*/
 
     //Open PDF
     var base64data = null;
 
-    this.pdfObj.getBase64(function (encodedString) {
+    this.pdfGenerated.getBase64(function (encodedString) {
 
       base64data = encodedString;
 
@@ -1292,21 +1398,36 @@ export class DownloadService {
 
     });
 
-    this.pdfObj.download();
+    this.pdfGenerated.download();
 
   }
 
 
+  /**
+   * Opens the PDF.
+   *
+   * @memberof DownloadService
+   */
   openPdf(): void {
-    this.pdfObj.open();
+    this.pdfGenerated.open();
   }
 
+  /**
+   * Downloads the PDF..
+   *
+   * @memberof DownloadService
+   */
   downloadPdf(): void {
-    this.pdfObj.download();
+    this.pdfGenerated.download();
   }
 
+  /**
+   * Prints the PDF.
+   *
+   * @memberof DownloadService
+   */
   printPdf(): void {
-    this.pdfObj.print();
+    this.pdfGenerated.print();
   }
 
 

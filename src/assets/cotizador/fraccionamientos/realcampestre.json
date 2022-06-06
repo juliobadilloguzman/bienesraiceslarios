@@ -4,7 +4,7 @@
         {"noTerreno": 1, "metros": 285, "costoM2": 950, "isEsquina": true, "manzana": 1},
         {"noTerreno": 2, "metros": 177, "costoM2": 845, "isEsquina": false, "manzana": 1},
         {"noTerreno": 3, "metros": 297, "costoM2": 845, "isEsquina": false, "manzana": 1},
-        {"noTerreno": 4, "metros": 192, "costoM2": 950, "isEsquina": true, "manzana": 1},
+        {"noTerreno": 4, "metros": 192, "costoM2": 845, "isEsquina": false, "manzana": 1},
         {"noTerreno": 5, "metros": 200, "costoM2": 845, "isEsquina": false, "manzana": 1},
         {"noTerreno": 6, "metros": 200, "costoM2": 845, "isEsquina": false, "manzana": 1},
         {"noTerreno": 7, "metros": 332.75, "costoM2": 845, "isEsquina": false, "manzana": 1},
@@ -22,7 +22,7 @@
         {"noTerreno": 19, "metros": 191.50, "costoM2": 845, "isEsquina": false, "manzana": 1},
         {"noTerreno": 20, "metros": 179.75, "costoM2": 845, "isEsquina": false, "manzana": 1},
         {"noTerreno": 21, "metros": 168, "costoM2": 845, "isEsquina": false, "manzana": 1},
-        {"noTerreno": 22, "metros": 161.35, "costoM2": 950, "isEsquina": true, "manzana": 1}
+        {"noTerreno": 22, "metros": 161.35, "costoM2": 845, "isEsquina": false, "manzana": 1}
     ],
     "manzana2": [
         {"noTerreno": 1, "metros": 255.75, "costoM2": 950, "isEsquina": true, "manzana": 2},
@@ -66,7 +66,7 @@
         {"noTerreno": 21, "metros": 200, "costoM2": 845, "isEsquina": false, "manzana": 3},
         {"noTerreno": 22, "metros": 200, "costoM2": 845, "isEsquina": false, "manzana": 3},
         {"noTerreno": 23, "metros": 200, "costoM2": 845, "isEsquina": false, "manzana": 3},
-        {"noTerreno": 24, "metros": 188, "costoM2": 950, "isEsquina": true, "manzana": 3}
+        {"noTerreno": 24, "metros": 188, "costoM2": 845, "isEsquina": false, "manzana": 3}
     ],
     "manzana4": [
         {"noTerreno": 2, "metros": 200, "costoM2": 845, "isEsquina": false, "manzana": 4},
@@ -76,8 +76,8 @@
         {"noTerreno": 6, "metros": 200, "costoM2": 845, "isEsquina": false, "manzana": 4},
         {"noTerreno": 7, "metros": 200, "costoM2": 845, "isEsquina": false, "manzana": 4},
         {"noTerreno": 8, "metros": 200, "costoM2": 845, "isEsquina": false, "manzana": 4},
-        {"noTerreno": 9, "metros": 325.50, "costoM2": 950, "isEsquina": true, "manzana": 4},
-        {"noTerreno": 10, "metros": 272.50, "costoM2": 950, "isEsquina": true, "manzana": 4},
+        {"noTerreno": 9, "metros": 325.50, "costoM2": 845, "isEsquina": false, "manzana": 4},
+        {"noTerreno": 10, "metros": 272.50, "costoM2": 845, "isEsquina": false, "manzana": 4},
         {"noTerreno": 11, "metros": 200, "costoM2": 845, "isEsquina": false, "manzana": 4},
         {"noTerreno": 12, "metros": 200, "costoM2": 845, "isEsquina": false, "manzana": 4},
         {"noTerreno": 13, "metros": 200, "costoM2": 845, "isEsquina": false, "manzana": 4},

@@ -1,0 +1,19 @@
+<app-dashboard-header (toggleEmit)="toggle()"></app-dashboard-header>
+
+<mat-sidenav-container>
+    <mat-sidenav class="smart-sidenav responsive"
+              [mode]="sidenavService.mode"
+              [disableClose]="sidenavService.disableClose"
+              [ngStyle]="{ 'width.em': 19 }"
+              [position]="sidenavService.position"
+              [opened]="sidenavService.status" 
+              (window:resize)="onResize($event)">
+    <app-dashboard-sidenav (toggler)="toggle()"></app-dashboard-sidenav>
+  </mat-sidenav>
+    <div class="dashboard-content" style="overflow: scroll !important;">
+        <div>
+            <router-outlet></router-outlet>
+        </div>
+    </div>
+</mat-sidenav-container>
+

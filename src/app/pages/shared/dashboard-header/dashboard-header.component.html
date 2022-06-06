@@ -1,0 +1,27 @@
+<nav class="navbar navbar-expand-md navbar-expand-lg navbar-light scrolling-navbar col-md-12">
+  
+    <div class="container dashboard">
+      
+      <button class="focus-out-none hamburguer-sidenav-icon"
+              type="button"
+              data-toggle="collapse"
+              data-target="#navbarDefault"
+              aria-controls="navbarDefault"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+              (click)="toggle()">
+              <div class="btn-toggler">
+                <div class="icon-bar" [@hamburguerX]="!isMenuOpen ? 'hamburguer' : 'topX'"></div>
+                <div class="icon-bar" [@hamburguerX]="!isMenuOpen ? 'hamburguer' : 'hide'"></div>
+                <div class="icon-bar" [@hamburguerX]="!isMenuOpen ? 'hamburguer' : 'bottomX'"></div>
+              </div>
+        </button>
+  
+      
+      <div class="row">
+        <img src="/assets/img/logos/logo.png" alt="logoBlue" class="header-logo">
+      </div>
+      
+    </div>
+  
+  </nav>

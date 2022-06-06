@@ -1,0 +1,125 @@
+<div class="container">
+    <div>
+        <h2 class="text-semibold">Verifique la información antes de agregarla</h2>
+    </div>
+    <div class="row scrollCondition">
+        <div class="col-12">
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <th class="text-semibold" scope="row">No. Manzana</th>
+                        <td>{{data.form.noManzana}}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-semibold" scope="row">No. Lote</th>
+                        <td>{{data.form.noLote}}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-semibold" scope="row">Superficie</th>
+                        <td>{{data.form.superficie}}m2</td>
+                    </tr>
+                    <tr>
+                        <th class="text-semibold" scope="row">Costo x m2</th>
+                        <td>{{data.form.costoM2 | currency}}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-semibold" scope="row">Costo Total</th>
+                        <td>{{data.form.costoTotal | currency}}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-semibold" scope="row">Cliente</th>
+                        <td><span class="text-secondary text-semibold">{{data.cliente?.nombre}} {{data.cliente?.apellidoPaterno}} {{data?.cliente?.apellidoMaterno}}</span></td>
+                    </tr>
+                    <tr>
+                        <th class="text-semibold" scope="row">Fraccionamiento</th>
+                        <td><span *ngIf="fraccionamiento" class="text-semibold">{{fraccionamiento.nombre}}</span></td>
+                    </tr>
+                    <tr>
+                        <th class="text-semibold" scope="row">Fecha de venta</th>
+                        <td>{{data.form.fechaVenta | date: 'dd/MM/yyyy'}}</td>
+                    </tr>
+                    <tr>
+                        <th class="text-semibold" scope="row">Vendedores</th>
+                        <td>
+                            <ol>
+                                <li *ngFor="let vendedor of data.form.vendedores">{{vendedor.nombre}}</li>
+                            </ol>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="text-semibold" scope="row">Forma de pago</th>
+                        <td>{{(data.form.pagoAlContado == 0) ? 'Financiamiento a' : 'Contado'}} <span
+                                class="text-semibold" *ngIf="data.form.pagoAlContado == 0">{{data.form.noMensualidades}}
+                                mensualidades</span>
+                        </td>
+                    </tr>
+                    <ng-container *ngIf="data.form.pagoAlContado == 0">
+                        <tr>
+                            <th class="text-semibold" scope="row">Enganche</th>
+                            <td>{{data.form.enganche | currency}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-semibold" scope="row">Monto de cada mensualidad</th>
+                            <td>{{data.form.montoMensualidad | currency}}</td>
+                        </tr>
+                        <tr>
+                            <th class="text-semibold" scope="row">Fechas de pago</th>
+                            <td>Del <span class="text-semibold">{{data.form.diaPagoDel}}</span> al <span
+                                    class="text-semibold">{{data.form.diaPagoAl}}</span> de cada mes</td>
+                        </tr>
+                        <tr>
+                            <th class="text-semibold" scope="row">Fecha de la primera mensualidad</th>
+                            <td>{{data.form.fechaPrimeraMensualidad | date: 'dd/MM/yyyy'}}</td>
+                        </tr>
+                    </ng-container>
+                    <tr>
+                        <th class="text-semibold" scope="row">Deslinde</th>
+                        <td><span class="text-semibold" [ngClass]="{
+                            'text-danger': data.form.pagoDeslinde == 0,
+                            'text-secondary': data.form.pagoDeslinde == 1
+                           }">{{(data.form.pagoDeslinde == 1) ? 'Pagado' : 'NO Pagado'}}
+                            </span>
+                            <span *ngIf="data.form.pagoDeslinde == 1"> la fecha </span>
+                            <span class="text-semibold"
+                                *ngIf="data.form.pagoDeslinde == 1">{{data.form.fechaPagoDeslinde | date: 'dd/MM/yyyy' }}</span>
+                            <span *ngIf="data.form.pagoDeslinde == 1"> con un monto de </span>
+                            <span class="text-semibold text-secondary">{{data.form.montoDeslinde | currency}}</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="box-saldo">
+                <p class="text-semibold no-margin">Saldo a pagar: <span
+                        class="text-secondary">{{data.form.saldo | currency}}</span></p>
+                <ng-container *ngIf="data.form.pagoAlContado != 1">
+                    <p style="margin-top: 0.1rem !important;">Saldo calculado automaticamente, si es necesario
+                        modificarlo
+                        <span class="cursorPointer text-underline" (click)="modifySaldo()">da click
+                            aquí</span></p>
+                    <ng-container *ngIf="showSaldoInput">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Introduce el nuevo saldo</mat-label>
+                            <input matInput aria-label="Vendedores" [formControl]="saldoCtrl">
+                        </mat-form-field>
+                        <div>
+                            <button class="btn btn-danger" (click)="cancelNewSaldo()">Cancelar modificación de
+                                saldo</button>
+                        </div>
+                    </ng-container>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-1">
+        <div class="col-12 flex-center">
+            <button type="button" class="btn btn-primary" style="margin-right: 0.3rem !important;"
+                (click)="closeDialog('proceed')">
+                La información es correcta
+            </button>
+            <button type="button" class="btn btn-danger" (click)="closeDialog('backToEdit')">
+                Regresar y modificar
+            </button>
+        </div>
+    </div>
+</div>

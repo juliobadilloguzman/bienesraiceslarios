@@ -1,0 +1,290 @@
+<div class="container">
+
+    <div class="justify-space-between" *ngIf="data">
+        <h2 class="text-semibold" *ngIf="data.accion == 'crear'">Agrega una mensualidad</h2>
+        <h2 class="text-semibold" *ngIf="data.accion == 'editar' && mensualidad">Editar mensualidad #{{mensualidad.numeroMensualidad}}</h2>
+        <span class="material-icons icon-close" (click)="closeDialog()">cancel</span>
+    </div>
+
+    <form [formGroup]="mensualidadForm" (ngSubmit)="onSubmitForm()">
+       
+        <!-- ********* NUMERO DE MENSUALIDAD ********** -->
+        
+        <div class="row">
+            <div class="col-12">
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label class="text-raleway">Numero de mensualidad</mat-label>
+                    <input autocomplete="off" type="number" formControlName="numeroMensualidad" required matInput autofocus>
+                </mat-form-field>
+                <!-- Errors -->
+                <div *ngIf="showErrors(numeroMensualidad)">
+                    <p class="text-semibold text-danger" *ngIf="numeroMensualidad.errors.required">El campo es requerido
+                    </p>
+                    <p class="text-semibold text-danger" *ngIf="numeroMensualidad.errors.pattern">Formato inválido</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ********* NUMERO DE RECIBO ********** -->
+
+        <div class="row">
+
+            <div class="col-12">
+
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label class="text-raleway">Numero de recibo</mat-label>
+                    <input autocomplete="off" type="text" formControlName="numeroRecibo" matInput>
+                </mat-form-field>
+
+                <!-- Errors -->
+                <div *ngIf="showErrors(numeroRecibo)">
+                    <p class="text-semibold text-danger" *ngIf="numeroRecibo.errors.required">El campo es requerido
+                    </p>
+                    <p class="text-semibold text-danger" *ngIf="numeroRecibo.errors.pattern">Formato inválido</p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ********* FECHA DE PAGO ********** -->
+
+        <div class="row">
+
+            <div class="col-12">
+
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Fecha pago (dd/mm/aaaa)</mat-label>
+                    <input matInput formControlName="fechaPago" [matDatepicker]="fechaPagoPicker">
+                    <mat-datepicker-toggle matSuffix [for]="fechaPagoPicker">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #fechaPagoPicker></mat-datepicker>
+                </mat-form-field>
+
+                <!-- Errors -->
+                <div *ngIf="showErrors(fechaPago)">
+                    <p class="text-semibold text-danger" *ngIf="fechaPago.errors.required">El campo es requerido</p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ********* CORRESPONDIENTE AL MES DE ********** -->
+        <div class="row">
+
+            <div class="col-6">
+
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Correspondiente al mes de</mat-label>
+                    <mat-select formControlName="mes" [value]="mes">
+                        <mat-option value="Enero">
+                            Enero
+                        </mat-option>
+                        <mat-option value="Febrero">
+                            Febrero
+                        </mat-option>
+                        <mat-option value="Marzo">
+                            Marzo
+                        </mat-option>
+                        <mat-option value="Abril">
+                            Abril
+                        </mat-option>
+                        <mat-option value="Mayo">
+                            Mayo
+                        </mat-option>
+                        <mat-option value="Junio">
+                            Junio
+                        </mat-option>
+                        <mat-option value="Julio">
+                            Julio
+                        </mat-option>
+                        <mat-option value="Agosto">
+                            Agosto
+                        </mat-option>
+                        <mat-option value="Septiembre">
+                            Septiembre
+                        </mat-option>
+                        <mat-option value="Octubre">
+                            Octubre
+                        </mat-option>
+                        <mat-option value="Noviembre">
+                            Noviembre
+                        </mat-option>
+                        <mat-option value="Diciembre">
+                            Diciembre
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <!-- Errors -->
+                <div *ngIf="showErrors(mes)">
+                    <p class="text-semibold text-danger" *ngIf="mes.errors.required">El campo es requerido</p>
+                </div>
+
+            </div>
+
+            <!-- ********* DEL AÑO ********** -->
+
+            <div class="col-6">
+
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label class="text-raleway">Del año</mat-label>
+                    <input autocomplete="off" type="number" formControlName="year" matInput>
+                </mat-form-field>
+
+                <!-- Errors -->
+                <div *ngIf="showErrors(year)">
+                    <p class="text-semibold text-danger" *ngIf="year.errors.required">El campo es requerido</p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ********* MONTO ********** -->
+
+        <div class="row">
+
+            <div class="col-12">
+
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label class="text-raleway">Monto</mat-label>
+                    <input autocomplete="off" type="number" formControlName="monto" required matInput>
+                </mat-form-field>
+
+                <!-- Errors -->
+                <div *ngIf="showErrors(monto)">
+                    <p class="text-semibold text-danger" *ngIf="monto.errors.required">El campo es requerido
+                    </p>
+                    <p class="text-semibold text-danger" *ngIf="monto.errors.pattern">Formato inválido</p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ********* CANTIDAD CON LETRA ********** -->
+
+        <div class="row mt-1">
+
+            <div class="col-12">
+
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label class="text-raleway">Cantidad con letra</mat-label>
+                    <input autocomplete="off" formControlName="cantidadConLetra" matInput>
+                </mat-form-field>
+
+                <!-- Errors -->
+                <div *ngIf="showErrors(cantidadConLetra)">
+                    <p class="text-semibold text-danger" *ngIf="cantidadConLetra.errors.pattern">Formato inválido</p>
+                </div>
+                
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-6">
+
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Forma de pago</mat-label>
+                    <mat-select formControlName="formaPago" [value]="formaPago">
+                        <mat-option value="Efectivo">
+                            Efectivo
+                        </mat-option>
+                        <mat-option value="Deposito">
+                            Depósito
+                        </mat-option>
+                        <mat-option value="Transferencia Bancaria">
+                            Transferencia Bancaria
+                        </mat-option>
+                        <mat-option value="Aplicacion">
+                            Aplicacion Movil/Web
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <!-- Errors -->
+                <div *ngIf="showErrors(formaPago)">
+                    <p class="text-semibold text-danger" *ngIf="formaPago.errors.required">El campo es requerido</p>
+                </div>
+                
+            </div>
+
+            <!-- ********* ESTATUS DE LA MENSUALIDAD ********** -->
+            <div class="col-6">
+
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Estatus de la mensualidad</mat-label>
+                    <mat-select formControlName="estatusPago" [value]="estatusPago">
+                        <mat-option value="PAGADA">
+                            Pagada
+                        </mat-option>
+                        <mat-option value="NO PAGADA">
+                            No Pagada
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <!-- Errors -->
+                <div *ngIf="showErrors(estatusPago)">
+                    <p class="text-semibold text-danger" *ngIf="estatusPago.errors.required">El campo es requerido</p>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="row mb-1">
+
+            <div class="col-12">
+                <input type="checkbox" [checked]="tieneInteres" (change)="onSetInteres($event.target.checked)"><span style="margin-left: 0.2rem !important;" class="text-gray">Tiene intereses</span>
+            </div>
+            
+        </div>
+
+        <div class="row mb-1" *ngIf="tieneInteres">
+
+            <!-- ********* MONTO DEL INTERÉS ********** -->
+            <div class="col-6">
+
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label class="text-raleway">Monto del interés</mat-label>
+                    <input autocomplete="off" formControlName="interes" matInput>
+                    <mat-hint class="text-hint">
+                        Interés del 10% calculado automaticamente, si es necesario cámbielo.
+                    </mat-hint>
+                </mat-form-field>
+
+            </div>
+
+            <!-- ********* ESTATUS DEL INTERÉS ********** -->
+            <div class="col-6">
+
+                <mat-form-field appearance="fill" class="full-width">
+                    <mat-label>Estatus del Interés</mat-label>
+                    <mat-select formControlName="estatusInteres" [value]="estatusPago">
+                        <mat-option value="PAGADO">
+                            Pagado
+                        </mat-option>
+                        <mat-option value="NO PAGADO">
+                            No Pagado
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <button type="submit" [disabled]="!mensualidadForm.valid" class="btn btn-primary text-semibold">{{data.accion == 'editar' ? 'Editar' : 'Crear'}}</button>
+            </div>
+        </div>
+
+    </form>
+
+</div>

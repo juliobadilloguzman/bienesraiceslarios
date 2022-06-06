@@ -6,7 +6,14 @@ import { Injectable } from '@angular/core';
 })
 export class MatchPassword implements Validator {
 
-    validate(formGroup: FormGroup) {
+    /**
+     * Validates the passwords.
+     *
+     * @param {FormGroup} formGroup
+     * @return {*} 
+     * @memberof MatchPassword
+     */
+    validate(formGroup: FormGroup): any{
 
         const { password, confirmPassword } = formGroup.value;
 

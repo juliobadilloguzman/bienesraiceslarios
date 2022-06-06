@@ -17,4 +17,5 @@ export interface Mensualidad {
     usuario?: Usuario;
     terreno?: Terreno;
     terrenoIdTerreno?: number;
+    year?: string;
 }

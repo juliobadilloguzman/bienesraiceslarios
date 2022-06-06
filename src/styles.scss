@@ -15,6 +15,18 @@ body {
 }
 
 
+* {
+    font-family: "MetropolisRegular", sans-serif !important;
+}
+  
+.text-bold{
+    font-family: "MetropolisBold", sans-serif !important;
+}
+
+.text-semibold{
+    font-family: "MetropolisSemiBold", sans-serif !important;
+}
+
 /********** Mixins **********/
 
 @mixin btn($background, $color) {

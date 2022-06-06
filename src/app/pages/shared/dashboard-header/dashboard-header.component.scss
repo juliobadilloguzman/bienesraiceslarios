@@ -1,0 +1,38 @@
+.header-logo {
+    max-width: 120px;
+    max-height: 50px;
+  }
+  
+  .user-info { 
+    padding: 10% 0;
+    color: black;
+    font-weight: bold;
+    font-size: 16px;
+  }
+  
+  .hamburguer-sidenav-icon{
+    background: none !important;
+    border:none !important;
+    color: rgba(0,0,0,.5)!important;
+    border-color: white;
+  }
+  
+  .btn-toggler{
+    cursor: pointer;
+  }
+  
+  .icon-bar {
+    width: 22px;
+    height: 2px;
+    background: #707070;
+    margin: 3px;
+    position: relative;
+  }
+  
+  .navbar{
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 10;
+  }

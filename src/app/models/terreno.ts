@@ -3,6 +3,7 @@ import { Fraccionamiento } from './fraccionamiento';
 import { Vendedor } from './vendedor';
 
 export interface Terreno {
+    uuid: string;
     idTerreno: number;
     noManzana: number
     noLote: number;

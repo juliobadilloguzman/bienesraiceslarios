@@ -1,0 +1,123 @@
+<mat-nav-list class="paddingless nav-list p-2">
+
+    <div class="sidenav-container">
+
+        <!-- ********** User Info ********** -->
+        <!-- <div class="user-info-container text-center mt-3" style="display: flex; justify-content: center;">
+
+            <button mat-icon-button
+                [ngStyle]="{'background': 'url(' + userImage + ') no-repeat center center / contain'}">
+            </button>
+
+            <p class="username-text"> {{ userName }} </p>
+
+        </div>
+
+        <mat-divider class="divider-user-info"></mat-divider> -->
+
+
+        <!-- ********** Dashboards ********** -->
+        <mat-list-item (click)="navigate('/dashboard/mi-cuenta')"
+                        routerLinkActive="bg-selected-nav" 
+                        class="responsive test-reports-menu-item">
+
+            <div class="sidenav-item">
+                <mat-icon class="sidenav-icon">person_pin</mat-icon>
+                <span class="sidenav-option">Mi Cuenta</span>
+            </div>
+
+        </mat-list-item>
+
+        <!-- ********** Usuarios ********** -->
+        <mat-accordion>
+
+            <mat-expansion-panel class="expansion-panel">
+
+                <mat-expansion-panel-header style="padding: 0 1rem !important" class=" expansion-panel-header bg_primary_light">
+
+                    <mat-panel-title style="display: flex; align-items: center">
+                        <mat-icon class="sidenav-icon">supervisor_account</mat-icon>
+                        <span class="sidenav-option">Usuarios</span>
+                    </mat-panel-title>
+
+                </mat-expansion-panel-header>
+
+                <mat-list-item routerLinkActive="bg-selected-nav" (click)="navigate('/dashboard/usuarios/administradores')" class="responsive">
+
+                    <div class="sidenav-item">
+                        <span class="sidenav-option sidenav-inner-option">Administradores</span>
+                    </div>
+
+                </mat-list-item>
+
+                <mat-list-item routerLinkActive="bg-selected-nav" (click)="navigate('/dashboard/usuarios/clientes')" class="responsive">
+
+                    <div class="sidenav-item">
+                        <span class="sidenav-option sidenav-inner-option">Clientes</span>
+                    </div>
+
+                </mat-list-item>
+
+                <mat-list-item routerLinkActive="bg-selected-nav" (click)="navigate('/dashboard/usuarios/vendedores')" class="responsive">
+
+                    <div class="sidenav-item">
+                        <span class="sidenav-option sidenav-inner-option">Vendedores</span>
+                    </div>
+
+                </mat-list-item>
+
+            </mat-expansion-panel>
+
+        </mat-accordion>
+
+        <!--  ********** FRACCIONAMIENTOS ********** -->
+        <mat-list-item  routerLinkActive="bg-selected-nav"
+                        (click)="navigate('/dashboard/fraccionamientos')"
+                        class="responsive test-reports-menu-item">
+
+            <div class="sidenav-item">
+                <mat-icon class="sidenav-icon">home</mat-icon>
+                <span class="sidenav-option">Fraccionamientos</span>
+            </div>
+
+        </mat-list-item>
+
+        <!--  ********** TERRENOS ********** -->
+        <mat-list-item (click)="navigate('/dashboard/terrenos')"
+                        routerLinkActive="bg-selected-nav" 
+                        class="responsive test-reports-menu-item">
+
+            <div class="sidenav-item">
+                <mat-icon class="sidenav-icon">local_florist</mat-icon>
+                <span class="sidenav-option">Terrenos</span>
+            </div>
+
+        </mat-list-item>
+
+        <!--  ********** MIS TERRENOS (SOLO CLIENTES) ********** -->
+        <mat-list-item  *ngIf="isCliente()"
+                        (click)="navigate('/dashboard/terrenos/mis-terrenos')"
+                        routerLinkActive="bg-selected-nav" 
+                        class="responsive test-reports-menu-item">
+
+            <div class="sidenav-item">
+                <mat-icon class="sidenav-icon">person_pin</mat-icon>
+                <span class="sidenav-option">Mis Terrenos</span>
+            </div>
+
+        </mat-list-item>
+
+        <!--  ********** CERRAR SESIÓN ********** -->
+
+        <mat-list-item (click)="logOut()" class="responsive">
+
+            <div class="sidenav-item">
+                <mat-icon class="sidenav-icon">logout</mat-icon>
+                <span class="sidenav-option">Cerrar Sesión</span>
+            </div>
+
+        </mat-list-item>
+
+    </div>
+
+</mat-nav-list>
