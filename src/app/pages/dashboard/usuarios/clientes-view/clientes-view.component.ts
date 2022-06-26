@@ -18,75 +18,142 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class ClientesViewComponent implements OnInit {
 
+  /**
+   * Columns of the table.
+   *
+   * @type {string[]}
+   * @memberof ClientesViewComponent
+   */
   displayedColumns: string[] = ['nombre', 'apellidoPaterno', 'apellidoMaterno', 'correo', 'acciones'];
+
+  /**
+   * Data Source of the Table.
+   *
+   * @type {MatTableDataSource<Usuario>}
+   * @memberof ClientesViewComponent
+   */
   dataSource: MatTableDataSource<Usuario>;
 
+  /**
+   * Paginator of the table.
+   *
+   * @type {MatPaginator}
+   * @memberof ClientesViewComponent
+   */
   @ViewChild(MatPaginator) paginator: MatPaginator;
+
+  /**
+   * Sort of the table.
+   *
+   * @type {MatSort}
+   * @memberof ClientesViewComponent
+   */
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(
-    private _usuariosService: UsuariosService,
-    private dialog: MatDialog,
-    private _uiActionsService: UiActionsService,
-    private _authService: AuthService
-  ) { }
+  /**
+   * Creates an instance of ClientesViewComponent.
+   * 
+   * @param {UsuariosService} usuariosService
+   * @param {MatDialog} dialog
+   * @param {UiActionsService} uiActionsService
+   * @param {AuthService} authService
+   * @memberof ClientesViewComponent
+   */
+  constructor(private usuariosService: UsuariosService,
+              private dialog: MatDialog,
+              private uiActionsService: UiActionsService,
+              private authService: AuthService) { }
 
-  ngOnInit(): void {
-    this.getClientes();
+  /**
+   * Angular OnInit life cycle hook.
+   *
+   * @return {*}  {Promise<void>}
+   * @memberof ClientesViewComponent
+   */
+  async ngOnInit(): Promise<void> {
+    await this.getClientes();
   }
 
-  getClientes(): void {
+  /**
+   * Get all the Clientes.
+   *
+   * @return {*}  {Promise<void>}
+   * @memberof ClientesViewComponent
+   */
+  async getClientes(): Promise<void> {
 
-    this._uiActionsService.showSpinner();
+    this.uiActionsService.showSpinner();
 
-    this._usuariosService.getClientes().subscribe(
+    try{
 
-      (response: Usuario[]) => {
+      const clientes: Usuario[] = await this.usuariosService.getClientes().toPromise();
 
-        this.dataSource = new MatTableDataSource(response);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        
-        this._uiActionsService.hideSpinner();
+      this.dataSource = new MatTableDataSource(clientes);
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
 
-      },
-      (error) => {
+    }catch{
 
-        this._uiActionsService.hideSpinner();
-
-        const modalInformation: Modal = {
-          title: "Error",
-          message: "Error al cargar la informacion, verifique su conexion a internet e inténtelo de nuevo",
-          type: ModalType.confirmation,
-          response: ModalResponse.failed
-        }
-
-        this._uiActionsService.openConfirmationDialog(modalInformation);
-
+      const modalInformation: Modal = {
+        title: "Error",
+        message: "Error al cargar la informacion, verifique su conexion a internet e inténtelo de nuevo",
+        type: ModalType.confirmation,
+        response: ModalResponse.failed
       }
-    );
+
+      this.uiActionsService.openConfirmationDialog(modalInformation);
+
+    }finally{
+      this.uiActionsService.hideSpinner();
+    }
+ 
   }
 
+  /**
+   * View all the Cliente information.
+   *
+   * @param {Usuario} row
+   * @memberof ClientesViewComponent
+   */
   onViewCliente(row: Usuario): void {
+
     this.dialog.open(PreviewClienteModalComponent, {
-      width: '600px',
+      width: '50vh',
       data: {
         row: row
       }
     });
+
   }
 
+  /**
+   * Opens a modal to edit or create a Cliente.
+   *
+   * @param {string} accion
+   * @param {Usuario} [row]
+   * @memberof ClientesViewComponent
+   */
   onAgregarEditarCliente(accion: string, row?: Usuario): void {
+
     const dialogRef = this.dialog.open(CreateUpdateClienteModalComponent, {
-      width: '600px',
+      width: '70vh',
+      maxHeight: '70vh',
       data: {
         accion: accion,
         row: row
       }
     });
-    dialogRef.afterClosed().subscribe(() => this.getClientes());
+
+    dialogRef.afterClosed().subscribe(async () => await this.getClientes());
+
   }
 
+  /**
+   * Deletes a clIENTE.
+   *
+   * @param {Usuario} cliente
+   * @memberof ClientesViewComponent
+   */
   onDeleteCliente(cliente: Usuario) {
 
     const modalInformation: Modal = {
@@ -96,59 +163,66 @@ export class ClientesViewComponent implements OnInit {
       response: ModalResponse.warning
     }
 
-    const dialogRef = this._uiActionsService.openYesNoDialog(modalInformation);
+    const dialogRef = this.uiActionsService.openYesNoDialog(modalInformation);
 
-    dialogRef.afterClosed().subscribe((response) => {
+    dialogRef.afterClosed().subscribe(async (response) => {
 
       if (response && response == 'confirm') {
 
-        this._uiActionsService.showSpinner();
+        this.uiActionsService.showSpinner();
 
-        this._authService.deleteAccount(cliente.idUsuario).subscribe(
-          
-          (response: any) => {
+        try{
 
-            this._uiActionsService.hideSpinner();
+          await this.authService.deleteAccount(cliente.idUsuario).toPromise();
 
-            const modalInformation: Modal = {
-              title: "Eliminado",
-              message: `El cliente "${cliente.nombre} ${cliente.apellidoPaterno}" fue eliminado correctamente`,
-              type: ModalType.confirmation,
-              response: ModalResponse.success
-            }
-
-            const dialogRef = this._uiActionsService.openConfirmationDialog(modalInformation);
-            dialogRef.afterClosed().subscribe(() => this.getClientes());
-
-          },
-          (error) => {
-
-            this._uiActionsService.showSpinner();
-
-            const modalInformation: Modal = {
-              title: "Error",
-              message: "Hubo un error al eliminar el cliente, inténtelo de nuevo.",
-              type: ModalType.confirmation,
-              response: ModalResponse.failed
-            }
-
-            this._uiActionsService.openConfirmationDialog(modalInformation);
-
+          const modalInformation: Modal = {
+            title: "Eliminado",
+            message: `El cliente "${cliente.nombre} ${cliente.apellidoPaterno}" fue eliminado correctamente`,
+            type: ModalType.confirmation,
+            response: ModalResponse.success
           }
-        )
+
+          const dialogRef = this.uiActionsService.openConfirmationDialog(modalInformation);
+
+          dialogRef.afterClosed().subscribe(async () => await this.getClientes());
+
+        }catch{
+
+          const modalInformation: Modal = {
+            title: "Error",
+            message: "Hubo un error al eliminar el cliente, inténtelo de nuevo.",
+            type: ModalType.confirmation,
+            response: ModalResponse.failed
+          }
+
+          this.uiActionsService.openConfirmationDialog(modalInformation);
+
+        }finally{
+          this.uiActionsService.hideSpinner();
+        }
+
       }
 
     });
 
   }
 
+  /**
+   * Applys a filter to the table.
+   *
+   * @param {Event} event
+   * @memberof ClientesViewComponent
+   */
   applyFilter(event: Event): void {
+
     const filterValue = (event.target as HTMLInputElement).value;
+
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
+
   }
 
 }

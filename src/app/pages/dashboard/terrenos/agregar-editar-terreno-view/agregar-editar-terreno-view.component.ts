@@ -464,10 +464,16 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
 
   }
 
+  /**
+   * Opens a modal to add a Vendedor.
+   *
+   * @memberof AgregarEditarTerrenoViewComponent
+   */
   onAgregarVendedor(): void {
 
     const dialogRef = this.dialog.open(CreateUpdateVendedorModalComponent, {
-      width: '600px',
+      width: '70vh',
+      maxHeight: '70vh',
       data: {
         accion: 'crear'
       }
@@ -484,7 +490,8 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
   onAddCliente(): void {
 
     const dialogRef = this.dialog.open(CreateUpdateClienteModalComponent, {
-      width: '600px',
+      width: '70vh',
+      maxHeight: '70vh',
       data: {
         accion: 'crear'
       }
@@ -651,6 +658,12 @@ export class AgregarEditarTerrenoViewComponent implements OnInit {
    
   }
 
+  /**
+   * Get the costo total.
+   *
+   * @return {*}  {number}
+   * @memberof AgregarEditarTerrenoViewComponent
+   */
   getCostoTotal(): number {
 
     let costoTotal = parseFloat(this.superficie.value) * parseFloat(this.costoM2.value);

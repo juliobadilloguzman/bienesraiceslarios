@@ -223,7 +223,8 @@ export class MensualidadesViewComponent implements OnInit {
   onAgregarEditarMensualidad(accion: string, row?: Mensualidad): void {
 
     const dialogRef = this.dialog.open(CreateUpdateMensualidadModalComponent, {
-      width: '600px',
+      width: '70vh',
+      maxHeight: '70vh',
       data: {
         accion: accion,
         row: row,

@@ -118,7 +118,7 @@ export class AdministradoresViewComponent implements OnInit {
   onViewAdministrador(row: Usuario): void {
 
     this.dialog.open(PreviewAdministradorModalComponent, {
-      width: '600px',
+      width: '70vh',
       data: {
         row: row
       }
@@ -136,7 +136,8 @@ export class AdministradoresViewComponent implements OnInit {
   onAgregarEditarAdministrador(accion: string, row?: Usuario): void {
 
     const dialogRef = this.dialog.open(CreateUpdateAdministradorModalComponent, {
-      width: '600px',
+      width: '70vh',
+      maxHeight: '70vh',
       data: {
         accion: accion,
         administrador: row
